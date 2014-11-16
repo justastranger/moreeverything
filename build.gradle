@@ -33,7 +33,7 @@ minecraft {
     version = config.minecraft_version + "-" + config.forge_version
     assetDir = "run/assets"
 
-    replaceIn mod_moreEverything.java"
+    replaceIn "mod_moreEverything.java"
     replace "@VERSION@", "${config.mod_version}.${System.getenv("BUILD_NUMBER") ?: 0}"
 }
 
