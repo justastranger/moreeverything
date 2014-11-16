@@ -1,6 +1,7 @@
 *.zip
 *.class
 .git/
+.idea/
 config/
 deps*/
 old/
