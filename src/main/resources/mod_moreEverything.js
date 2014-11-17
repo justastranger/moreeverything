@@ -61,11 +61,15 @@ var optionalFeature = {
 function Include(filename) { return __api.__include(filename); }
 function IncludeInternal(filename) { return __api.__includeInternal(filename); }
 
-function test() { Include("moreEverything/test.js"); }
+function test() {
+	try{Include("moreEverything/test.js");}
+	catch(e){throw("You need to create a test.js file within the moreEverything folder located in the config folder.")}
+}
 
 var defaultScripts = [
 	"moreEverything/core.js",
 	"moreEverything/ic2.js",
+	"moreEverything/buildcraft.js",
 	"moreEverything/defs.js",
 	//"moreEverything/equivalent_exchange.js",
 	"moreEverything/thaumcraft.js",

@@ -3,30 +3,30 @@
 
 var ic2Api = Packages.ic2.api;
 var ic2Recipes = ic2Api.recipe.Recipes;
-var ic2RecipeInputOreDict,
-ic2RecipeInputItemStack,
-ic2RecipeInputFluidContainer,
-ic2AddMaceratorRecipe,
-ic2AddExtractorRecipe,
-ic2AddCompressorRecipe,
-ic2AddExtrudingRecipe,
-ic2AddCuttingRecipe,
-ic2AddRollingRecipe,
-ic2AddRecyclingRecipe,
-ic2AddEnrichingRecipe,
-ic2AddBottlingRecipe,
-ic2AddBlockCutterRecipe,
-ic2AddCentrifugeRecipe,
-ic2AddWashingRecipe,
-ic2AddBlastFurnaceRecipe,
-ic2AddAmplifier,
-ic2AddFluidHeatSource,
-ic2AddSemiFluidFuel,
-ic2AddShapedRecipe,
-ic2AddShapelessRecipe,
-ic2RIOD,
-ic2RIIS,
-ic2RIFC;
+var ic2RecipeInputOreDict;
+var ic2RecipeInputItemStack;
+var ic2RecipeInputFluidContainer;
+var ic2AddMaceratorRecipe;
+var ic2AddExtractorRecipe;
+var ic2AddCompressorRecipe;
+var ic2AddExtrudingRecipe;
+var ic2AddCuttingRecipe;
+var ic2AddRollingRecipe;
+var ic2AddRecyclingRecipe;
+var ic2AddEnrichingRecipe;
+var ic2AddBottlingRecipe;
+var ic2AddBlockCutterRecipe;
+var ic2AddCentrifugeRecipe;
+var ic2AddWashingRecipe;
+var ic2AddBlastFurnaceRecipe;
+var ic2AddAmplifier;
+var ic2AddFluidHeatSource;
+var ic2AddSemiFluidFuel;
+var ic2AddShapedRecipe;
+var ic2AddShapelessRecipe;
+var ic2RIOD;
+var ic2RIIS;
+var ic2RIFC;
 
 (function() {
 	

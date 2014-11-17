@@ -38,8 +38,6 @@ Future
 - more Thaumcraft API support - Working on it I guess...
 - recipes inspection to help adding missing ones
 - allow changing chests loot
-- make lava update properly and disappear when source block is removed, for Minecraft 1.5.2 and older
-  (https://mojang.atlassian.net/browse/MC-4631)
 - plant more stuff in pots
 - villagers drop last trade (if it's enabled) when killed by a player? Can this be done?
 - villagers show a bubble with last viewed offer
@@ -50,8 +48,8 @@ Future
   if possible, such an egg has 1/2 chance to hatch as opposed to 1/8
   if possible, such an egg hatches instead of disappearing in 5 minutes 
 - use lapis in brewing potions? Can this be done?
-- make bookshelves have direction Can this be done?
-- support Better Than Wolves - See BTWTweaks!
+- make bookshelves have direction. Can this be done?
+- support Better Than Wolves - See BTWTweak!
 
 
 Forum suggestions

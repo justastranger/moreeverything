@@ -2,6 +2,9 @@
 // by justastranger
 // Written with Buildcraft 6.1.7
 
+
+// All BuildCraft recipes are assigned an ID when constructed and are referenced and removed by this ID.
+
 var bcAPI = Packages.buildcraft.api;
 var bcRecipeRegistry = bcAPI.recipes.BuildcraftRecipeRegistry;
 var bcAddRefinery1to1Recipe;
