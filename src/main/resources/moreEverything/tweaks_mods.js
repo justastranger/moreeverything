@@ -17,7 +17,7 @@
 		addFuel(100, "BiomesOPlenty:bamboo");
 	}
 	
-	if (modList.EE3) {
+	if (modList.EE3 && (EE3Enabled == true)) {
 		// Most of this was rather straight forward porting, replacing any mentions of the old mods_init.js with 1.7+ item names,
 		// which shouldn't change version to version, between installs, worlds, or config options
 		if (optionalFeature.ee_vanilla_transmutations) {

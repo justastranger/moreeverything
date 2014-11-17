@@ -1,6 +1,8 @@
 Easy
 ====
 - Make an actual fuel handler in Java instead of the pseudo-class in core.js, maybe this'll fix NEI not recognizing the fuel handler.
+- Tinkers Construct support.
+
 
 Medium
 ======
@@ -54,15 +56,12 @@ Future
 
 Forum suggestions
 =================
-- Enriched Gravel mod API: http://www.minecraftforum.net/topic/1783653-
-  (lets you either add drops to enriched gravel or add custom sifter block drops for any block and metadata)
-- IC2 recipe support -- macerator, extractor, compressor - Done!
 - Thermal Expansion recipe support -- pulverizer, induction smelter, sawmill
 - Forestry recipe support -- carpenter, centrifuge 
-- GregTech
+- GregTech -- There's a lot of machines, but I'll see what I can do.
 
-- http://www.minecraftforum.net/topic/1686840-
-  add other mods added items to transmute back to their base materials.
+- http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/1287878-dartcraft-beta-0-2-20
+  Not yet 1.7.10, so this might not happen if it never updates.
 
 
 ---

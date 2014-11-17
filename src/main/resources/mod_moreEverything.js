@@ -11,7 +11,7 @@ var optionalFeature = {
 	wool_bleaching: 1,
 	hayblock_uncrafting: 1,
 	mod_tweaks: 1,
-	ee_vanilla_transmutations: 1,
+	/* ee_vanilla_transmutations: 1,
 	ee_vanilla_uncrafting: 1,
 	ee_stairs_slabs_walls_uncrafting: 1,
 	ee_ore_transmutations: 1,
@@ -20,7 +20,7 @@ var optionalFeature = {
 	ee_underground_biomes_transmutations: 1,
 	ee_biome_mods_transmutations: 1,
 	ee_minefantasy_transmutations: 1,
-	ee_tinkersconstruct_transmutations: 1,
+	ee_tinkersconstruct_transmutations: 1, */
 	thaumcraft_vanilla_aspects: 1,
 	thaumcraft_mod_aspects: 1,
 
@@ -67,7 +67,7 @@ var defaultScripts = [
 	"moreEverything/core.js",
 	"moreEverything/ic2.js",
 	"moreEverything/defs.js",
-	"moreEverything/equivalent_exchange.js",
+	//"moreEverything/equivalent_exchange.js",
 	"moreEverything/thaumcraft.js",
 	"moreEverything/tweaks_vanilla.js",
 	"moreEverything/tweaks_mods.js",
