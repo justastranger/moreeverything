@@ -8,9 +8,11 @@ How to build from source
 ========================
 You don't require MCP to build this mod.
 
-Building on Windows with JRE 6 or 7:
+Building on Windows with JDK 6 or 7:
 1. Run "gradlew build" in the project root.
 
+Building on Windows with JDK 8:
+1. Don't.
 
 Goals of the mod
 ================
