@@ -184,7 +184,7 @@ function getFluidName(id) {
 	return __forge.fluids.FluidRegistry.getFluidName(id)
 }
 function getFluid(nameOrID) {
-	if (typeof nameOrID != "string" || typeof nameOrID != "number") throw("getFluid: nameOrID must either be a string or a number.")
+	if (!(typeof nameOrID == "string" || typeof nameOrID == "number")) throw("getFluid: nameOrID must either be a string or a number.")
 	return __forge.fluids.FluidRegistry.getFluid(nameOrID)
 }
 function QgetFluid(nameOrID) {

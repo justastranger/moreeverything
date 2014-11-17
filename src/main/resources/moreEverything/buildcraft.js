@@ -18,7 +18,7 @@ var bcAddCoolant;
 (function(){
 	
 	if(!modList["BuildCraft|Core"]) return;
-	
+
 	bcAddRefinery1to1Recipe = function(id, input, output, energy, delay) {
 		// String id, FluidStack input, FluidStack output, int energy, int delay
 		if (typeof id != "string") throw("bcAddRefineryRecipe: id must be a string."); // id = id.toString()
@@ -93,7 +93,7 @@ var bcAddCoolant;
 		// No way to remove coolants either.
 		if (stringOrNumber(fluid)) fluid = getFluid(fluid);
 		if (typeof degreesCoolingPerMB != "number") throw("bcAddCoolant: degreesCoolingPerMB must be a number.");
-		bcAPI.fuels.BuildcraftFuelRegistry.coolant.addCoolant(fluid, powerPerCycle, totalBurningTime);
+		bcAPI.fuels.BuildcraftFuelRegistry.coolant.addCoolant(fluid, degreesCoolingPerMB);
 	}
 	// Not going to bother with the Integration Table...
 

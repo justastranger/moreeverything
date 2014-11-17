@@ -16,24 +16,16 @@ var removeAlchemyRecipe;
 
 (function(){
 
-	if(!modList.BloodMagic) return  // What's the actual Mod ID again?
-									// At the very least, unless the ID actually is "BloodMagic",
-									// it'll keep this script from actually doing anything.
+	if(!modList.AWWayofTime) return;
 
 	addBloodOrbShapedRecipe = function(result, recipe) {
 		if (typeof result == "string") {
-			if (result.indexOf(':')){
-				result = newItemStack(result);
-			} else {
-				result = getOres(result)[0];
-			}
+			result = result.indexOf(':') ? newItemStack(result) : getOres(result)[0];
 		}
 		if (recipe instanceof Array) {
 			for (var i = 0; i<recipe.length; i++) {
-				if (typeof recipe[i] == "string") {
-					if (recipe[i].indexOf(':')) {
-						recipe[i] = newItemStack(recipe[i]);
-					}
+				if (typeof recipe[i] == "string" && recipe[i].indexOf(':')) {
+					recipe[i] = newItemStack(recipe[i]);
 				}
 			}
 		}
@@ -48,18 +40,12 @@ var removeAlchemyRecipe;
 
 	addBloodOrbShapelessRecipe = function(result, recipe) {
 		if (typeof result == "string") {
-			if (result.indexOf(':')){
-				result = newItemStack(result);
-			} else {
-				result = getOres(result)[0];
-			}
+			result = result.indexOf(':') ? newItemStack(result) : getOres(result)[0];
 		}
 		if (recipe instanceof Array) {
 			for (var i = 0; i<recipe.length; i++) {
-				if (typeof recipe[i] == "string") {
-					if (recipe[i].indexOf(':')) {
-						recipe[i] = newItemStack(recipe[i]);
-					}
+				if (typeof recipe[i] == "string" && recipe[i].indexOf(':')) {
+					recipe[i] = newItemStack(recipe[i]);
 				}
 			}
 		}
@@ -74,29 +60,17 @@ var removeAlchemyRecipe;
 
 	addBindingItem = function(output, input) {
 		if (typeof output == "string") {
-			if (output.indexOf(':')){
-				output = newItemStack(output);
-			} else {
-				output = getOres(output)[0];
-			}
+			output = output.indexOf(':') ? newItemStack(output) : getOres(output)[0];
 		}
 		if (typeof input == "string") {
-			if (input.indexOf(':')){
-				input = newItemStack(input);
-			} else {
-				input = getOres(input)[0];
-			}
+			input = input.indexOf(':') ? newItemStack(input) : getOres(input)[0];
 		}
 		bmAPI.bindingRegistry.registerRecipe(output, input);
 	}
 	
 	removeBindingItem = function(input) {
 		if (typeof input == "string") {
-			if (input.indexOf(':')){
-				input = newItemStack(input);
-			} else {
-				input = getOres(input)[0];
-			}
+			input = input.indexOf(':') ? newItemStack(input) : getOres(input)[0];
 		}
 		recipes = bmAPI.bindingRegistry.BindingRegistry.bindingRecipes;
 		for (var recipe in recipes) {
@@ -108,18 +82,10 @@ var removeAlchemyRecipe;
 	
 	addBloodAltarInfusionRecipe = function(result, input, minTier, bloodRequired, consumption, drain) {
 		if (typeof result == "string") {
-			if (result.indexOf(':')){
-				result = newItemStack(result);
-			} else {
-				result = getOres(result)[0];
-			}
+			result = result.indexOf(':') ? newItemStack(result) : getOres(result)[0];
 		}
 		if (typeof input == "string") {
-			if (input.indexOf(':')){
-				input = newItemStack(input);
-			} else {
-				input = getOres(input)[0];
-			}
+			input = input.indexOf(':') ? newItemStack(input) : getOres(input)[0];
 		}
 		if (typeof minTier != "number") throw("addBloodInfusionRecipe: minTier must be a number.")
 		if (typeof bloodRequired != "number") throw("addBloodInfusionRecipe: bloodRequired must be a number.")
@@ -131,23 +97,21 @@ var removeAlchemyRecipe;
 			log("addBloodInfusionRecipe: drain should be a number. Defaults to 5 to make things easy.")
 			drain = 5
 		}
-		bmAPI.altarRecipeRegistry.AltarRecipeRegistry.registerAltarRecipe(result, input mintier, bloodRequired, consumption, drain, false);
+		bmAPI.altarRecipeRegistry.AltarRecipeRegistry.registerAltarRecipe(result, input, minTier, bloodRequired, consumption, drain, false);
 	}
-	
+
 	removeBloodAltarInfusionRecipe = function(input, tier) {
 		if (typeof input == "string") {
-			if (input.indexOf(':')){
-				input = newItemStack(input);
-			} else {
-				input = getOres(input)[0];
-			}
+			input = input.indexOf(':') ? newItemStack(input) : getOres(input)[0];
 		}
 		recipes = bmAPI.altarRecipeRegistry.AltarRecipeRegistry.altarRecipes;
-		for (var recipe in recipes) {
-			if (isJavaClass(recipe, bmAPI.altarRecipeRegistry.AltarRecipe) {
-				if (recipe.doesRequiredItemMatch(input, tier)) return recipes.remove(recipe);
+		recipeArray = bmAPI.altarRecipeRegistry.AltarRecipeRegistry.altarRecipes.toArray();
+		for (var i = 0; i<recipeArray.length; i++) {
+			if (isJavaClass(recipeArray[i], bmAPI.altarRecipeRegistry.AltarRecipe)) {
+				if (recipeArray[i].doesRequiredItemMatch(input, tier)) return recipes.remove(recipeArray[i]);
 			}
 		}
+		return false;
 	}
 	
 	addAlchemyRecipe = function(output, lpRequired, recipe, bloodOrbLevel) {
