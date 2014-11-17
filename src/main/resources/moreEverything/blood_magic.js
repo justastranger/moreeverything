@@ -164,5 +164,7 @@ var removeAlchemyRecipe;
 		}
 		return false;
 	}
-	
+
+	log("Blood for the blood god!")
+
 })();
