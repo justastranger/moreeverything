@@ -147,56 +147,56 @@ function getItem(name) {
 }
 function getItemStackSize(stack) {
     return stack.field_77994_a;
-};
+}
 function setItemStackSize(stack, size) {
     stack.field_77994_a = size;
     return stack;
-};
+}
 function getItemDamage(stack) {
     return stack.func_77960_j();
-};
+}
 function setItemDamage(stack, damage) {
     stack.field_77991_e = damage;
 	return stack;
-};
+}
 function setItemMaxStackSize(item, size) {
-	var item = getItem(item)
-	if(size > 64) throw("setItemIDMaxStackSize: size can not be larger than 64.")
+	var item = getItem(item);
+	if(size > 64) throw("setItemIDMaxStackSize: size can not be larger than 64.");
 	item.func_77639_j(size)
 }
 function getItemMaxStackSize(item) {
-	var item = getItem(item)
+	var item = getItem(item);
 	return item.func_77639_j()
 }
 function getItemFromStack(stack) {
 	return stack.func_77973_b();
 }
 function getItemName(item) {
-	if(isJavaClass(item, __itemStack)) item = getItemFromStack(item)
+	if(isJavaClass(item, __itemStack)) item = getItemFromStack(item);
 	return __mE.itemGet(item);
 }
 function getFluidID(name) {
-	if(typeof name != "string") throw("getFluidName: name must be a string.")
+	if(typeof name != "string") throw("getFluidName: name must be a string.");
 	return __forge.fluids.FluidRegistry.getFluidID(name)
 }
 function getFluidName(id) {
-	if(typeof id != "number") throw("getFluidName: id must be a number.")
+	if(typeof id != "number") throw("getFluidName: id must be a number.");
 	return __forge.fluids.FluidRegistry.getFluidName(id)
 }
 function getFluid(nameOrID) {
-	if (!(typeof nameOrID == "string" || typeof nameOrID == "number")) throw("getFluid: nameOrID must either be a string or a number.")
+	if (!(typeof nameOrID == "string" || typeof nameOrID == "number")) throw("getFluid: nameOrID must either be a string or a number.");
 	return __forge.fluids.FluidRegistry.getFluid(nameOrID)
 }
 function QgetFluid(nameOrID) {
-	if (typeof nameOrID != "string" || typeof nameOrID != "number") return nameOrID
+	if (typeof nameOrID != "string" || typeof nameOrID != "number") return nameOrID;
 	return __forge.fluids.FluidRegistry.getFluid(nameOrID)
 }
 
 function newItemStack(item, amount, metadata){
-	if(getItem(item) == null) throw("newItemStack: item does not exist.")
-	if(typeof item == "string" || isJavaClass(item, java.lang.String)) item = getItem(item)
-	if(typeof amount == "undefined") amount = 1
-	if(typeof metadata == "undefined") metadata = 0
+	if(getItem(item) == null) throw("newItemStack: item does not exist.");
+	if(typeof item == "string" || isJavaClass(item, java.lang.String)) item = getItem(item);
+	if(typeof amount == "undefined") amount = 1;
+	if(typeof metadata == "undefined") metadata = 0;
 	return new net.minecraft.item.ItemStack(item, amount, metadata)
 }
 
@@ -207,19 +207,18 @@ function newFluidStack(id, amount) {
 }
 
 function stringOrNumber(thing) {
-	if (typeof thing == "string" || typeof thing == "number") return true
-	return false
+	return !!(typeof thing == "string" || typeof thing == "number");
 }
 
 
 function getOres(name) {
 	var list = __forge.oredict.OreDictionary.getOres(name);
 	return nativeArray(list.toArray());
-};
+}
 	  
 function getOreNames() {
 	return __forge.oredict.OreDictionary.getOreNames();
-};
+}
 
 function registerOre(name, stackOrBlockName, itemDamage) {
 	if (typeof stackOrBlockName == "string") {
@@ -227,10 +226,10 @@ function registerOre(name, stackOrBlockName, itemDamage) {
 	}
 	__forge.oredict.OreDictionary.registerOre(name, stackOrBlockName);
 	return true;
-};
+}
 
-function forInObject(object) {
-	for(a in object) log(a)
+function forInObject(object) { // This is more of a dev function for discovering methods in an object or class.
+	for(var a in object) log(a)
 }
 
 function addSmelting(input, output, experience) {
@@ -242,7 +241,7 @@ function addSmelting(input, output, experience) {
 	__fml.common.registry.GameRegistry.addSmelting(input, output, experience);
 	log("Added smelting: ID "+input+" cooks into "+output+".", logLevel.debug);
 	return true;
-};
+}
 
 function addShapelessRecipe(stack, arr) {
 	if (!(arr instanceof Array)) {
@@ -259,7 +258,7 @@ function addShapelessRecipe(stack, arr) {
 	__fml.common.registry.GameRegistry.addRecipe(recipe);
 	log("Added shapeless recipe for "+stack+".", logLevel.debug);
 	return true;
-};
+}
 
 function addShapedRecipe(stack, arr) {
 	if (!(arr instanceof Array)) {
@@ -276,7 +275,7 @@ function addShapedRecipe(stack, arr) {
 	__fml.common.registry.GameRegistry.addRecipe(recipe);
 	log("Added shaped recipe for "+stack+".", logLevel.debug);
 	return true;
-};
+}
 
 function addFuel(burnTime, id, damage) {
   if (isNaN(burnTime)||(burnTime <= 0)) throw("addFuel: burnTime argument must be a number greater than 0.");
@@ -293,4 +292,4 @@ function getFuel(name, damage) {
 	__api.__getBurnTime(name, damage);
 }
 
-log("Found the core!")
+log("Found the core!");

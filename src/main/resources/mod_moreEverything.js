@@ -79,7 +79,7 @@ var defaultScripts = [
 ];
 
 // for (i in defaultScripts) IncludeInternal(defaultScripts[i]);
-for (i in defaultScripts) Include(defaultScripts[i]);
+for (var i in defaultScripts) Include(defaultScripts[i]);
 	
 /* ////////////////////////
 

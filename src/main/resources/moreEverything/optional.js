@@ -9,10 +9,10 @@
 	}
 	if (optionalFeature.stack_more) {
 		function S(id, size) {
-			size = size ? 64 : size
+			size = size ? 64 : size;
 			try { setItemMaxStackSize(id, size); }
-			catch(e) {};
-		};
+			catch(e) {}
+		}
 		S(item.saddle);
 		S(item.bucket);
 		S(item.egg);

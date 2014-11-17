@@ -24,6 +24,7 @@ var ic2AddFluidHeatSource;
 var ic2AddSemiFluidFuel;
 var ic2AddShapedRecipe;
 var ic2AddShapelessRecipe;
+var ic2AddScrapboxDrop;
 var ic2RIOD;
 var ic2RIIS;
 var ic2RIFC;
@@ -38,7 +39,7 @@ var ic2RIFC;
 		if (typeof amount != "number" && typeof meta != "number") return new ic2Api.recipe.RecipeInputOreDict(name);
 		if (typeof amount == "number" && typeof meta != "number") return new ic2Api.recipe.RecipeInputOreDict(name, amount);
 		if (typeof amount == "number" && typeof meta == "number") return new ic2Api.recipe.RecipeInputOreDict(name, amount, meta);
-	}
+	};
 
 	ic2RecipeInputItemStack = function(stack, amount, meta) {
 		if (typeof stack == "string") {
@@ -49,16 +50,16 @@ var ic2RIFC;
 		}
 		try{ return new ic2Api.recipe.RecipeInputItemStack(stack) }
 		catch(e){
-			log(e)
+			log(e);
 			throw("ic2RecipeInputItemStack: stack must be either an ItemStack or an item name");
 		}
-	}
+	};
 
 	ic2RecipeInputFluidContainer = function(fluid, amount) {
 		fluid = QgetFluid(fluid);
 		if(amount) return ic2Api.recipe.RecipeInputFluidContainer(fluid, amount);
 		return ic2Api.recipe.RecipeInputFluidContainer(fluid);
-	}
+	};
 
 	ic2AddMaceratorRecipe = function(input, output) {
 		if (typeof input == "string") {
@@ -76,7 +77,7 @@ var ic2RIFC;
 			}
 		}
 		ic2Recipes.macerator.addRecipe(input, null, output);
-	}
+	};
 
 	ic2AddExtractorRecipe = function(input, output) {
 		if (typeof input == "string") {
@@ -94,7 +95,7 @@ var ic2RIFC;
 			}
 		}
 		ic2Recipes.extractor.addRecipe(input, null, output);
-	}
+	};
 
 	ic2AddCompressorRecipe = function(input, output) {
 		if (typeof input == "string") {
@@ -112,7 +113,7 @@ var ic2RIFC;
 			}
 		}
 		ic2Recipes.compressor.addRecipe(input, null, output);
-	}
+	};
 
 	ic2AddExtrudingRecipe = function(input, output) {
 		if (typeof input == "string") {
@@ -130,7 +131,7 @@ var ic2RIFC;
 			}
 		}
 		ic2Recipes.metalformerExtruding.addRecipe(input, null, output);
-	}
+	};
 
 	ic2AddCuttingRecipe = function(input, output) {
 		if (typeof input == "string") {
@@ -148,7 +149,7 @@ var ic2RIFC;
 			}
 		}
 		ic2Recipes.metalformerCutting.addRecipe(input, null, output);
-	}
+	};
 
 	ic2AddRollingRecipe = function(input, output) {
 		if (typeof input == "string") {
@@ -166,7 +167,7 @@ var ic2RIFC;
 			}
 		}
 		ic2Recipes.metalformerRolling.addRecipe(input, null, output);
-	}
+	};
 
 	// Recycling recipe thingy might not be needed, but it was listed in the recipe manager.
 	ic2AddRecyclingRecipe = function(input, output) {
@@ -184,19 +185,19 @@ var ic2RIFC;
 				output = getOres(output)[0];
 			}
 		}
-		if (typeof output == "undefined") output = newItemStack("IC2:scrap") // or whatever the name for scrap is...
+		if (typeof output == "undefined") output = newItemStack("IC2:scrap"); // or whatever the name for scrap is...
 		ic2Recipes.recycler.addRecipe(input, null, output);
-	}
+	};
 
 	ic2AddEnrichingRecipe = function(input, additive, output) {
 		// input = FluidStack, additive = IRecipeInput (OreDict, ItemStack, or FluidContainer), output = FluidStack
 		// However, I'm not entirely sure how I would go about taking care of FluidContainer...
 		// I suppose we can assume that additive isn't a FluidContainer unless explicitly stated to the contrary...
 		// Doing that would let me make these recipe functions more generic...
-		if (stringOrNumber(input)) input = newFluidStack(input)
-		if (stringOrNumber(output)) output = newFluidStack(output)
-		if (input instanceof Array) input = newFluidStack(input[0], input[1])
-		if (output instanceof Array) output = newFluidStack(output[0], output[1])
+		if (stringOrNumber(input)) input = newFluidStack(input);
+		if (stringOrNumber(output)) output = newFluidStack(output);
+		if (input instanceof Array) input = newFluidStack(input[0], input[1]);
+		if (output instanceof Array) output = newFluidStack(output[0], output[1]);
 		if (typeof additive == "string") {
 			if (additive.indexOf(':')) {
 				additive = ic2RIIS(additive);
@@ -205,7 +206,7 @@ var ic2RIFC;
 			}
 		}
 		ic2Recipes.cannerEnrich.addRecipe(input, additive, output);
-	}
+	};
 
 	ic2AddBottlingRecipe = function(container, fill, output) {
 		// item + item -> canned item
@@ -231,11 +232,11 @@ var ic2RIFC;
 			}
 		}
 		ic2Recipes.cannerBottle.addRecipe(container, fill, output)
-	}
+	};
 
 	ic2AddBlockCutterRecipe = function(input, hardness, output) {
 		var nbt = new net.minecraft.nbt.NBTTagCompound();
-		nbt.func_74768_a("hardness", hardness)
+		nbt.func_74768_a("hardness", hardness);
 		if (typeof input == "string") {
 			if (input.indexOf(':')) {
 				input = ic2RIIS(newItemStack(input));
@@ -251,11 +252,11 @@ var ic2RIFC;
 			}
 		}
 		ic2Recipes.blockcutter.addRecipe(input, nbt, output)
-	}
+	};
 
 	ic2AddCentrifugeRecipe = function(input, heat, output) {
 		var nbt = new net.minecraft.nbt.NBTTagCompound();
-		nbt.func_74768_a("minHeat", heat)
+		nbt.func_74768_a("minHeat", heat);
 		if (typeof input == "string") {
 			if (input.indexOf(':')) {
 				input = ic2RIIS(newItemStack(input));
@@ -264,7 +265,7 @@ var ic2RIFC;
 			}
 		}
 		if (output instanceof Array) {
-			if (output.length > 3) throw("ic2AddCentrifugeRecipe: Max length of output is 3, else the last object gets cut off.")
+			if (output.length > 3) throw("ic2AddCentrifugeRecipe: Max length of output is 3, else the last object gets cut off.");
 			for (var i = 0; i<output.length; i++) {
 				if (typeof output[i] == "string") {
 					if (output[i].indexOf(':')) {
@@ -284,7 +285,7 @@ var ic2RIFC;
 			}
 		}
 		ic2Recipes.centrifuge.addRecipe(input, nbt, output)
-	}
+	};
 
 	ic2AddWashingRecipe = function(input, water, output) {
 		var nbt = new net.minecraft.nbt.NBTTagCompound();
@@ -297,7 +298,7 @@ var ic2RIFC;
 			}
 		}
 		if (output instanceof Array) {
-			if (output.length > 3) throw("ic2AddWashingRecipe: Max length of output is 3, else the last object gets cut off.")
+			if (output.length > 3) throw("ic2AddWashingRecipe: Max length of output is 3, else the last object gets cut off.");
 			for (var i = 0; i<output.length; i++) {
 				if (typeof output[i] == "string") {
 					if (output[i].indexOf(':')) {
@@ -317,7 +318,7 @@ var ic2RIFC;
 			}
 		}
 		ic2Recipes.oreWashing.addRecipe(input, nbt, output);
-	}
+	};
 
 	ic2AddBlastFurnaceRecipe = function(input, output){
 		if (typeof input == "string") {
@@ -346,7 +347,7 @@ var ic2RIFC;
 			}
 		}
 		ic2Recipes.blastfurance.addRecipe(input, null, output);
-	}
+	};
 
 	ic2AddAmplifier = function(item, amplify) {
 		var nbt = new net.minecraft.nbt.NBTTagCompound();
@@ -359,21 +360,21 @@ var ic2RIFC;
 			}
 		}
 		ic2Recipes.matterAmplifier.addRecipe(item, nbt, []);
-	}
+	};
 	
 	ic2AddFluidHeatSource = function(fluidName, amount, heat) {
 		if (!(typeof fluidName == "string")) throw("ic2AddFluidHeatSource: fluidName must be a string.");
 		if (!(typeof amount == "number")) throw("ic2AddFluidHeatSource: amount must be a number.");
 		if (!(typeof heat == "number")) throw("ic2AddFluidHeatSource: heat must be a number.");
 		ic2Recipes.FluidHeatGenerator.addFluid(fluidName, amount, heat);
-	}
+	};
 	
 	ic2AddSemiFluidFuel = function(fluidName, amount, heat) {
 		if (!(typeof fluidName == "string")) throw("ic2AddsemiFluidFuel: fluidName must be a string.");
 		if (!(typeof amount == "number")) throw("ic2AddsemiFluidFuel: amount must be a number.");
 		if (!(typeof heat == "number")) throw("ic2AddsemiFluidFuel: heat must be a number.");
 		ic2Recipes.semiFluidGenerator.addFluid(fluidName, amount, heat);
-	}
+	};
 	
 	ic2AddScrapboxDrop = function(drop, chance) {
 		if (typeof drop == "string") {
@@ -385,7 +386,7 @@ var ic2RIFC;
 		}
 		if (typeof chance != "number") throw("ic2AddScrapboxDrop: chance must be a number");
 		ic2Recipes.scrapboxDrops.addDrop(drop, chance);
-	}
+	};
 	
 	ic2AddShapedRecipe = function(output, input) {
 		// This acts the same as the normal addShapedRecipe, except with the IC2 recipe handler.
@@ -403,7 +404,7 @@ var ic2RIFC;
 		ic2Recipes.advRecipes.addRecipe(output, objectArray(input));
 		log("Added shaped recipe for "+stack+".", logLevel.debug);
 		return true;
-	}
+	};
 	
 	ic2AddShapelessRecipe = function(output, input) {
 		// This acts the same as the normal addShapelessRecipe, except with the IC2 recipe handler.
@@ -421,7 +422,7 @@ var ic2RIFC;
 		ic2Recipes.advRecipes.addShapelessRecipe(output, objectArray(input));
 		log("Added shapeless recipe for "+output+".", logLevel.debug);
 		return true;
-	}
+	};
 	
 	ic2RIOD = ic2RecipeInputOreDict;
 	ic2RIIS = ic2RecipeInputItemStack;

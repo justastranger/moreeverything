@@ -10,7 +10,7 @@ var newAspect;
 (function () {
 	if (!modList.Thaumcraft) return;
 	
-	var TCApi = Packages.thaumcraft.api
+	var TCApi = Packages.thaumcraft.api;
 	var aspects = {};
 	var altnames = {
 		"aer": ["air", "wind"],
@@ -83,49 +83,49 @@ var newAspect;
 	}
 
 	newAspect = function(name) {
-		if(aspects[name]) return aspects[name]
+		if(aspects[name]) return aspects[name];
 		throw("newAspect: Invalid Aspect!")
-	}
+	};
 	
 	newAspectList = function(aspects, amounts)
 	{
-		var templist = new TCApi.aspects.AspectList()
-		if(typeof aspects == "string") aspects = newAspect(aspects)
+		var templist = new TCApi.aspects.AspectList();
+		if(typeof aspects == "string") aspects = newAspect(aspects);
 		if(aspects instanceof Array && amounts instanceof Array){
 			for (var i = 0; i < aspects.length; i++) {
-				if(typeof aspects[i] == "string") aspects[i] = newAspect(aspects[i])
+				if(typeof aspects[i] == "string") aspects[i] = newAspect(aspects[i]);
 				templist.add(aspects[i], amounts[i])
 			}
 		} else {
 			templist.add(aspects, amounts)
 		}
 		return templist
-	}
+	};
 	
 	registerObjectTag = function(id, aspectList, aspectAmounts) {
 		var logitem = id;
 		if (getItem(id) == null) throw("registerObjectTag: no such item.");
-		if (typeof id == "string" && id.indexOf(':')) id = newItemStack(id)
-		if (aspectList instanceof Array && aspectAmounts instanceof Array) newAspectList(aspectList, aspectAmounts)
+		if (typeof id == "string" && id.indexOf(':')) id = newItemStack(id);
+		if (aspectList instanceof Array && aspectAmounts instanceof Array) newAspectList(aspectList, aspectAmounts);
 		TCApi.ThaumcraftApi.registerObjectTag(id, aspectList);
 		log("Registered object tag for "+logitem+": "+aspectList.toString(), logLevel.debug);
 		return true;
-	}
+	};
 	
 	registerOreDictObjectTag = function(name, aspectList, aspectAmounts) {
 		var logitem = name;
 		if (getOres(name) == null) throw("registerObjectTag: no such OreDict entry.");
-		if (aspectList instanceof Array && aspectAmounts instanceof Array) aspectList = newAspectList(aspectList, aspectAmounts)
+		if (aspectList instanceof Array && aspectAmounts instanceof Array) aspectList = newAspectList(aspectList, aspectAmounts);
 		TCApi.ThaumcraftApi.registerObjectTag(name, aspectList);
 		log("Registered object tag for "+logitem+": "+aspectList.toString(), logLevel.debug);
 		return true;
-	}
+	};
 	
 	
 	function QregisterObjectTag(id, aspectList, aspectAmounts) {
 		var result;
 		try { result = registerObjectTag(id, aspectList, aspectAmounts); }
-		catch(e) {result = false};
+		catch(e) {result = false}
 		return result;
 	}
 

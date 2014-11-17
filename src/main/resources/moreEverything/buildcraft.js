@@ -3,8 +3,6 @@
 // Written with Buildcraft 6.1.7
 
 
-// All BuildCraft recipes are assigned an ID when constructed and are referenced and removed by this ID.
-
 var bcAPI = Packages.buildcraft.api;
 var bcRecipeRegistry = bcAPI.recipes.BuildcraftRecipeRegistry;
 var bcAddRefinery1to1Recipe;
@@ -27,7 +25,7 @@ var bcAddCoolant;
 		if (!energy) throw("bcAddRefineryRecipe: energy must be a number");
 		if (!delay) throw("bcAddRefineryRecipe: delay must be a number");
 		bcRecipeRegistry.refinery.addRecipe(id, input, output, energy, delay);
-	}
+	};
 
 	bcAddRefinery2to1Recipe = function(id, input1, input2, output, energy, delay) {
 		// String id, FluidStack input1, FluidStack input2, FluidStack output, int energy, int delay
@@ -38,12 +36,12 @@ var bcAddCoolant;
 		if (!energy) throw("bcAddRefineryRecipe: energy must be a number");
 		if (!delay) throw("bcAddRefineryRecipe: delay must be a number");
 		bcRecipeRegistry.refinery.addRecipe(id, input1, input2, output, energy, delay);
-	}
+	};
 
 	bcRemoveRefineryRecipe = function(id) {
 		if (typeof id != "string") throw("bcRemoveRefineryRecipe: id must be a string.");
 		bcRecipeRegistry.refinery.removeRecipe(id);
-	}
+	};
 
 	bcAddAssemblyTableRecipe = function(id, energyCost, output, inputs) {
 		if (typeof id != "string") throw("bcAddAssemblyTableRecipe: id must be a string.");
@@ -74,12 +72,12 @@ var bcAddCoolant;
 			}
 		}
 		bcRecipeRegistry.assemblyTable.addRecipe(id, energyCost, output, inputs);
-	}
+	};
 
 	bcRemoveAssemblyTableRecipe = function(id) {
 		if (typeof id != "string") throw("bcRemoveAssemblyTableRecipe: id must be a string.");
 		bcRecipeRegistry.assemblyTable.removeRecipe(id);
-	}
+	};
 
 	bcAddFuel = function(fluid, powerPerCycle, totalBurningTime) {
 		// No way to remove fuels.
@@ -87,14 +85,14 @@ var bcAddCoolant;
 		if (typeof powerPerCycle != "number") throw("bcAddFuel: powerPerCycle must be a number.");
 		if (typeof totalBurningTime != "number") throw("bcAddFuel: totalBurningTime must be a number.");
 		bcAPI.fuels.BuildcraftFuelRegistry.fuel.addFuel(fluid, powerPerCycle, totalBurningTime);
-	}
+	};
 
 	bcAddCoolant = function(fluid, degreesCoolingPerMB) {
 		// No way to remove coolants either.
 		if (stringOrNumber(fluid)) fluid = getFluid(fluid);
 		if (typeof degreesCoolingPerMB != "number") throw("bcAddCoolant: degreesCoolingPerMB must be a number.");
 		bcAPI.fuels.BuildcraftFuelRegistry.coolant.addCoolant(fluid, degreesCoolingPerMB);
-	}
+	};
 	// Not going to bother with the Integration Table...
 
 	log("Building and Crafting.");
