@@ -64,17 +64,21 @@ var removeAlchemyRecipe;
 		if (typeof input == "string") {
 			input = input.indexOf(':') ? newItemStack(input) : getOres(input)[0];
 		}
-		bmAPI.bindingRegistry.registerRecipe(output, input);
+		bmAPI.bindingRegistry.BindingRegistry.registerRecipe(output, input);
 	};
-	
+
 	removeBindingItem = function(input) {
 		if (typeof input == "string") {
 			input = input.indexOf(':') ? newItemStack(input) : getOres(input)[0];
 		}
 		var recipes = bmAPI.bindingRegistry.BindingRegistry.bindingRecipes;
-		for (var recipe in recipes) {
-			if (isJavaClass(recipe, bmAPI.bindingRegistry.BindingRecipe)) {
-				if (recipe.doesRequiredItemMatch(input)) return recipes.remove(recipe)
+		var recipeArray = bmAPI.bindingRegistry.BindingRegistry.bindingRecipes.toArray();
+		for (var i = 0; i<recipeArray.length; i++) {
+			if (isJavaClass(recipeArray[i], bmAPI.bindingRegistry.BindingRecipe)) {
+				if (recipeArray[i].doesRequiredItemMatch(input)) {
+					recipes.remove(recipeArray[i]);
+					return true;
+				}
 			}
 		}
 	};
@@ -137,14 +141,25 @@ var removeAlchemyRecipe;
 			recipe = [recipe]
 		}
 		bmAPI.alchemy.AlchemyRecipeRegistry.registerRecipe(output, lpRequired, recipe, bloodOrbLevel);
+		return true;
 	};
-	
+
 	removeAlchemyRecipe = function(output){
+		if (typeof output == "string") {
+			if (output.indexOf(':')){
+				output = newItemStack(output);
+			} else {
+				output = getOres(output)[0];
+			}
+		}
 		var recipes = bmAPI.alchemy.AlchemyRecipeRegistry.recipes;
 		var recipeArray = bmAPI.alchemy.AlchemyRecipeRegistry.recipes.toArray();
 		for (var i = 0; i<recipeArray.length; i++) {
-			if (isJavaClass(recipeArray[i], bmAPI.altarRecipeRegistry.AltarRecipe)) {
-				if (recipeArray[i].doesRequiredItemMatch(input, tier)) return recipes.remove(recipeArray[i]);
+			if (isJavaClass(recipeArray[i], bmAPI.alchemy.AlchemyRecipe)) {
+				if (itemStackEquals(recipeArray[i].getResult(), output)) {
+					recipes.remove(recipeArray[i]);
+					return true;
+				}
 			}
 		}
 		return false;

@@ -175,6 +175,9 @@ function getItemName(item) {
 	if(isJavaClass(item, __itemStack)) item = getItemFromStack(item);
 	return __mE.itemGet(item);
 }
+function itemStackEquals(first, second){
+	return !!((getItemName(first) == getItemName(second)) && (getItemDamage(first) == getItemDamage(second)) && (getItemStackSize(first) == getItemStackSize(second)));
+}
 function getFluidID(name) {
 	if(typeof name != "string") throw("getFluidName: name must be a string.");
 	return __forge.fluids.FluidRegistry.getFluidID(name)

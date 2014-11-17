@@ -70,6 +70,7 @@ var defaultScripts = [
 	"moreEverything/core.js",
 	"moreEverything/ic2.js",
 	"moreEverything/buildcraft.js",
+	"moreEverything/blood_magic.js",
 	"moreEverything/defs.js",
 	//"moreEverything/equivalent_exchange.js",
 	"moreEverything/thaumcraft.js",
