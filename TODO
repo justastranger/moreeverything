@@ -39,31 +39,30 @@ Maintenance/Boring
 Future
 ======
 - If Equivalent Exchange 3 doesn't crash with TFC, support them
-- more Thaumcraft API support
+- more Thaumcraft API support - Working on it I guess...
 - recipes inspection to help adding missing ones
 - allow changing chests loot
-- allow nether warts to grow in overworld, if shielded from sky and having light level 15
 - make lava update properly and disappear when source block is removed, for Minecraft 1.5.2 and older
   (https://mojang.atlassian.net/browse/MC-4631)
 - plant more stuff in pots
-- villagers drop last trade (if it's enabled) when killed by a player?
+- villagers drop last trade (if it's enabled) when killed by a player? Can this be done?
 - villagers show a bubble with last viewed offer
 - on medium and especially hard difficulty, regenerating from full hunger bar makes player hungry
 - charge double amount of XP instead of showing "too expensive!" on anvils
-- change fishing interval?
-- chicken mating makes an egg instead of a chicken;
+- change fishing interval? Can this be done?
+- chicken mating makes an egg instead of a chicken; Can this be done?
   if possible, such an egg has 1/2 chance to hatch as opposed to 1/8
   if possible, such an egg hatches instead of disappearing in 5 minutes 
-- use lapis in brewing potions?
-- make bookshelves have direction
-- support Better Than Wolves
+- use lapis in brewing potions? Can this be done?
+- make bookshelves have direction Can this be done?
+- support Better Than Wolves - See BTWTweaks!
 
 
 Forum suggestions
 =================
 - Enriched Gravel mod API: http://www.minecraftforum.net/topic/1783653-
   (lets you either add drops to enriched gravel or add custom sifter block drops for any block and metadata)
-- IC2 recipe support -- macerator, extractor, compressor
+- IC2 recipe support -- macerator, extractor, compressor - Done!
 - Thermal Expansion recipe support -- pulverizer, induction smelter, sawmill
 - Forestry recipe support -- carpenter, centrifuge 
 - GregTech
