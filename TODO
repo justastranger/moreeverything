@@ -1,13 +1,11 @@
 Easy
 ====
-
+- Make an actual fuel handler in Java instead of the pseudo-class in core.js, maybe this'll fix NEI not recognizing the fuel handler.
 
 Medium
 ======
 - Allow changing/adding mob drops
   - add rare skulls drop
-
-- Make a plugin for NEI to allow adding new item IDs easily
 
 
 Hard/Tricky/Unknown
@@ -19,12 +17,8 @@ Hard/Tricky/Unknown
 
 - Dispenser planting seeds
 
-- Hook CommandBase/ICommand to be Minecraft version independent
-
 - Wrap ItemStack and Method in JavaScript pseudo-classes for more straightforward work
   Alternatively, find out if it's possible to add fields into these specifically for JS engine
-
-- Make more reliable Minecraft 1.6 compatible directory detection
 
 
 Maintenance/Boring

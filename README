@@ -9,17 +9,12 @@ How to build from source
 You don't require MCP to build this mod.
 
 Building on Windows with JRE 6 or 7:
-1. Put minecraft.jar with matching version of ModLoader inside to deps_modloader/
-2. (optional) put minecraft.jar with matching version of Forge inside to deps_forge/
-2. Put Minecraft libraries: jinput.jar, lwjgl.jar, lwjgl_util.jar to deps_common/
-3. Get Python 2.x (PyPy) and kzip to automate compiling and packing process.
-4. edit _.py to have correct paths to javac.exe, kzip.exe and JRE library rt.jar
-5. Run _compile.bat
+1. Run "gradlew build" in the project root.
 
 
 Goals of the mod
 ================
-1. Never depend on Minecraft version, don't break on updates.
+1. Never depend on Minecraft version, don't break on updates. (Can this still be a thing? Only time will tell!)
    Only in cases of drastic feature change.
 2. Enhance original Minecraft experience.
 3. Enhance experience with Minecraft mods.
@@ -34,6 +29,8 @@ This is not a tool to create your own mods. It's only for tweaks.
 Granted, there are many mods out there that are worth only for tweaks.
 This mod can indeed eventually replace them.
 
+Combine with Tabula Rasa for custom items and blocks.
+
 
 Current features
 ================
@@ -43,16 +40,13 @@ tweaks_vanilla.js:
 tweaks_mods.js:
 - Allows some mods' blocks and items to be used as furnace fuel
 - Adds recipes for using mods' blocks and items between mods
+- Adds Thaumcraft aspects for various blocks and items from other mods if Thaumcraft is installed.
 equivalent_exchange.js:
-- Adds Equivalent Exchange 3 transmutations for various blocks and items,
-  including other mods
+- Probably going to be removed, along with the whole EE3 support section from tweaks_mods.js
 thaumcraft.js:
-- Adds Thaumcraft aspects for various blocks and items from other mods
-- If Minecraft version is compatible (limitation will be lifted eventually),
-  adds /eval command to execute JavaScript code
-- Works on any not too ancient Minecraft version
-  (tested on beta 1.6.4, 1.0.0, 1.2.5, 1.3.2, 1.4.x, 1.5.x)
-  Probably beta 1.4 is the earliest possible to run it with.
+- Provides functions for adding aspects to items and blocks.
+
+- adds /eval command to execute JavaScript code
 
 
 Supported mods
@@ -61,27 +55,21 @@ Supported APIs:
 
   Equivalent Exchange 3
   Thaumcraft
+  Industrial-Craft 2
 
 Supported block/item IDs:
 
-  Natura
-  ExtrabiomesXL
-  Biomes O' Plenty
-  Tinkers' Construct
-  Twilight Forest
-  Buildcraft
-  MineFantasy
-  Underground Biomes
+  Supported item ID's shouldn't be a thing to worry about any more due to names being assigned to blocks.
 
 
 Limitations
 ===========
-Currently requires Oracle Java 6 or 7.
+Currently requires Oracle Java 6 or 7. Maybe 8 is supported, but this is not tested.
 
 
 Future
 ======
-Look in TODO: https://raw.github.com/grompe/moreeverything/master/TODO
+Look in TODO: https://raw.github.com/justastranger/moreeverything/master/TODO
 
 
 If you find a bug
