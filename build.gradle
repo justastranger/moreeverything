@@ -60,3 +60,6 @@ processResources {
 
 import net.minecraftforge.gradle.delayed.*
 
+dependencies {
+    compile files('libs/rt.jar')
+}

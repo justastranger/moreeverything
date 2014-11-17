@@ -1,8 +1,11 @@
 package com.grompe.moreEverything.mEScriptEngine;
 
 import java.util.*;
+import javax.script.ScriptContext;
 import javax.script.*;
 import sun.org.mozilla.javascript.internal.*;
+import sun.org.mozilla.javascript.internal.Context;
+import sun.org.mozilla.javascript.internal.Scriptable;
 
 final class ExternalScriptable implements Scriptable {
 

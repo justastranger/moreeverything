@@ -3,8 +3,6 @@ package com.grompe.moreEverything.mEScriptEngine;
 import java.io.*;
 import java.util.*;
 import javax.script.*;
-import javax.script.ScriptContext;
-import javax.script.SimpleScriptContext;
 import java.lang.reflect.*;
 import sun.org.mozilla.javascript.internal.*;
 import com.sun.script.util.InterfaceImplementor;
