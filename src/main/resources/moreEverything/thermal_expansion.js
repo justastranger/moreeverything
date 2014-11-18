@@ -3,7 +3,7 @@
 // Written with Thermal Expansion 4.0.0B6-16 for 1.7.10
 
 
-// Script not yet tested
+// Script mostly tested
 
 var teAPI = Packages.thermalexpansion.util;
 var teCrafting = teAPI.crafting;
@@ -189,6 +189,6 @@ var teAddExtractRecipe;
         teCrafting.TransposerManager.addTEExtractionRecipe(energy, input, output, fluid, chance, fill, overwrite);
     }
 
-    log("Insert Scene From Neon Genesis Evangelion Here");
+    log("Thermal expansion...how embarrassing.");
 
 })();

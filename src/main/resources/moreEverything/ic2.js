@@ -1,5 +1,6 @@
 // Industrial-Craft 2 Recipe Support
 // By justastranger
+// Written with Industrial-Craft 2 version 2.2.646
 
 var ic2Api = Packages.ic2.api;
 var ic2Recipes = ic2Api.recipe.Recipes;

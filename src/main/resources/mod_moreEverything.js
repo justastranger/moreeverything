@@ -71,6 +71,7 @@ var defaultScripts = [
 	"moreEverything/ic2.js",
 	"moreEverything/buildcraft.js",
 	"moreEverything/blood_magic.js",
+	"moreEverything/thermal_expansion.js",
 	"moreEverything/defs.js",
 	//"moreEverything/equivalent_exchange.js",
 	"moreEverything/thaumcraft.js",
