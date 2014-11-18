@@ -421,10 +421,14 @@ public class mod_moreEverything
 	public void preInit(FMLPreInitializationEvent event)
 	{
         logger = event.getModLog();
-        GameRegistry.registerFuelHandler(new mEFuelHandler());
-
 	}
-	
+
+    @EventHandler
+    public void init(FMLInitializationEvent event)
+    {
+        GameRegistry.registerFuelHandler(new mEFuelHandler());
+    }
+
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
