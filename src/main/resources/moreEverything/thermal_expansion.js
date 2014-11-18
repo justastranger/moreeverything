@@ -103,7 +103,7 @@ var teAddExtractRecipe;
     };
     teAddOreDictCrucibleRecipe = function(energy, strInput, amount, fluid){
         if(!energy) throw("teAddOreDictCrucibleRecipe: energy must be a number.");
-        if(typeof strInput == "string") throw("teAddOreDictCrucibleRecipe: strInput must be a string.");
+        if(!typeof strInput == "string") throw("teAddOreDictCrucibleRecipe: strInput must be a string.");
         amount = amount ? amount : 1;
         if(stringOrNumber(fluid)) {
             fluid = newFluidStack(fluid, 1000);
@@ -129,12 +129,14 @@ var teAddExtractRecipe;
         } else if(!isJavaClass(output, __itemStack)) {
             throw("teAddPulverizerRecipe: output must be a string or ItemStack");
         }
-        if(typeof bonus == "string") {
-            bonus = bonus.indexOf(':') ? newItemStack(bonus) : getOres(bonus)[0];
-        } else if(!isJavaClass(bonus, __itemStack)) {
+        if(bonus != undefined){
+            if(typeof bonus == "string") {
+                bonus = bonus.indexOf(':') ? newItemStack(bonus) : getOres(bonus)[0];
+            }
+        } else {
             bonus = null;
+            chance = 0
         }
-        chance = chance ? chance : 0;
         overwrite = !!overwrite;
         teCrafting.SmelterManager.addRecipe(energy, input1, input2, output, bonus, chance, overwrite);
     };
