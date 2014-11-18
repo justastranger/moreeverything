@@ -20,7 +20,7 @@ var logLevel = {debug: 0, info: 1, warning: 2, error: 3};
 var __fml = Packages.cpw.mods.fml;
 var __forge = Packages.net.minecraftforge;
 var __mE = Packages.com.grompe.moreEverything.mod_moreEverything;
-var __fuelHandler = Packages.com.grompe.moreEverything.meFuelHandler;
+var __fuelHandler = Packages.com.grompe.moreEverything.mEFuelHandler;
 
 // var hasForge = !isEmpty(__fml.common.registry.GameRegistry); // We are kind of assuming that we have using Forge...
 var isDedicatedServer = (isEmpty(Packages.net.minecraft.client.Minecraft) && isEmpty(Packages.net.minecraft.client.main.Main));
