@@ -13,6 +13,7 @@ var __method = __class.forName("java.lang.reflect.Method");
 var __item;
 var __block;
 var __itemStack = Packages.net.minecraft.item.ItemStack;
+var __fluidStack = Packages.net.minecraftforge.fluids.FluidStack;
 var __itemsList;
 var logLevel = {debug: 0, info: 1, warning: 2, error: 3};
 
