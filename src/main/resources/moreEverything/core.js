@@ -20,6 +20,7 @@ var logLevel = {debug: 0, info: 1, warning: 2, error: 3};
 var __fml = Packages.cpw.mods.fml;
 var __forge = Packages.net.minecraftforge;
 var __mE = Packages.com.grompe.moreEverything.mod_moreEverything;
+var __fuelHandler = Packages.com.grompe.moreEverything.meFuelHandler;
 
 // var hasForge = !isEmpty(__fml.common.registry.GameRegistry); // We are kind of assuming that we have using Forge...
 var isDedicatedServer = (isEmpty(Packages.net.minecraft.client.Minecraft) && isEmpty(Packages.net.minecraft.client.main.Main));
@@ -56,13 +57,13 @@ var modList;
 	}
 	
 	
-	__fml.common.registry.GameRegistry.registerFuelHandler(new __fml.common.IFuelHandler(
+	/*__fml.common.registry.GameRegistry.registerFuelHandler(new __fml.common.IFuelHandler(
 	{
 		getBurnTime: function(stack)
 		{
 			return __api.__getBurnTime(getItemName(getItemFromStack(stack)), getItemDamage(stack));
 		}
-	}));
+	}));*/
 	log("Fires kindled and items sorted.")
 })();
 
@@ -285,7 +286,7 @@ function addFuel(burnTime, id, damage) {
   if (isNaN(burnTime)||(burnTime <= 0)) throw("addFuel: burnTime argument must be a number greater than 0.");
   if (typeof id == "String" && !id.indexOf(':')) throw("addFuel: id must be an item name, such as 'minecraft:dirt'");
   if (typeof damage == "undefined") damage = 32767; // Java program always uses 32767 as wildcard
-  __api.__addFuel(id, damage, burnTime);
+  __fuelHandler.__addFuel(id, damage, burnTime);
   var logitem = (damage != 32767) ? (id + ":" + damage) : id;
   log("Added fuel: ID "+logitem+" to burn for "+burnTime+" ticks.", logLevel.debug);
   return true;
@@ -293,7 +294,8 @@ function addFuel(burnTime, id, damage) {
 
 function getFuel(name, damage) {
 	damage = damage ? damage : WILDCARD;
-	__api.__getBurnTime(name, damage);
+	if(typeof name == "string") return __fuelHandler.__getBurnTime(name, damage);
+	if(isJavaClass(name, __itemStack)) return __fuelHandler.getBurnTime(name);
 }
 
 log("Found the core!");

@@ -16,6 +16,7 @@ import javax.script.*;
 import sun.org.mozilla.javascript.internal.*;
 import com.grompe.moreEverything.mEScriptEngine.*;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import com.google.common.io.Resources;
@@ -419,7 +420,9 @@ public class mod_moreEverything
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		logger = event.getModLog();
+        logger = event.getModLog();
+        GameRegistry.registerFuelHandler(new mEFuelHandler());
+
 	}
 	
 	@EventHandler
