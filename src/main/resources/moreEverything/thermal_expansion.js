@@ -89,14 +89,14 @@ var teAddExtractRecipe;
     teAddCrucibleRecipe = function(energy, input, fluid, overwrite){
         if(!energy) throw("teAddCrucibleRecipe: energy must be a number.");
         if(typeof input == "string") {
-            input = input.indexOf(':') ? newItemStack(input) : getOres(input)[0];
+            input = (input.indexOf(':')>0) ? newItemStack(input) : getOres(input)[0];
         } else if(!isJavaClass(input, __itemStack)) {
             throw("teAddPulverizerRecipe: input must be a string or ItemStack");
         }
         if(stringOrNumber(fluid)) {
-            fluid = newFluidStack(input, 1000);
-        } else if(!isJavaClass(input, __fluidStack)) {
-            throw("teAddPulverizerRecipe: input must be a string or FluidStack");
+            fluid = newFluidStack(fluid, 1000);
+        } else if(!isJavaClass(fluid, __fluidStack)) {
+            throw("teAddPulverizerRecipe: fluid must be a string or FluidStack");
         }
         overwrite = !!overwrite;
         teCrafting.CrucibleManager.addRecipe(energy, input, fluid, overwrite);
@@ -106,24 +106,23 @@ var teAddExtractRecipe;
         if(typeof strInput == "string") throw("teAddOreDictCrucibleRecipe: strInput must be a string.");
         amount = amount ? amount : 1;
         if(stringOrNumber(fluid)) {
-            fluid = newFluidStack(input, 1000);
-        } else if(!isJavaClass(input, __fluidStack)) {
+            fluid = newFluidStack(fluid, 1000);
+        } else if(!isJavaClass(fluid, __fluidStack)) {
             throw("teAddOreDictCrucibleRecipe: fluid must be a string or FluidStack");
         }
         teCrafting.CrucibleManager.addOreDictionaryRecipe(energy, strInput, amount, fluid);
     };
-
     teAddSmelterRecipe = function(energy, input1, input2, output, bonus, chance, overwrite){
         if(!energy) throw("teAddSmelterRecipe: energy must be a number.");
         if(typeof input1 == "string") {
             input1 = input1.indexOf(':') ? newItemStack(input1) : getOres(input1)[0];
         } else if(!isJavaClass(input1, __itemStack)) {
-            throw("teAddPulverizerRecipe: input must be a string or ItemStack");
+            throw("teAddPulverizerRecipe: input1 must be a string or ItemStack");
         }
         if(typeof input2 == "string") {
             input2 = input2.indexOf(':') ? newItemStack(input2) : getOres(input2)[0];
         } else if(!isJavaClass(input2, __itemStack)) {
-            throw("teAddPulverizerRecipe: input must be a string or ItemStack");
+            throw("teAddPulverizerRecipe: input2 must be a string or ItemStack");
         }
         if(typeof output == "string") {
             output = output.indexOf(':') ? newItemStack(output) : getOres(output)[0];
@@ -157,8 +156,8 @@ var teAddExtractRecipe;
             throw("teAddFillRecipe: output must be a string or ItemStack");
         }
         if(stringOrNumber(fluid)) {
-            fluid = newFluidStack(input, 1000);
-        } else if(!isJavaClass(input, __fluidStack)) {
+            fluid = newFluidStack(fluid, 1000);
+        } else if(!isJavaClass(fluid, __fluidStack)) {
             throw("teAddFillRecipe: fluid must be a string or FluidStack");
         }
         extract = !!extract;
@@ -179,13 +178,15 @@ var teAddExtractRecipe;
             output = null
         }
         if(stringOrNumber(fluid)) {
-            fluid = newFluidStack(input, 1000);
-        } else if(!isJavaClass(input, __fluidStack)) {
+            fluid = newFluidStack(fluid, 1000);
+        } else if(!isJavaClass(fluid, __fluidStack)) {
             throw("teAddFillRecipe: fluid must be a string or FluidStack");
         }
         fill = !!fill;
         overwrite = !!overwrite;
         teCrafting.TransposerManager.addTEExtractionRecipe(energy, input, output, fluid, chance, fill, overwrite);
     }
+
+    log("Insert Scene From Neon Genesis Evangelion Here");
 
 })();
