@@ -14,7 +14,7 @@ public class mEFuelHandler implements IFuelHandler {
     public static final int WILDCARD = 32767;
 
     @Override
-    public static int getBurnTime(ItemStack stack){
+    public int getBurnTime(ItemStack stack){
         String id = mod_moreEverything.itemGet(stack.getItem());
         int damage = stack.getItemDamage();
         return __getBurnTime(id, damage);
