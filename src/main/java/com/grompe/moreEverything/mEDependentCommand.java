@@ -1,20 +1,15 @@
 package com.grompe.moreEverything;
 
-import com.grompe.moreEverything.ChatMessageHandler;
-import net.minecraft.util.ChatComponentText;
 import javax.script.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.lang.StringBuilder;
 import sun.org.mozilla.javascript.internal.*;
-import com.grompe.moreEverything.mEScriptEngine.*;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.ICommand;
-import com.grompe.moreEverything.mod_moreEverything;
 
 
-// Temporary class till I find how to hook CommandBase
 public class mEDependentCommand extends CommandBase
 {
 	
@@ -58,9 +53,7 @@ public class mEDependentCommand extends CommandBase
 			} else {
 				result = "null";
 			}
-			//mod_moreEverything.log(result);
 			ChatMessageHandler.multiLineCommandSenderReply(caller,("\u00a77>>> "+command+"\n\u00a7r"+result));
-			//inv.invokeFunction("evalCommandEvent", caller, command));
 		}
 		catch(RhinoException e)
 		{

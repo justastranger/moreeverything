@@ -18,12 +18,10 @@ import sun.org.mozilla.javascript.internal.*;
 import com.grompe.moreEverything.mEScriptEngine.*;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import com.google.common.io.Resources;
 import com.google.common.io.Files;
 import com.google.common.io.ByteSource;
-import java.net.URL;
 
 @Mod(modid="mod_moreEverything", name="moreEverything", version=mod_moreEverything.VERSION_TEXT)
 public class mod_moreEverything
@@ -32,7 +30,6 @@ public class mod_moreEverything
     public static final int WILDCARD = 32767;
 	public static Logger logger;
 	public static Map<Item, String> itemMap = new HashMap<Item, String>();
-    protected static Map<String,Integer> fuelMap = new HashMap<String,Integer>();
     protected static File configDir;
     protected static boolean standalone = false;
     protected static boolean loaded = false;
@@ -149,27 +146,6 @@ public class mod_moreEverything
             return standalone;
         }
 
-        public static void __addFuel(String id, int damage, int burnTime)
-        {
-            if (damage == -1) damage = WILDCARD;
-			String index = id + String.valueOf(damage);
-			// Remove a fuel if it already exists, to allow changing the burn time.
-			if(fuelMap.containsKey(index))
-			{
-				fuelMap.remove(index);
-			}
-			
-            fuelMap.put(index, burnTime);
-        }
-
-        public static int __getBurnTime(String id, int damage)
-        {
-            String index = id + String.valueOf(damage);
-            if (fuelMap.containsKey(index)) return fuelMap.get(index);
-            index = id + String.valueOf(WILDCARD);
-            if (fuelMap.containsKey(index)) return fuelMap.get(index);
-            return 0;
-        }
 
         // Java 6 doesn't like to provide these deep-code-digging functions
         // to JavaScript, so have to provide it with the following few helpers
@@ -337,28 +313,6 @@ public class mod_moreEverything
 			log(e.toString());
 			
 		}
-		
-		
-        /* try
-        {
-            InputStream s = mod_moreEverything.class.getResourceAsStream(name);
-            BufferedReader br = new BufferedReader(new InputStreamReader(s));
-            File f = new File(outdir, name);
-            File pf = f.getParentFile();
-            if (pf != null) pf.mkdirs();
-            FileOutputStream fos = new FileOutputStream(f);
-            byte[] buffer = new byte[8192];
-            int bytesRead;
-            while ((bytesRead = s.read(buffer)) != -1) fos.write(buffer, 0, bytesRead);
-            fos.close();
-            br.close();
-            s.close();
-        }
-        catch(IOException e)
-        {
-            log("Error: unable to extract %s.", name);
-            log(e.toString());
-        } */
     }
 
     private static void extractDefaultConfig()

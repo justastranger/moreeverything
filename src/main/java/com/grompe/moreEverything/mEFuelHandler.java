@@ -2,11 +2,11 @@ package com.grompe.moreEverything;
 
 
 import cpw.mods.fml.common.IFuelHandler;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import java.util.HashMap;
 import java.util.Map;
+
 
 public class mEFuelHandler implements IFuelHandler {
 

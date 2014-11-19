@@ -13,7 +13,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
-import java.util.Arrays;
 
 public class ChatMessageHandler {
     public static void iCommandSenderReply(ICommandSender player, String message) {
@@ -28,8 +27,7 @@ public class ChatMessageHandler {
 	}
 	
     public static IChatComponent createChatComponent(String message) {
-        ChatComponentText component = new ChatComponentText(message);
-        return component;
+        return new ChatComponentText(message);
     }
 
     public static void sendChatToPlayer(EntityPlayer player, String message) {
