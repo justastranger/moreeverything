@@ -76,7 +76,7 @@ var eioAddVatRecipe;
         } else {
             if(!isJavaClass(output, __eioRecipeOutput)) output = eioNewRecipeOutput(output);
         }
-        return new __eioRecipe(input, energy, output);
+        return new __eioRecipe(input, output, energy);
     };
 
     eioAddCrusherRecipe = function(recipe, energy, output){
