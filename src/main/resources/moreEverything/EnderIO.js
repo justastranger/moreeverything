@@ -64,10 +64,10 @@ var eioAddVatRecipe;
         if(typeof energy != "number") throw("eioNewRecipe: energy must be a number.");
         if(input instanceof Array){
             for(var i = 0; i < input.length; i++){
-                if(!isJavaClass(input[i], __eioRecipeInput)) input[i] = __eioRecipeInput(input[i]);
+                if(!isJavaClass(input[i], __eioRecipeInput)) input[i] = eioNewRecipeInput(input[i]);
             }
         } else {
-            if(!isJavaClass(input, __eioRecipeInput)) input = __eioRecipeInput(input);
+            if(!isJavaClass(input, __eioRecipeInput)) input = eioNewRecipeInput(input);
         }
         if(output instanceof Array){
             for(var i = 0; i < output.length; i++){
