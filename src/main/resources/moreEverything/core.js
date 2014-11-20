@@ -20,6 +20,7 @@ var logLevel = {debug: 0, info: 1, warning: 2, error: 3};
 var __fml = Packages.cpw.mods.fml;
 var __forge = Packages.net.minecraftforge;
 var __mE = Packages.com.grompe.moreEverything.mod_moreEverything;
+var modID = "mod_moreEverything";
 var __fuelHandler = Packages.com.grompe.moreEverything.mEFuelHandler;
 
 // var hasForge = !isEmpty(__fml.common.registry.GameRegistry); // We are kind of assuming that we have using Forge...
@@ -284,7 +285,7 @@ function addShapedRecipe(stack, arr) {
 
 function addFuel(burnTime, id, damage) {
   if (isNaN(burnTime)||(burnTime <= 0)) throw("addFuel: burnTime argument must be a number greater than 0.");
-  if (typeof id == "String" && !id.indexOf(':')) throw("addFuel: id must be an item name, such as 'minecraft:dirt'");
+  if (typeof id == "String" && !id.indexOf(":")>0) throw("addFuel: id must be an item name, such as 'minecraft:dirt'");
   if (typeof damage == "undefined") damage = 32767; // Java program always uses 32767 as wildcard
   __fuelHandler.__addFuel(id, damage, burnTime);
   var logitem = (damage != 32767) ? (id + ":" + damage) : id;
@@ -297,5 +298,15 @@ function getFuel(name, damage) {
 	if(typeof name == "string") return __fuelHandler.__getBurnTime(name, damage);
 	if(isJavaClass(name, __itemStack)) return __fuelHandler.getBurnTime(name);
 }
+
+function sendIMCMessage(target, key, value){
+	if (typeof target != "string") throw("sendIMCMessage: target must be a string");
+	if (!__fml.common.FMLCommonHandler.findContainerFor(target)) throw("sendIMCMessage: target must the mod ID of an installed mod.");
+	if (typeof key != "string") throw("sendIMCMessage: key must be a string");
+	if (typeof value != "string") throw("sendIMCMessage: value must be a string");
+
+	__fml.common.event.FMLInterModComms.sendRuntimeMessage(modID, modID, target, key, value);
+}
+
 
 log("Found the core!");

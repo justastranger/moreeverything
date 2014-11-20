@@ -23,13 +23,13 @@ var removeAlchemyRecipe;
 		}
 		if (recipe instanceof Array) {
 			for (var i = 0; i<recipe.length; i++) {
-				if (typeof recipe[i] == "string" && recipe[i].indexOf(':')) {
+				if (typeof recipe[i] == "string" && recipe[i].indexOf(':')>0) {
 					recipe[i] = newItemStack(recipe[i]);
 				}
 			}
 		}
 		if (typeof recipe == "string") {
-			if (recipe.indexOf(':')) {
+			if (recipe.indexOf(':')>0) {
 				recipe = newItemStack(recipe);
 			}
 			recipe = [recipe]
@@ -43,13 +43,13 @@ var removeAlchemyRecipe;
 		}
 		if (recipe instanceof Array) {
 			for (var i = 0; i<recipe.length; i++) {
-				if (typeof recipe[i] == "string" && recipe[i].indexOf(':')) {
+				if (typeof recipe[i] == "string" && recipe[i].indexOf(':')>0) {
 					recipe[i] = newItemStack(recipe[i]);
 				}
 			}
 		}
 		if (typeof recipe == "string") {
-			if (recipe.indexOf(':')) {
+			if (recipe.indexOf(':')>0) {
 				recipe = newItemStack(recipe);
 			}
 			recipe = [recipe]
@@ -119,7 +119,7 @@ var removeAlchemyRecipe;
 	
 	addAlchemyRecipe = function(output, lpRequired, recipe, bloodOrbLevel) {
 		if (typeof output == "string") {
-			if (output.indexOf(':')){
+			if (output.indexOf(':')>0){
 				output = newItemStack(output);
 			} else {
 				output = getOres(output)[0];
@@ -128,14 +128,14 @@ var removeAlchemyRecipe;
 		if (recipe instanceof Array) {
 			for (var i = 0; i<recipe.length; i++) {
 				if (typeof recipe[i] == "string") {
-					if (recipe[i].indexOf(':')) {
+					if (recipe[i].indexOf(':')>0) {
 						recipe[i] = newItemStack(recipe[i]);
 					}
 				}
 			}
 		}
 		if (typeof recipe == "string") {
-			if (recipe.indexOf(':')) {
+			if (recipe.indexOf(':')>0) {
 				recipe = newItemStack(recipe);
 			}
 			recipe = [recipe]
@@ -146,7 +146,7 @@ var removeAlchemyRecipe;
 
 	removeAlchemyRecipe = function(output){
 		if (typeof output == "string") {
-			if (output.indexOf(':')){
+			if (output.indexOf(':')>0){
 				output = newItemStack(output);
 			} else {
 				output = getOres(output)[0];
@@ -163,7 +163,7 @@ var removeAlchemyRecipe;
 			}
 		}
 		return false;
-	}
+	};
 
 	log("Blood for the blood god!")
 

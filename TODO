@@ -1,6 +1,5 @@
 Easy
 ====
-- Make an actual fuel handler in Java instead of the pseudo-class in core.js, maybe this'll fix NEI not recognizing the fuel handler.
 - Tinkers Construct support.
 
 
