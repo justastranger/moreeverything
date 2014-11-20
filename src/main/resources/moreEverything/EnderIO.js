@@ -23,6 +23,7 @@ var eioAddVatRecipe;
                 if (stack.indexOf(":") > 0) stack = newItemStack(stack);
                 else stack = getOres(stack)[0];
             } else {
+                if(isJavaClass(stack, __fluidStack)) return eioNewRecipeOutputFluid(stack);
                 throw("newRecipeOutput: stack should be an ItemStack or string, it was a " + stack.getClass());
             }
         }
@@ -45,6 +46,7 @@ var eioAddVatRecipe;
                 if (stack.indexOf(":") > 0) stack = newItemStack(stack);
                 else stack = getOres(stack)[0];
             } else {
+                if(isJavaClass(stack, __fluidStack)) return eioNewRecipeInputFluid(stack);
                 throw("newRecipeOutput: stack should be an ItemStack or string, it was a " + stack.getClass());
             }
         }
