@@ -21,7 +21,8 @@ var eioAddVatRecipe;
         if(!isJavaClass(stack, __itemStack)){
             if(typeof stack == "string") {
                 if (stack.indexOf(":") > 0) stack = newItemStack(stack);
-                else stack = getOres(stack)[0];
+                else if (getOres(stack) != "") stack = getOres(stack)[0];
+                else return eioNewRecipeOutputFluid(stack);
             } else {
                 if(isJavaClass(stack, __fluidStack)) return eioNewRecipeOutputFluid(stack);
                 throw("newRecipeOutput: stack should be an ItemStack or string, it was a " + stack.getClass());
@@ -44,7 +45,8 @@ var eioAddVatRecipe;
         if(!isJavaClass(stack, __itemStack)){
             if(typeof stack == "string"){
                 if (stack.indexOf(":") > 0) stack = newItemStack(stack);
-                else stack = getOres(stack)[0];
+                else if (getOres(stack) != "") stack = getOres(stack)[0];
+                else return eioNewRecipeInputFluid(newFluidStack(stack, 1000));
             } else {
                 if(isJavaClass(stack, __fluidStack)) return eioNewRecipeInputFluid(stack);
                 throw("newRecipeOutput: stack should be an ItemStack or string, it was a " + stack.getClass());
@@ -76,6 +78,8 @@ var eioAddVatRecipe;
         } else {
             if(!isJavaClass(output, __eioRecipeOutput)) output = eioNewRecipeOutput(output);
         }
+        output = javaArray(__eioRecipeOutput, output);
+        input = javaArray(__eioRecipeInput, input);
         return new __eioRecipe(input, output, energy);
     };
 
