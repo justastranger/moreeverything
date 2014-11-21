@@ -18,6 +18,7 @@ var eioAddVatRecipe;
 
 (function(){
     eioNewRecipeOutput = function(stack, chance){
+        if(isJavaClass(stack, __eioRecipeOutput)) return stack;
         if(!isJavaClass(stack, __itemStack)){
             if(typeof stack == "string") {
                 if (stack.indexOf(":") > 0) stack = newItemStack(stack);
@@ -29,11 +30,12 @@ var eioAddVatRecipe;
             }
         }
         if (typeof chance == "undefined") chance = 1;
-        if (chance>1 || chance < 0) chance = 1;
+        if (chance >1 || chance < 0) chance = 1;
         return new __eioRecipeOutput(stack, chance);
     };
 
     eioNewRecipeOutputFluid = function(fluidStack){
+        if(isJavaClass(fluidStack, __eioRecipeOutput)) return stack;
         if(!isJavaClass(fluidStack, __fluidStack)){
             if(stringOrNumber(fluidStack)) fluidStack = newFluidStack(fluidStack, 1000);
             else throw("newRecipeInputFluid: fluidStack must be a FluidStack, a string, or a number, it was a " + fluidStack.getClass());
@@ -41,7 +43,8 @@ var eioAddVatRecipe;
         return new __eioRecipeOutput(fluidStack);
     };
 
-    eioNewRecipeInput = function(stack, useMeta){
+    eioNewRecipeInput = function(stack, useMeta, multiplier, slot){
+        if(isJavaClass(stack, __eioRecipeOutput)) return stack;
         if(!isJavaClass(stack, __itemStack)){
             if(typeof stack == "string"){
                 if (stack.indexOf(":") > 0) stack = newItemStack(stack);
@@ -52,10 +55,13 @@ var eioAddVatRecipe;
                 throw("newRecipeOutput: stack should be an ItemStack or string, it was a " + stack.getClass());
             }
         }
+        if(isNaN(slot)) slot = -1;
+        if (multiplier < 0 || typeof multiplier != "number") multiplier = 1;
         useMeta = !!useMeta;
-        return new __eioRecipeInput(stack, useMeta);
+        return new __eioRecipeInput(stack, useMeta, multiplier, slot);
     };
     eioNewRecipeInputFluid = function(fluidStack){
+        if(isJavaClass(fluidStack, __eioRecipeOutput)) return stack;
         if(!isJavaClass(fluidStack, __fluidStack)){
             if(stringOrNumber(fluidStack)) fluidStack = newFluidStack(fluidStack, 1000);
             else throw("newRecipeInputFluid: fluidStack must be a FluidStack, a string, or a number, it was a " + fluidStack.getClass());
@@ -64,6 +70,7 @@ var eioAddVatRecipe;
     };
     eioNewRecipe = function(input, energy, output){
         if(typeof energy != "number") throw("eioNewRecipe: energy must be a number.");
+
         if(input instanceof Array){
             for(var i = 0; i < input.length; i++){
                 if(!isJavaClass(input[i], __eioRecipeInput)) input[i] = eioNewRecipeInput(input[i]);
@@ -93,9 +100,37 @@ var eioAddVatRecipe;
         __eIO.machine.alloy.AlloyRecipeManager.getInstance().addRecipe(recipe);
     };
 
-    eioAddVatRecipe = function(recipe, energy, output){
+    /*eioAddVatRecipe = function(recipe, energy, output){
+        // Recipes need two different kinds of RecipeInputs, one for each item slot.
         if(!isJavaClass(recipe, __eioRecipe)) recipe = eioNewRecipe(recipe, energy, output);
         __eIO.machine.still.VatRecipeManager.getInstance().addRecipe(recipe);
-    };
+    };*/
+
+    eioAddVatRecipe = function(energy, fluidIn, arrSlot1, arrSlot2, fluidOut){
+        if(typeof energy != "number") throw("eioAddVatRecipe: energy must be a number!");
+        if(!isJavaClass(fluidIn, __fluidStack)){
+            if (stringOrNumber(fluidIn)) fluidIn = newFluidStack(fluidIn);
+        }
+        if(!isJavaClass(fluidIn, __eioRecipeInput))fluidIn = eioNewRecipeInputFluid(fluidIn);
+        if(!isJavaClass(fluidOut, __eioRecipeInput))fluidOut = eioNewRecipeOutputFluid(fluidOut);
+        if(arrSlot1 instanceof Array){
+            for(var i = 0; i < arrSlot1.length; i++){
+                if(!isJavaClass(arrSlot1[i], __eioRecipeInput)) arrSlot1[i] = eioNewRecipeInput(arrSlot1[i], null, null, 0);
+            }
+        }
+        if(arrSlot2 instanceof Array){
+            for(var i = 0; i < arrSlot2.length; i++){
+                if(!isJavaClass(arrSlot2[i], __eioRecipeInput)) arrSlot2[i] = eioNewRecipeInput(arrSlot2[i], null, null, 1);
+            }
+        }
+        var input = arrSlot1.concat(fluidIn).concat(arrSlot2);
+        var output = javaArray(__eioRecipeOutput, fluidOut);
+        input = javaArray(__eioRecipeInput, input);
+        var recipe =  __eioRecipe(input, output, energy);
+        // var recipe = eioNewRecipe(input, energy, fluidOut);
+        __eIO.machine.still.VatRecipeManager.getInstance().addRecipe(recipe);
+    }
+
+
 
 })();

@@ -99,8 +99,13 @@ function lowerCase(s) {
 }
 
 function javaArray(arrtype, arr) {
-	var j = java.lang.reflect.Array.newInstance(arrtype, arr.length);
-	for (var i = 0; i < arr.length; i++) j.[i] = arr[i];
+	if (arr instanceof Array) {
+		var j = java.lang.reflect.Array.newInstance(arrtype, arr.length);
+		for (var i = 0; i < arr.length; i++) j[i] = arr[i];
+	} else {
+		var j = java.lang.reflect.Array.newInstance(arrtype, 1);
+		j[0] = arr;
+	}
 	return j;
 }
 
