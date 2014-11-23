@@ -2,6 +2,8 @@
 // By justastranger
 // Written with EnderIO 2.2.1.276 for 1.7.10
 
+// Do note that this is currently VERY WIP, don't touch unless you plan on contributing on github.
+
 var __eIO = Packages.crazypants.enderio;
 var __eioRecipeInput = __eIO.machine.recipe.RecipeInput;
 var __eioRecipeOutput = __eIO.machine.recipe.RecipeOutput;
@@ -55,7 +57,7 @@ var eioAddVatRecipe;
                 throw("newRecipeOutput: stack should be an ItemStack or string, it was a " + stack.getClass());
             }
         }
-        if(isNaN(slot)) slot = -1;
+        if(typeof slot != "number") slot = -1;
         if (multiplier < 0 || typeof multiplier != "number") multiplier = 1;
         useMeta = !!useMeta;
         return new __eioRecipeInput(stack, useMeta, multiplier, slot);
