@@ -2,12 +2,11 @@
 // By justastranger
 // Written with EnderIO 2.2.1.276 for 1.7.10
 
-// Do note that this is currently VERY WIP, don't touch unless you plan on contributing on github.
-
 var __eIO = Packages.crazypants.enderio;
 var __eioRecipeInput = __eIO.machine.recipe.RecipeInput;
 var __eioRecipeOutput = __eIO.machine.recipe.RecipeOutput;
 var __eioRecipe =  __eIO.machine.recipe.Recipe;
+var __eioManyToOneRecipe = __eIO.machine.recipe.BasicManyToOneRecipe;
 
 var eioNewRecipeOutput;
 var eioNewRecipeOutputFluid;
@@ -92,24 +91,41 @@ var eioAddVatRecipe;
         return new __eioRecipe(input, output, energy);
     };
 
-    eioAddCrusherRecipe = function(recipe, energy, output){
-        if(!isJavaClass(recipe, __eioRecipe)) recipe = eioNewRecipe(recipe, energy, output);
+    /*
+    *   energy - number, Crusher runs at 20RF/t by default
+    *   input - An item name, ore dictionary name, ItemStack, or RecipeInput
+    *   output - An item name, ore dictionary name, ItemStack, or RecipeOutput
+    * */
+
+    eioAddCrusherRecipe = function(energy, input, output){
+        if(typeof energy != "number") throw("eioAddCrusherRecipe: energy must be a number.")
+        var recipe = eioNewRecipe(input, energy, output);
         __eIO.machine.crusher.CrusherRecipeManager.getInstance().addRecipe(recipe);
     };
 
-    eioAddAlloyRecipe = function(recipe, energy, output){
-        if(!isJavaClass(recipe, __eioRecipe)) recipe = eioNewRecipe(recipe, energy, output);
+    /*
+    *   energy - number, Alloy Furnace runs at 20RF/t by default,
+    *   inputs - an array of item names, ore dictionary names, ItemStacks, or RecipeInputs
+    *   output - An item name, ore dictionary name, ItemStack, or RecipeOutput
+    * */
+
+    eioAddAlloyRecipe = function (energy, inputs, output){
+        if(typeof energy != "number") throw("eioAddAlloyRecipe: energy must be a number.")
+        var recipe = new __eioManyToOneRecipe(eioNewRecipe(inputs, energy, output));
         __eIO.machine.alloy.AlloyRecipeManager.getInstance().addRecipe(recipe);
     };
 
-    /*eioAddVatRecipe = function(recipe, energy, output){
-        // Recipes need two different kinds of RecipeInputs, one for each item slot.
-        if(!isJavaClass(recipe, __eioRecipe)) recipe = eioNewRecipe(recipe, energy, output);
-        __eIO.machine.still.VatRecipeManager.getInstance().addRecipe(recipe);
-    };*/
+
+    /*
+    *   energy - number, Vat runs at a max of 20 RF/t, so energy/400=time in seconds
+    *   fluidIn - FluidStack, name of fluid, fluid ID, or RecipeInput
+    *   arrSlot1 - An array of item names, ore dictionary names, ItemStacks, or RecipeInputs
+    *   arrSlot2 - An array of item names, ore dictionary names, ItemStacks, or RecipeInputs
+    *   fluidOut - FluidStack, name of fluid, fluid ID, or RecipeOutput
+    * */
 
     eioAddVatRecipe = function(energy, fluidIn, arrSlot1, arrSlot2, fluidOut){
-        if(typeof energy != "number") throw("eioAddVatRecipe: energy must be a number!");
+        if(typeof energy != "number") throw("eioAddVatRecipe: energy must be a number.");
         if(!isJavaClass(fluidIn, __fluidStack)){
             if (stringOrNumber(fluidIn)) fluidIn = newFluidStack(fluidIn);
         }
@@ -129,10 +145,15 @@ var eioAddVatRecipe;
         var output = javaArray(__eioRecipeOutput, fluidOut);
         input = javaArray(__eioRecipeInput, input);
         var recipe =  new __eioRecipe(input, output, energy);
-        // var recipe = eioNewRecipe(input, energy, fluidOut);
-        __eIO.machine.still.VatRecipeManager.getInstance().addRecipe(recipe);
-    }
+        try {
+            __eIO.machine.still.VatRecipeManager.getInstance().addRecipe(recipe);
+            return true
+        } catch (e) {
+            log(e);
+            return false
+        }
+    };
 
-
+    log("Thinking otuside the block.")
 
 })();

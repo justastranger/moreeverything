@@ -430,6 +430,6 @@ var ic2RIFC;
 	ic2RIFC = ic2RecipeInputFluidContainer;
 	
 	
-	log("Crafting industriously!")
+	log("HAYO!")
 	
 })();

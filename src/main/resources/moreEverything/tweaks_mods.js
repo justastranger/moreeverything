@@ -398,6 +398,6 @@
 		addFuel(300, "BuildCraft|Core:woodenGearItem");
 	}
 	
-	log("Tweaked some mods.");
+	log("Forcing my play-style on you.");
 	
 })();

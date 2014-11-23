@@ -95,5 +95,5 @@ var bcAddCoolant;
 	};
 	// Not going to bother with the Integration Table...
 
-	log("Building and Crafting.");
+	log("Leaving massive holes in public servers since 2011");
 })();

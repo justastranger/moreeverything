@@ -189,6 +189,6 @@ var teAddExtractRecipe;
         teCrafting.TransposerManager.addTEExtractionRecipe(energy, input, output, fluid, chance, fill, overwrite);
     }
 
-    log("Thermal expansion...how embarrassing.");
+    log("Thermal expansion... how embarrassing.");
 
 })();

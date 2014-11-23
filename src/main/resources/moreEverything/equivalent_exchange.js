@@ -98,6 +98,6 @@ var QaddTransmutation1to1;
 
 	// EMC values: http://technicpack.wikia.com/wiki/Alchemical_Math
 
-	log("Did some alchemy! Oh good, I still have my leg!");
+	log("Oh hey, I still have my legs.");
 	
 })();

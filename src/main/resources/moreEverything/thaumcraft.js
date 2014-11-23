@@ -129,6 +129,6 @@ var newAspect;
 		return result;
 	}
 
-	log("Performed some miracles...");
+	log("Thaumium is underrated.");
  
 })();
