@@ -128,7 +128,7 @@ var eioAddVatRecipe;
         var input = arrSlot1.concat(fluidIn).concat(arrSlot2);
         var output = javaArray(__eioRecipeOutput, fluidOut);
         input = javaArray(__eioRecipeInput, input);
-        var recipe =  __eioRecipe(input, output, energy);
+        var recipe =  new __eioRecipe(input, output, energy);
         // var recipe = eioNewRecipe(input, energy, fluidOut);
         __eIO.machine.still.VatRecipeManager.getInstance().addRecipe(recipe);
     }
