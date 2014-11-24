@@ -87,7 +87,7 @@ function isEmpty(obj) {
 }
 
 function isJavaClass(thing, cls) {
-	return (typeof thing.getClass != "undefined") && (thing.getClass() == cls);
+	return (typeof thing != "undefined") && (typeof thing.getClass != "undefined") && (thing.getClass() == cls);
 }
 
 function chr(s) {
@@ -304,6 +304,7 @@ function getFuel(name, damage) {
 	if(isJavaClass(name, __itemStack)) return __fuelHandler.getBurnTime(name);
 }
 
+// I was hoping that I would use this somewhere... oh well...
 function sendIMCMessage(target, key, value){
 	if (typeof target != "string") throw("sendIMCMessage: target must be a string");
 	if (!__fml.common.FMLCommonHandler.findContainerFor(target)) throw("sendIMCMessage: target must the mod ID of an installed mod.");
