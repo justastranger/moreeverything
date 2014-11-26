@@ -9,7 +9,10 @@ var forestryAddCentrifugeRecipe;
 var forestryAddFermenterRecipe;
 var forestryAddMoistenerRecipe;
 var forestryAddSqueezerRecipe;
-
+var forestryAddStillRecipe;
+var forestryAddFabricatorRecipe;
+var forestryAddFabricatorCastRecipe;
+var forestryAddFabricatorMeltingRecipe;
 
 (function(){
 
@@ -33,9 +36,7 @@ var forestryAddSqueezerRecipe;
                 output = getOres(output)[0];
             }
         }
-        if(!(recipe instanceof Array)){
-            throw("forestryAddCarpenterRecipe: recipe is invalid, it must be an Array.");
-        }
+        if(!recipe instanceof Array) throw("forestryAddCarpenterRecipe: recipe is invalid, it must be an Array.");
         try {
             forestryRecipeManagers.carpenterManager.addRecipe(timePerItem, liquid, box, output, recipe);
             return true;
@@ -126,6 +127,13 @@ var forestryAddSqueezerRecipe;
         forestryRecipeManagers.moistenerManager.addRecipe(input, output, timePerItem);
     };
 
+    /*
+    *   timePerItem - number
+    *   resources - Array of ItemStacks, item names, ore dictionary names
+    *   liquid - FluidStack, fluid name, fluid ID
+    *   remnants - ItemStack, item name, ore dictionary name
+    *   chance - number
+    * */
     forestryAddSqueezerRecipe = function(timePerItem, resources, liquid, remnants, chance){
         if(typeof timePerItem != "number" || timePerItem < 0) throw("forestryAddSqueezerRecipe: timePerItem must be a positive number.");
         if(!resources instanceof Array){
@@ -155,5 +163,78 @@ var forestryAddSqueezerRecipe;
         forestryRecipeManagers.squeezerManager.addRecipe(timePerItem, resources, liquid, remnants, chance);
     }
 
+    /*
+    *   timePerUnit - number
+    *   input - FluidStack, fluid name, fluid ID
+    *   output - FluidStack, fluid name, fluid ID
+    * */
+    forestryAddStillRecipe = function(timePerUnit, input, output){
+        if(typeof timePerUnit!= "number") throw("");
+        if(stringOrNumber(input)) input = newFluidStack(input);
+        if(stringOrNumber(output)) output = newFluidStack(output);
+        forestryRecipeManagers.stillManager.addRecipe(timePerUnit, input, output);
+    }
+
+    /*
+    *   molten - FluidStack, fluid name, fluid ID - input liquid, typically glass, but the potential is endless
+    *   result - ItemStack, item name, ore dictionary name - output
+    *   pattern - Shaped Recipe-esque array
+    * */
+    forestryAddFabricatorRecipe = function(molten, result, pattern){
+        if(stringOrNumber(molten)) molten = newFluidStack(molten);
+        if (typeof result == "string") {
+            if (result.indexOf(':')>0){
+                result = newItemStack(result);
+            } else {
+                result = getOres(result)[0];
+            }
+        }
+        if(!pattern instanceof Array) throw("forestryAddFabricatorRecipe: pattern must be an Array.")
+        forestryRecipeManagers.fabricatorManager.addRecipe(null, molten, result, pattern);
+    }
+
+    /*
+    *   cast - ItemStack, item name, ore dictionary name - Don't these usually have damage values?
+    *   molten - Same as forestryAddFabricatorRecipe
+    *   result - Same as forestryAddFabricatorRecipe
+    *   pattern - Same as forestryAddFabricatorRecipe
+    * */
+    forestryAddFabricatorCastRecipe = function(cast, molten, result, pattern){
+        if (typeof cast == "string") {
+            if (cast.indexOf(':')>0){
+                cast = newItemStack(cast);
+            } else {
+                cast = getOres(cast)[0];
+            }
+        }
+        if(stringOrNumber(molten)) molten = newFluidStack(molten);
+        if (typeof result == "string") {
+            if (result.indexOf(':')>0){
+                result = newItemStack(result);
+            } else {
+                result = getOres(result)[0];
+            }
+        }
+        if(!pattern instanceof Array) throw("forestryAddFabricatorRecipe: pattern must be an Array.");
+        forestryRecipeManagers.fabricatorManager.addRecipe(cast, molten, result, pattern);
+    }
+
+    /*
+    *   input - ItemStack, item name, ore dictionary name
+    *   fluidOut - FluidStack, fluid name, fluid ID
+    *   meltingPoint - number
+    * */
+    forestryAddFabricatorMeltingRecipe = function(input, fluidOut, meltingPoint){
+        if(typeof meltingPoint != "number" || meltingPoint <= 0) throw("forestryAddFabricatorMeltingRecipe: meltingPoint must be a number above 0.");
+        if (typeof input == "string") {
+            if (input.indexOf(':')>0){
+                input = newItemStack(input);
+            } else {
+                input = getOres(input)[0];
+            }
+        }
+        if(stringOrNumber(fluidOut)) fluidOut = newFluidStack(fluidOut);
+        forestryRecipeManagers.fabricatorManager.addSmelting(input, fluidOut, meltingPoint);
+    }
 
 })();
