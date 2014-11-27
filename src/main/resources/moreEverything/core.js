@@ -91,7 +91,7 @@ function isJavaClass(thing, cls) {
 }
 
 function chr(s) {
-	return new java.lang.Character(java.lang.String(s).charAt(0));
+	return java.lang.Character.valueOf(s);
 }
 
 function lowerCase(s) {

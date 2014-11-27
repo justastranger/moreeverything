@@ -4,7 +4,7 @@
 
 // EE3 seems to have done away with actual transmutation, so these features may be dropped.
 
-var EE3Enabled = true
+var EE3Enabled = false
 
 var addTransmutation;
 var addTransmutation1to1;

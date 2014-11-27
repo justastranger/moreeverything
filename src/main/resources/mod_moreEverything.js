@@ -63,7 +63,11 @@ function IncludeInternal(filename) { return __api.__includeInternal(filename); }
 
 function test() {
 	try{Include("moreEverything/test.js");}
-	catch(e){throw("You need to create a test.js file within the moreEverything folder located in the config folder.")}
+	catch(e){
+		log(e)
+		if(e.toString().indexOf("not found") > 0)throw("You need to create a test.js file within the moreEverything folder located in the config folder.")
+		throw(e);
+	}
 }
 
 var defaultScripts = [
@@ -74,7 +78,7 @@ var defaultScripts = [
 	"moreEverything/thermal_expansion.js",
 	"moreEverything/EnderIO.js",
 	"moreEverything/defs.js",
-	//"moreEverything/equivalent_exchange.js",
+	"moreEverything/equivalent_exchange.js",
 	"moreEverything/thaumcraft.js",
 	"moreEverything/tweaks_vanilla.js",
 	"moreEverything/tweaks_mods.js",
