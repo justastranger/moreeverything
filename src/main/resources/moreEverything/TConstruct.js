@@ -10,6 +10,7 @@ var tconAddBasinCastingRecipe;
 var tconAddAlloyMixingRecipe;
 var tconAddDryingRecipe;
 var tconAddSmelteryFuel;
+var tconAddMeltingRecipe;
 
 (function(){
 
@@ -120,4 +121,23 @@ var tconAddSmelteryFuel;
 		TConCrafting.Smeltery.addSmelteryFuel(fluid, power, duration);
 	}
 
+	// I will probably just use stone for the placeholder
+	tconAddMeltingRecipe = function(input, block, meta, temp, fluid){
+		if (typeof input == "string"){
+			if (input.indexOf(':') > 0){
+				input = newItemStack(input);
+			} else {
+				input = getOres(input)[0];
+			}
+		}
+		if(typeof block == "undefined"){
+			block = !!net.minecraft.block.Block.func_149634_a(input.func_77973_b()) ? net.minecraft.block.Block.func_149634_a(input.func_77973_b()) : net.minecraft.block.Block.func_149634_a(newItemStack(item.stone).func_77973_b());
+			meta = !!net.minecraft.block.Block.func_149634_a(input.func_77973_b()) ? input.func_77960_j() : 0;
+		}
+		meta = meta ? meta : 0;
+		if(typeof temp != "number") throw("tconAddMeltingRecipe: temp must be a number.");
+		if(stringOrNumber(fluid)) fluid = newFluidStack(fluid);
+		TConCrafting.Smeltery.addMelting(input, block, meta, temp, fluid);
+	}
+	
 })();
