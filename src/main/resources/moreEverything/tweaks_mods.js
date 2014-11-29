@@ -392,6 +392,37 @@
 		// Bug: burns forever for some reason
 		//addFuel(300, m.woodPattern);
 		addFuel(160, "TConstruct:materials", 0); // Paper stack
+		if (modList.ThermalExpansion && optionalFeature.tinkers_te_crucible_melting){
+			function s(string){
+				if(getOres("ingot"+string)) teAddOreDictCrucibleRecipe(5000, "ingot"+string, 1, newFluidStack(lowerCase(string)+".molten", 144));
+				if(getOres("dust"+string)) teAddOreDictCrucibleRecipe(5000, "dust"+string, 1, newFluidStack(lowerCase(string)+".molten", 144));
+				if(getOres("ore"+string)) teAddOreDictCrucibleRecipe(5000, "ore"+string, 1, newFluidStack(lowerCase(string)+".molten", 288));
+				if(getOres("nugget"+string)) teAddOreDictCrucibleRecipe(5000, "nugget"+string, 1, newFluidStack(lowerCase(string)+".molten", 16));
+			}
+			s("Iron");
+			s("Gold");
+			s("Copper");
+			s("Tin");
+			s("Cobalt");
+			s("Ardite");
+			s("Lead");
+			s("Silver");
+			s("Aluminum");
+			s("Bronze");
+			s("Bronze");
+			s("AluminumBrass");
+			s("Manyullyn");
+			s("Alumite");
+			s("Steel");
+			s("obsidian");
+			s("Nickel");
+			s("Platinum");
+			s("Invar");
+			s("Electrum");
+			s("PigIron");
+			teAddOreDictCrucibleRecipe(5000, "sand", 1, newFluidStack("glass.molten"));
+			teAddOreDictCrucibleRecipe(5000, "glass", 1, newFluidStack("glass.molten"));
+		}
 	}
 
 	if (modList["BuildCraft|Core"]) {

@@ -6,12 +6,21 @@ And scripts:
 https://github.com/grompe/moreeverything/tree/master/mod_moreEverything/moreEverything
 */
 
+
+// 1 = enable
+// 0 = disable
+
 var optionalFeature = {
+	// Enabled by default
 	more_vanilla_fuel: 1,
 	wool_bleaching: 1,
 	hayblock_uncrafting: 1,
 	mod_tweaks: 1,
-	/* ee_vanilla_transmutations: 1,
+	thaumcraft_vanilla_aspects: 1,
+	thaumcraft_mod_aspects: 1,
+	tinkers_te_crucible_melting: 1,
+	// This block contains deprecated features, since EE3 seems to be dropping crafting-table transmutations
+	/*ee_vanilla_transmutations: 1,
 	ee_vanilla_uncrafting: 1,
 	ee_stairs_slabs_walls_uncrafting: 1,
 	ee_ore_transmutations: 1,
@@ -20,46 +29,20 @@ var optionalFeature = {
 	ee_underground_biomes_transmutations: 1,
 	ee_biome_mods_transmutations: 1,
 	ee_minefantasy_transmutations: 1,
-	ee_tinkersconstruct_transmutations: 1, */
-	thaumcraft_vanilla_aspects: 1,
-	thaumcraft_mod_aspects: 1,
+	ee_tinkersconstruct_transmutations: 1,*/
 
+	// Disabled by default
 	rotten_flesh_to_leather: 0,
 	stack_more: 0
 };
 
 // Uncomment for debugging; valid logLevels are debug, info, warning, error
-//currentLogLevel = logLevel.debug;
-
-// Uncomment to disable default features
-// optionalFeature.more_vanilla_fuel = 0;
-// optionalFeature.wool_bleaching = 0;
-// optionalFeature.hayblock_uncrafting = 0;
-// optionalFeature.mod_tweaks = 0;
-// optionalFeature.ee_vanilla_transmutations = 0;
-// optionalFeature.ee_vanilla_uncrafting = 0;
-// optionalFeature.ee_stairs_slabs_walls_uncrafting = 0;
-// optionalFeature.ee_ore_transmutations = 0;
-// optionalFeature.ee_thaumcraft_transmutations = 0;
-// optionalFeature.ee_natura_transmutations = 0;
-// optionalFeature.ee_underground_biomes_transmutations = 0;
-// optionalFeature.ee_biome_mods_transmutations = 0;
-// optionalFeature.ee_minefantasy_transmutations = 0;
-// optionalFeature.ee_tinkersconstruct_transmutations = 0;
-// optionalFeature.thaumcraft_vanilla_aspects = 0;
-// optionalFeature.thaumcraft_mod_aspects = 0;
-
-// Uncomment to enable optional features
-// optionalFeature.rotten_flesh_to_leather = 1;
-//optionalFeature.stack_more = 1;
-
-// Remove "Internal" word if you want the scripts to be extracted for you to modify
-// If you do extract default scripts, you'll have to update (delete) them manually
-// Actually, better look inside the mod .zip file for a reference and add your own code in this file below
-// for (i in defaultScripts) IncludeInternal(defaultScripts[i]);
+// currentLogLevel = logLevel.debug;
 
 function Include(filename) { return __api.__include(filename); }
 function IncludeInternal(filename) { return __api.__includeInternal(filename); }
+// Ease-of-use function - Example: IncludeJS("forestry") or IncludeJS("EnderIO")
+function IncludeJS(filename) { Include("moreEverything/"+filename+".js"); }
 
 function test() {
 	try{Include("moreEverything/test.js");}
@@ -70,6 +53,8 @@ function test() {
 	}
 }
 
+
+
 var defaultScripts = [
 	"moreEverything/core.js",
 	"moreEverything/ic2.js",
@@ -77,6 +62,7 @@ var defaultScripts = [
 	"moreEverything/blood_magic.js",
 	"moreEverything/thermal_expansion.js",
 	"moreEverything/EnderIO.js",
+	"moreEverything/forestry.js",
 	"moreEverything/defs.js",
 	"moreEverything/equivalent_exchange.js",
 	"moreEverything/thaumcraft.js",
@@ -85,6 +71,9 @@ var defaultScripts = [
 	"moreEverything/optional.js"
 ];
 
+// Remove "Internal" word if you want the scripts to be extracted for you to modify
+// If you do extract default scripts, you'll have to update (delete) them manually
+// Actually, better look inside the mod .zip file for a reference and add your own code in this file below
 // for (i in defaultScripts) IncludeInternal(defaultScripts[i]);
 for (var i in defaultScripts) Include(defaultScripts[i]);
 	
