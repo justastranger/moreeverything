@@ -395,10 +395,11 @@
 
 		if (modList.ThermalExpansion && optionalFeature.tinkers_te_crucible_melting){
 			function s(string){
-				if(typeof getOres("ingot"+string)[0] != "undefined") teAddOreDictCrucibleRecipe(5000, "ingot"+string, 1, newFluidStack(lowerCase(string)+".molten", 144));
-				if(typeof getOres("dust"+string)[0] != "undefined") teAddOreDictCrucibleRecipe(5000, "dust"+string, 1, newFluidStack(lowerCase(string)+".molten", 144));
-				if(typeof getOres("ore"+string)[0] != "undefined") teAddOreDictCrucibleRecipe(5000, "ore"+string, 1, newFluidStack(lowerCase(string)+".molten", 288));
-				if(typeof getOres("nugget"+string)[0] != "undefined") teAddOreDictCrucibleRecipe(5000, "nugget"+string, 1, newFluidStack(lowerCase(string)+".molten", 16));
+				if(getOres("ingot"+string).length > 0) teAddOreDictCrucibleRecipe(5000, "ingot"+string, 1, newFluidStack(lowerCase(string)+".molten", 144));
+				if(getOres("dust"+string).length > 0) teAddOreDictCrucibleRecipe(5000, "dust"+string, 1, newFluidStack(lowerCase(string)+".molten", 144));
+				if(getOres("ore"+string).length > 0) teAddOreDictCrucibleRecipe(5000, "ore"+string, 1, newFluidStack(lowerCase(string)+".molten", 288));
+				if(getOres("nugget"+string).length > 0) teAddOreDictCrucibleRecipe(5000, "nugget"+string, 1, newFluidStack(lowerCase(string)+".molten", 16));
+				if(getOres("block"+string).length > 0) teAddOreDictCrucibleRecipe(5000, "block"+string, 1, newFluidStack(lowerCase(string)+".molten", 1296));
 			}
 			s("Iron");
 			s("Gold");
@@ -420,7 +421,7 @@
 			s("Invar");
 			s("Electrum");
 			s("PigIron");
-			teAddOreDictCrucibleRecipe(5000, "obsidian", 1, newFluidStack("obsidian.molten"));
+			teAddOreDictCrucibleRecipe(5000, "obsidian", 1, newFluidStack("obsidian.molten", 288));
 			teAddOreDictCrucibleRecipe(5000, "sand", 1, newFluidStack("glass.molten"));
 			teAddOreDictCrucibleRecipe(5000, "glass", 1, newFluidStack("glass.molten"));
 		}
