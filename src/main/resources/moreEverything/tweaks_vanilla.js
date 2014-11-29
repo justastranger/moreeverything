@@ -1,9 +1,8 @@
 // Vanilla tweaks
 // By Grom PE
 
-(function ()
-{
-	if (optionalFeature.more_vanilla_fuel) {
+(function(){
+	if (optionalFeature.more_vanilla_fuel){
 		// More fuel
 		addFuel(20, item.feather);
 		addFuel(20, item.string);
@@ -41,14 +40,14 @@
 		addFuel(150, item.slab, 2); // Old wooden slab
 		addFuel(400, item.hayBlock);
 	}
-	if (optionalFeature.wool_bleaching) {
+	if (optionalFeature.wool_bleaching){
 		// Allow bleaching wool with bonemeal
 		addShapelessRecipe(item.wool, [newItemStack(item.dye, 1, dye.boneMeal), item.wool]);
 	}
-	if (optionalFeature.hayblock_uncrafting) {
+	if (optionalFeature.hayblock_uncrafting){
 		addShapelessRecipe(newItemStack(item.wheat, 9), item.hayBlock);
 	}
-	
+
 	log("Fixed Mojang's mistakes.");
-	
+
 })();

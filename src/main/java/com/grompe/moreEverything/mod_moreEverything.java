@@ -382,14 +382,15 @@ public class mod_moreEverything
     public void init(FMLInitializationEvent event)
     {
         GameRegistry.registerFuelHandler(new mEFuelHandler());
+        mod_moreEverything me = new mod_moreEverything();
+        me.standalone = false;
+        me.modsLoaded();
     }
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
-		mod_moreEverything me = new mod_moreEverything();
-        me.standalone = false;
-        me.modsLoaded();
+
 	
 	}
 	@EventHandler

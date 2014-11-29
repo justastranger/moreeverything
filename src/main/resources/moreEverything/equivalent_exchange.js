@@ -13,20 +13,19 @@ var makeMetaCycle;
 var QaddTransmutation;
 var QaddTransmutation1to1;
 
-(function()
-{
+(function(){
 	if (!modList.EE3) return;
 
-	addTransmutation = function(result, input) {
+	addTransmutation = function(result, input){
 		var size;
-		if (isJavaClass(input, __itemStack) && ((size = getItemStackSize(input)) > 1)) {
+		if (isJavaClass(input, __itemStack) && ((size = getItemStackSize(input)) > 1)){
 			// Convert item stack of size to (size) number of single items
 			var id = getItemName(input);
 			var damage = getItemDamage(input);
-			var tmp = arrayOf(newItemStack(id,1,damage), size);
+			var tmp = arrayOf(newItemStack(id, 1, damage), size);
 			input = tmp;
 		}
-		if (!(input instanceof Array)) {
+		if (!(input instanceof Array)){
 			var tmp = [];
 			for (var i = 1; i < arguments.length; i++) tmp.push(arguments[i]);
 			input = tmp;
@@ -38,44 +37,43 @@ var QaddTransmutation1to1;
 		return addShapelessRecipe(result, i1) && addShapelessRecipe(result, i2);
 	};
 
-	addTransmutation1to1 = function(a, b) {
+	addTransmutation1to1 = function(a, b){
 		return addTransmutation(a, b) && addTransmutation(b, a);
 	};
 
-	addEquivalency = function(one_or_more_objects_or_arrays) {
+	addEquivalency = function(one_or_more_objects_or_arrays){
 		var arr = [];
-		for (var i = 0; i < arguments.length; i++) {
-			if (arguments[i] instanceof Array) {
+		for (var i = 0; i < arguments.length; i++){
+			if (arguments[i] instanceof Array){
 				arr = arr.concat(arguments[i]);
 			} else {
 				arr.push(arguments[i]);
 			}
 		}
-		for (var i=0; i < arr.length; i++) {
-			if (typeof arr[i] == "string"&&arr[i].indexOf(':')) arr[i] = newItemStack(arr[i], 1, WILDCARD);
+		for (var i = 0; i < arr.length; i++){
+			if (typeof arr[i] == "string" && arr[i].indexOf(':')) arr[i] = newItemStack(arr[i], 1, WILDCARD);
 		}
 		// Packages.com.pahimar.ee3.core.handlers.EquivalencyHandler.instance().addObjects(ObjectArray(arr));
 		// As moreEverything mod is running late, need to manually add the recipes
 		// There is no EquivalencyHandler as of the latest versions.
-		for (var i=0; i < arr.length; i++) {
-			addTransmutation(arr[(i+1) % arr.length], arr[i]);
+		for (var i = 0; i < arr.length; i++){
+			addTransmutation(arr[(i+1)%arr.length], arr[i]);
 		}
 		log("Added equvalency: "+arr, logLevel.debug);
 		return true;
 	}
 
-	makeMetaCycle = function(id, numMetaValues, skipMeta_zero_or_more_numbers_or_arrays)
-	{
+	makeMetaCycle = function(id, numMetaValues, skipMeta_zero_or_more_numbers_or_arrays){
 		var skipMeta = {};
-		for (var i = 2; i < arguments.length; i++) {
-			if (arguments[i] instanceof Array) {
+		for (var i = 2; i < arguments.length; i++){
+			if (arguments[i] instanceof Array){
 				for (var j in arguments[i]) skipMeta[arguments[i][j]] = 1;
 			} else {
 				skipMeta[arguments[i]] = 1;
 			}
 		}
 		result = [];
-		for (var i = 0; i < numMetaValues; i++) {
+		for (var i = 0; i < numMetaValues; i++){
 			if (i in skipMeta) continue;
 			result.push(newItemStack(id, 1, i));
 		}
@@ -83,21 +81,29 @@ var QaddTransmutation1to1;
 	}
 
 	// Quiet functions that don't throw exceptions
-	QaddTransmutation = function(result, input) {
+	QaddTransmutation = function(result, input){
 		var result;
-		try { result = addTransmutation(result, input); }
-		catch(e) {};
+		try{
+			result = addTransmutation(result, input);
+		}
+		catch (e) {
+		}
+		;
 		return result;
 	};
-	QaddTransmutation1to1 = function(a, b) {
+	QaddTransmutation1to1 = function(a, b){
 		var result;
-		try { result = AddTransmutation1to1(a, b); }
-		catch(e) {};
+		try{
+			result = AddTransmutation1to1(a, b);
+		}
+		catch (e) {
+		}
+		;
 		return result;
 	};
 
 	// EMC values: http://technicpack.wikia.com/wiki/Alchemical_Math
 
 	log("Oh hey, I still have my legs.");
-	
+
 })();

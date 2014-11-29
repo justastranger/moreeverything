@@ -2,17 +2,20 @@
 // by Grom PE
 
 
-(function()
-{
-	if (optionalFeature.rotten_flesh_to_leather) {
+(function(){
+	if (optionalFeature.rotten_flesh_to_leather){
 		addSmelting(item.rottenFlesh, item.leather, 1.5);
 	}
-	if (optionalFeature.stack_more) {
-		function S(id, size) {
+	if (optionalFeature.stack_more){
+		function S(id, size){
 			size = size ? 64 : size;
-			try { setItemMaxStackSize(id, size); }
-			catch(e) {}
+			try{
+				setItemMaxStackSize(id, size);
+			}
+			catch (e) {
+			}
 		}
+
 		S(item.saddle);
 		S(item.bucket);
 		S(item.egg);
@@ -31,7 +34,7 @@
 		S(item.minecartWithTNT);
 		S(item.minecartWithHopper);
 	}
-	
+
 	log("Options considered.");
-	
+
 })();
