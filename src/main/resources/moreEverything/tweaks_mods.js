@@ -259,15 +259,15 @@
 			// Found a way!
 			var logCount = 0;
 			for(var i = 0; i<15; i++) {
-				if(!(i%4)) logCount++
+				if(!(i%4)) logCount++;
 				if(i==10) continue; // Bamboo Thatching...
 				if(i<11) { // Pine should be 12 according to the chart below, but there isn't a stand-in for the stem, so pine->mahogany are 1 metadata behind.
-					var plank = newItemStack("BiomesOPlenty:planks",4,i)
-					var bLog = newItemStack(("BiomesOPlenty:logs"+logCount),1,(i%4))
+					var plank = newItemStack("BiomesOPlenty:planks",4,i);
+					var bLog = newItemStack(("BiomesOPlenty:logs"+logCount),1,(i%4));
 					addTransmutation(bLog, plank)
 				} else { // So we add 1 to i when we hit Pine.
-					var plank = newItemStack("BiomesOPlenty:planks",4,i)
-					var bLog = newItemStack(("BiomesOPlenty:logs"+logCount),1,((i+1)%4))
+					var plank = newItemStack("BiomesOPlenty:planks",4,i);
+					var bLog = newItemStack(("BiomesOPlenty:logs"+logCount),1,((i+1)%4));
 					addTransmutation(bLog, plank)
 				}
 			}
@@ -375,13 +375,13 @@
 	if (modList.Natura) {
 		addFuel(100, "Natura:florasapling");
 		addFuel(40,	"Natura:barleyFood", 0); // Barley
-		addFuel(300, "Natura:door.redwood")
-		addFuel(300, "Natura:door.eucalyptus")
-		addFuel(300, "Natura:door.hopseed")
-		addFuel(300, "Natura:door.sakura")
-		addFuel(300, "Natura:door.ghostwood")
-		addFuel(300, "Natura:door.bloodwood")
-		addFuel(300, "Natura:door.redwoodbark")
+		addFuel(300, "Natura:door.redwood");
+		addFuel(300, "Natura:door.eucalyptus");
+		addFuel(300, "Natura:door.hopseed");
+		addFuel(300, "Natura:door.sakura");
+		addFuel(300, "Natura:door.ghostwood");
+		addFuel(300, "Natura:door.bloodwood");
+		addFuel(300, "Natura:door.redwoodbark");
 		// Add missing ore dictionary entries
 		registerOre("logWood", newItemStack("Natura:bloodwood", 1, WILDCARD));
 	}
@@ -392,12 +392,13 @@
 		// Bug: burns forever for some reason
 		//addFuel(300, m.woodPattern);
 		addFuel(160, "TConstruct:materials", 0); // Paper stack
+
 		if (modList.ThermalExpansion && optionalFeature.tinkers_te_crucible_melting){
 			function s(string){
-				if(getOres("ingot"+string)) teAddOreDictCrucibleRecipe(5000, "ingot"+string, 1, newFluidStack(lowerCase(string)+".molten", 144));
-				if(getOres("dust"+string)) teAddOreDictCrucibleRecipe(5000, "dust"+string, 1, newFluidStack(lowerCase(string)+".molten", 144));
-				if(getOres("ore"+string)) teAddOreDictCrucibleRecipe(5000, "ore"+string, 1, newFluidStack(lowerCase(string)+".molten", 288));
-				if(getOres("nugget"+string)) teAddOreDictCrucibleRecipe(5000, "nugget"+string, 1, newFluidStack(lowerCase(string)+".molten", 16));
+				if(typeof getOres("ingot"+string)[0] != "undefined") teAddOreDictCrucibleRecipe(5000, "ingot"+string, 1, newFluidStack(lowerCase(string)+".molten", 144));
+				if(typeof getOres("dust"+string)[0] != "undefined") teAddOreDictCrucibleRecipe(5000, "dust"+string, 1, newFluidStack(lowerCase(string)+".molten", 144));
+				if(typeof getOres("ore"+string)[0] != "undefined") teAddOreDictCrucibleRecipe(5000, "ore"+string, 1, newFluidStack(lowerCase(string)+".molten", 288));
+				if(typeof getOres("nugget"+string)[0] != "undefined") teAddOreDictCrucibleRecipe(5000, "nugget"+string, 1, newFluidStack(lowerCase(string)+".molten", 16));
 			}
 			s("Iron");
 			s("Gold");
@@ -414,12 +415,12 @@
 			s("Manyullyn");
 			s("Alumite");
 			s("Steel");
-			s("obsidian");
 			s("Nickel");
 			s("Platinum");
 			s("Invar");
 			s("Electrum");
 			s("PigIron");
+			teAddOreDictCrucibleRecipe(5000, "obsidian", 1, newFluidStack("obsidian.molten"));
 			teAddOreDictCrucibleRecipe(5000, "sand", 1, newFluidStack("glass.molten"));
 			teAddOreDictCrucibleRecipe(5000, "glass", 1, newFluidStack("glass.molten"));
 		}
@@ -427,6 +428,13 @@
 
 	if (modList["BuildCraft|Core"]) {
 		addFuel(300, "BuildCraft|Core:woodenGearItem");
+
+		if(modList.TConstruct && optionalFeature.tinkers_bc_refinery_mixing){
+			bcAddRefinery2to1Recipe("manyullyn", newFluidStack("cobalt.molten",1), newFluidStack("ardite.molten",1), newFluidStack("manyullyn.molten",1), 10, 1);
+			bcAddRefinery2to1Recipe("electrum", newFluidStack("gold.molten",1), newFluidStack("silver.molten",1), newFluidStack("electrum.molten",2), 10, 1);
+			bcAddRefinery2to1Recipe("invar", newFluidStack("iron.molten",1), newFluidStack("nickel.molten",3), newFluidStack("electrum.molten",4), 10, 1);
+		}
+
 	}
 	
 	log("Forcing my play-style on you.");

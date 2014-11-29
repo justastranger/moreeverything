@@ -144,9 +144,9 @@ var teAddExtractRecipe;
         var titleCase = strInput.substring(0, 1).toUpperCase() + strInput.substring(1);
         if(!getOres("ingot"+titleCase)) return false;
         teCrafting.SmelterManager.addBlastOreRecipe(strInput);
-    }
+    };
     teAddFillRecipe = function(energy, input, output, fluid, extract, overwrite){
-        if(!energy) throw("teAddFillRecipe: energy must be a positive number.")
+        if(!energy) throw("teAddFillRecipe: energy must be a positive number.");
         if(typeof input == "string") {
             input = input.indexOf(':') ? newItemStack(input) : getOres(input)[0];
         } else if(!isJavaClass(input, __itemStack)) {
@@ -165,9 +165,9 @@ var teAddExtractRecipe;
         extract = !!extract;
         overwrite = !!overwrite;
         teCrafting.TransposerManager.addTEFillRecipe(energy, input, output, fluid, extract, overwrite);
-    }
+    };
     teAddExtractRecipe = function(energy, input, output, chance, fluid, fill, overwrite){
-        if(!energy) throw("teAddFillRecipe: energy must be a positive number.")
+        if(!energy) throw("teAddFillRecipe: energy must be a positive number.");
         if(typeof input == "string") {
             input = input.indexOf(':') ? newItemStack(input) : getOres(input)[0];
         } else if(!isJavaClass(input, __itemStack)) {
@@ -176,8 +176,8 @@ var teAddExtractRecipe;
         if(typeof output == "string") {
             output = output.indexOf(':') ? newItemStack(output) : getOres(output)[0];
         } else if(!isJavaClass(output, __itemStack)) {
-            chance = 0
-            output = null
+            chance = 0;
+            output = null;
         }
         if(stringOrNumber(fluid)) {
             fluid = newFluidStack(fluid, 1000);
@@ -187,7 +187,7 @@ var teAddExtractRecipe;
         fill = !!fill;
         overwrite = !!overwrite;
         teCrafting.TransposerManager.addTEExtractionRecipe(energy, input, output, fluid, chance, fill, overwrite);
-    }
+    };
 
     log("Thermal expansion... how embarrassing.");
 

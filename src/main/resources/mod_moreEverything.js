@@ -7,18 +7,17 @@ https://github.com/grompe/moreeverything/tree/master/mod_moreEverything/moreEver
 */
 
 
-// 1 = enable
-// 0 = disable
-
+// This is more or less the actual config file, where built-in tweaks can be enabled or disabled.
 var optionalFeature = {
 	// Enabled by default
-	more_vanilla_fuel: 1,
-	wool_bleaching: 1,
-	hayblock_uncrafting: 1,
-	mod_tweaks: 1,
-	thaumcraft_vanilla_aspects: 1,
-	thaumcraft_mod_aspects: 1,
-	tinkers_te_crucible_melting: 1,
+	more_vanilla_fuel: true,
+	wool_bleaching: true,
+	hayblock_uncrafting: true,
+	mod_tweaks: true,
+	thaumcraft_vanilla_aspects: true,
+	thaumcraft_mod_aspects: true,
+	tinkers_te_crucible_melting: true,
+	tinkers_bc_refinery_mixing: true,
 	// This block contains deprecated features, since EE3 seems to be dropping crafting-table transmutations
 	/*ee_vanilla_transmutations: 1,
 	ee_vanilla_uncrafting: 1,
@@ -32,8 +31,8 @@ var optionalFeature = {
 	ee_tinkersconstruct_transmutations: 1,*/
 
 	// Disabled by default
-	rotten_flesh_to_leather: 0,
-	stack_more: 0
+	rotten_flesh_to_leather: false,
+	stack_more: false
 };
 
 // Uncomment for debugging; valid logLevels are debug, info, warning, error
