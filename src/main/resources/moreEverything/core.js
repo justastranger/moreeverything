@@ -306,14 +306,33 @@ function getFuel(name, damage){
 	if (isJavaClass(name, __itemStack)) return __fuelHandler.getBurnTime(name);
 }
 
+function newNBTTagCompound(){
+	return new net.minecraft.nbt.NBTTagCompound();
+}
+
+function setNBTTagItemStack(compound, itemStack){
+	return itemStack.func_77955_b(compound);
+}
+
+function setNBTTagCustomItem(compound, key, itemStack){
+	var nbt = itemStack.func_77978_p();
+	compound.func_74782_a(key, nbt);
+}
+
+function setNBTTagFluidStack(compound, fluidStack){
+	return fluidStack.writeToNBT(compound);
+}
+
+function setNBTTagInteger(compound, key, value){
+	compound.func_74768_a(key, value);
+}
+
 // I was hoping that I would use this somewhere... oh well...
 function sendIMCMessage(target, key, value){
 	if (typeof target != "string") throw("sendIMCMessage: target must be a string");
-	if (!__fml.common.FMLCommonHandler.findContainerFor(target)) throw("sendIMCMessage: target must the mod ID of an installed mod.");
+	if (!__fml.common.FMLCommonHandler.instance().findContainerFor(target)) throw("sendIMCMessage: target must the mod ID of an installed mod.");
 	if (typeof key != "string") throw("sendIMCMessage: key must be a string");
-	if (typeof value != "string") throw("sendIMCMessage: value must be a string");
-
-	__fml.common.event.FMLInterModComms.sendRuntimeMessage(modID, modID, target, key, value);
+	__fml.common.event.FMLInterModComms.sendRuntimeMessage(modID, target, key, value);
 }
 
 

@@ -17,27 +17,29 @@ buildscript {
 
 apply plugin: 'forge'
 
-ext.configFile = file "build.properties"
+//ext.configFile = file "gradle.properties"
 
-configFile.withReader {
+/*configFile.withReader {
     def prop = new Properties()
     prop.load(it)
     project.ext.config = new ConfigSlurper().parse prop
-}
+}*/
 
-version = config.mod_version
+version = mod_version
 group = "com.grompe.moreEverything" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "moreEverything"
 
 minecraft {
-    version = config.minecraft_version + "-" + config.forge_version
+    version = minecraft_version + "-" + forge_version
     assetDir = "run/assets"
 
     replaceIn "mod_moreEverything.java"
-    replace "@VERSION@", "${config.mod_version}.${System.getenv("BUILD_NUMBER") ?: 0}"
+    replace "@VERSION@", "${mod_version}.${build ?: 0}"
 }
 
-version = "${config.minecraft_version}-${config.mod_version}.${System.getenv("BUILD_NUMBER") ?: 0}"
+version = "${minecraft_version}-${mod_version}.${build}"
+
+//ver_minor = ver_minor + 1
 
 processResources {
     // exclude xcf files, as they are for development only
@@ -48,7 +50,7 @@ processResources {
         include '*.info'
 
         // replace version and mcversion
-        expand 'mod_version': project.version, 'minecraft_version': project.config.minecraft_version
+        expand 'mod_version': project.version, 'minecraft_version': minecraft_version
     }
 
     // copy everything else, thats not the mcmod.info

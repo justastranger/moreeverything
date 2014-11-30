@@ -30,10 +30,12 @@ public class mod_moreEverything
     public static final int WILDCARD = 32767;
 	public static Logger logger;
 	public static Map<Item, String> itemMap = new HashMap<Item, String>();
+    public List<String> includePost;
     protected static File configDir;
     protected static boolean standalone = false;
     protected static boolean loaded = false;
     protected static RhinoScriptEngine engine = new RhinoScriptEngine();
+    protected static ScriptHandler sH = new ScriptHandler();
     protected static int warnings = 0;
     protected static int errors = 0;
 
@@ -100,6 +102,7 @@ public class mod_moreEverything
     
     public static class ScriptHandler
     {
+
         public static String __getConfigDir()
         {
             return configDir.toString();
@@ -334,13 +337,13 @@ public class mod_moreEverything
         if(!file.exists()) extractDefaultConfig();
 
         engine = new RhinoScriptEngine();
+        sH = new ScriptHandler();
         
-        engine.put("__api", new ScriptHandler());
-        //engine.put("__api", this);
+        engine.put("__api", sH);
         try
         {
-            //execResource("moreEverything/core.js");
             execConfigFile(file);
+            //execResource("moreEverything/core.js");
         }
         catch(RhinoException e)
         {
@@ -382,14 +385,17 @@ public class mod_moreEverything
     public void init(FMLInitializationEvent event)
     {
         GameRegistry.registerFuelHandler(new mEFuelHandler());
+        mod_moreEverything me = new mod_moreEverything();
+        me.standalone = false;
+        me.modsLoaded();
     }
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
-        mod_moreEverything me = new mod_moreEverything();
-        me.standalone = false;
-        me.modsLoaded();
+        for(String a : includePost) {
+            sH.__include(a);
+        }
 	}
 	@EventHandler
 	public void serverLoad(FMLServerStartingEvent event)

@@ -39,6 +39,7 @@ var optionalFeature = {
 // currentLogLevel = logLevel.debug;
 
 function Include(filename) { return __api.__include(filename); }
+function IncludePost(filename) { return __api.includePost.add(filename); }
 function IncludeInternal(filename) { return __api.__includeInternal(filename); }
 // Ease-of-use function - Example: IncludeJS("forestry") or IncludeJS("EnderIO")
 function IncludeJS(filename) { Include("moreEverything/"+filename+".js"); }
@@ -56,15 +57,19 @@ function test() {
 
 var defaultScripts = [
 	"moreEverything/core.js",
+	"moreEverything/defs.js",
 	"moreEverything/ic2.js",
 	"moreEverything/buildcraft.js",
 	"moreEverything/blood_magic.js",
 	"moreEverything/thermal_expansion.js",
 	"moreEverything/EnderIO.js",
 	"moreEverything/forestry.js",
-	"moreEverything/defs.js",
 	"moreEverything/equivalent_exchange.js",
 	"moreEverything/thaumcraft.js",
+	"moreEverything/init.js"
+];
+
+var postScripts = [
 	"moreEverything/tweaks_vanilla.js",
 	"moreEverything/tweaks_mods.js",
 	"moreEverything/optional.js"
@@ -75,7 +80,8 @@ var defaultScripts = [
 // Actually, better look inside the mod .zip file for a reference and add your own code in this file below
 // for (i in defaultScripts) IncludeInternal(defaultScripts[i]);
 for (var i in defaultScripts) Include(defaultScripts[i]);
-	
+for (var i in defaultScripts) IncludePost(postScripts[i]);
+
 /* ////////////////////////
 
 Some working examples
