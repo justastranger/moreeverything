@@ -39,7 +39,7 @@ var optionalFeature = {
 // currentLogLevel = logLevel.debug;
 
 function Include(filename) { return __api.__include(filename); }
-function IncludePost(filename) { return __api.includePost.add(filename); }
+function IncludePost(filename) { return __api.includePost.add(filename); log("Added "+filename+" to postInit execution.") }
 function IncludeInternal(filename) { return __api.__includeInternal(filename); }
 // Ease-of-use function - Example: IncludeJS("forestry") or IncludeJS("EnderIO")
 function IncludeJS(filename) { Include("moreEverything/"+filename+".js"); }

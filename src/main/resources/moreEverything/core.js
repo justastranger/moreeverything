@@ -223,6 +223,14 @@ function stringOrNumber(thing){
 	return !!(typeof thing == "string" || typeof thing == "number");
 }
 
+function _nameStack(name){
+	if(typeof name == "string"){
+		if(name.indexOf(':')>0) return newItemStack(name);
+		else return getOres(name)[0];
+	} else {
+		return name;
+	}
+}
 
 function getOres(name){
 	var list = __forge.oredict.OreDictionary.getOres(name);
