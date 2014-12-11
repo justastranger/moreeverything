@@ -6,6 +6,7 @@
 
 var rcAddCokeOvenRecipe;
 var rcAddBlastFurnaceRecipe;
+var rcAddRockCrusherRecipe;
 
 
 (function(){
@@ -43,6 +44,25 @@ var rcAddBlastFurnaceRecipe;
 		if(typeof time != "number") throw("rcAddBlastFurnaceRecipe: time must be a number.");
 		Packages.mods.railcraft.api.crafting.RailcraftCraftingManager.blastFurnace.addRecipe(input, matchDamage, matchNBT, time, output);
 	};
-
+	rcAddRockCrusherRecipe = function(input, matchDamage, matchNBT, outputArray, chancesArray){
+		input = _nameStack(input);
+		matchDamage = !!matchDamage;
+		matchNBT = !!matchNBT;
+		if(!outputArray instanceof Array){
+			outputArray = [outputArray];
+			if(typeof chancesArray == "undefined") chancesArray = [1];
+		}
+		if(outputArray[0] instanceof Array){
+			chancesArray = outputArray[1];
+			outputArray = outputArray[0];
+		}
+		if(outputArray.length != chancesArray.length) throw("rcAddRockCrusherRecipe: length mismatch between outputArray and chancesArray."); // TODO replace with for loop that fills remainder of chancesArray with 1's
+		var recipe = Packages.mods.railcraft.api.crafting.RailcraftCraftingManager.rockCrusher.createNewRecipe(input, matchDamage, matchNBT);
+		for(var i = 0; i<outputArray.length; i++){
+			outputArray[i] = _nameStack(outputArray[i]);
+			recipe.addOutput(outputArray[i], chancesArray[i]);
+		}
+	};
+	
 
 })();
