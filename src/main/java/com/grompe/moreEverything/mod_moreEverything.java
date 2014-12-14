@@ -44,6 +44,10 @@ public class mod_moreEverything
 	{
 		itemMap.put(key, value);
 	}
+
+    public void postAdd(String file){
+        includePost.add(file);
+    }
 	
 	public static String itemGet(Item key)
 	{
@@ -393,8 +397,10 @@ public class mod_moreEverything
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
-        for(String a : includePost) {
-            sH.__include(a);
+        if (includePost != null) {
+            for(String a : includePost) {
+                sH.__include(a);
+            }
         }
 	}
 	@EventHandler
