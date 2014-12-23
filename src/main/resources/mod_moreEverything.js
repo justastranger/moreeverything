@@ -39,6 +39,7 @@ var optionalFeature = {
 // currentLogLevel = logLevel.debug;
 
 function Include(filename) { return __api.__include(filename); }
+function IncludeInit(filename) { return __api.includeInit.add(filename); log("Added "+filename+" to postInit execution.") }
 function IncludePost(filename) { return __api.includePost.add(filename); log("Added "+filename+" to postInit execution.") }
 function IncludeInternal(filename) { return __api.__includeInternal(filename); }
 // Ease-of-use function - Example: IncludeJS("forestry") or IncludeJS("EnderIO")
@@ -66,6 +67,10 @@ var defaultScripts = [
 	"moreEverything/forestry.js",
 	"moreEverything/equivalent_exchange.js",
 	"moreEverything/thaumcraft.js",
+	"moreEverything/preInit.js"
+];
+
+var initScripts = [
 	"moreEverything/init.js"
 ];
 
@@ -80,7 +85,8 @@ var postScripts = [
 // Actually, better look inside the mod .zip file for a reference and add your own code in this file below
 // for (i in defaultScripts) IncludeInternal(defaultScripts[i]);
 for (var i in defaultScripts) Include(defaultScripts[i]);
-for (var i in defaultScripts) IncludePost(postScripts[i]);
+for (var i in initScripts) IncludeInit(defaultScripts[i]);
+for (var i in postScripts) IncludePost(postScripts[i]);
 
 /* ////////////////////////
 

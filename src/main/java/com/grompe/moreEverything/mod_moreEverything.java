@@ -4,10 +4,9 @@
 package com.grompe.moreEverything;
 
 import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.*;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import org.apache.logging.log4j.Logger;
 import java.io.*;
 import java.util.*;
@@ -31,6 +30,7 @@ public class mod_moreEverything
 	public static Logger logger;
 	public static Map<Item, String> itemMap = new HashMap<Item, String>();
     public List<String> includePost;
+    public List<String> includeInit;
     protected static File configDir;
     protected static boolean standalone = false;
     protected static boolean loaded = false;
@@ -378,20 +378,36 @@ public class mod_moreEverything
         me.standalone = true;
         me.modsLoaded();
     }*/
-	
-	@EventHandler
+
+    public void sendIMC(String to, String key, NBTTagCompound value){
+        FMLInterModComms.sendMessage(to, key, value);
+    }
+    public void sendIMC(String to, String key, ItemStack value){
+        FMLInterModComms.sendMessage(to, key, value);
+    }
+    public void sendIMC(String to, String key, String value){
+        FMLInterModComms.sendMessage(to, key, value);
+    }
+
+
+    @EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
         logger = event.getModLog();
+        GameRegistry.registerFuelHandler(new mEFuelHandler());
+        mod_moreEverything me = new mod_moreEverything();
+        me.standalone = false;
+        me.modsLoaded();
 	}
 
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
-        GameRegistry.registerFuelHandler(new mEFuelHandler());
-        mod_moreEverything me = new mod_moreEverything();
-        me.standalone = false;
-        me.modsLoaded();
+        if (includeInit != null) {
+            for(String a : includeInit) {
+                sH.__include(a);
+            }
+        }
     }
 
 	@EventHandler

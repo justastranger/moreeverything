@@ -189,6 +189,28 @@ var teAddExtractRecipe;
 		teCrafting.TransposerManager.addTEExtractionRecipe(energy, input, output, fluid, chance, fill, overwrite);
 	};
 
+	teIMCCrucible = function(energy, input, fluid, overwrite){
+		if (!energy) throw("teAddCrucibleRecipe: energy must be a number.");
+		if (typeof input == "string"){
+			input = (input.indexOf(':') > 0) ? newItemStack(input) : getOres(input)[0];
+		} else if (!isJavaClass(input, __itemStack)){
+			throw("teAddPulverizerRecipe: input must be a string or ItemStack");
+		}
+		if (stringOrNumber(fluid)){
+			fluid = newFluidStack(fluid, 1000);
+		} else if (!isJavaClass(fluid, __fluidStack)){
+			throw("teAddPulverizerRecipe: fluid must be a string or FluidStack");
+		}
+		overwrite = !!overwrite;
+		var nbt = newNBTTagCompound();
+		setNBTTagCustomItem(nbt, "input", input);
+		setNBTTagCustomFluidStack(nbt, "output", fluid);
+		setNBTTagInteger(nbt, "energy", energy);
+		setNBTTagBoolean(nbt, "overwrite", overwrite);
+
+
+	}
+
 	log("Thermal expansion... how embarrassing.");
 
 })();

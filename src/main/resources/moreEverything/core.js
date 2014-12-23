@@ -327,21 +327,102 @@ function setNBTTagCustomItem(compound, key, itemStack){
 	compound.func_74782_a(key, nbt);
 }
 
+function setNBTTagBoolean(compound, key, bool){
+	compound.func_74757_a(key, bool);
+}
+
 function setNBTTagFluidStack(compound, fluidStack){
 	return fluidStack.writeToNBT(compound);
+}
+
+function stripNBTTag(compound, tag){
+	compound.func_82580_o(tag);
+}
+
+function setNBTTagCustomFluidStack(compound, key, fluidStack){
+	var fs =  fluidStack.writeToNBT(newNBTTagCompound());
+	compound.func_74782_a(key, fs);
 }
 
 function setNBTTagInteger(compound, key, value){
 	compound.func_74768_a(key, value);
 }
 
+function NBTTagCompound(){
+	this.setInteger = function(key, int){
+		if(typeof int == "number") this[key] = int;
+	};
+	this.setFluidStack = function(key, fluidStack){
+		if(isJavaClass(fluidStack, __fluidStack)) this[key] = fluidStack;
+	};
+	this.setItemStack = function(key, itemStack){
+		if(isJavaClass(itemStack, __itemStack)) this[key] = itemStack;
+	};
+	this.setBoolean = function(key, bool){
+		if(typeof bool == "boolean") this[key] = bool;
+	};
+	this.constructInteger = function(comp, key, int){
+		comp.func_74768_a(key, int);
+	};
+	this.constructFluidStack = function(comp, key, fluid){
+		var fs =  fluid.writeToNBT(newNBTTagCompound());
+		comp.func_74782_a(key, fs);
+	};
+	this.constructItemStack = function(comp, key, stack){
+		var nbt = stack.func_77978_p();
+		comp.func_74782_a(key, nbt);
+	};
+	this.constructString = function(comp, key, string){
+		comp.func_74778_a(key, string);
+	};
+	this.constructBoolean = function(comp, key, boolean){
+		comp.func_74757_a(key, boolean);
+	};
+
+
+	this.constructCompound = function(){
+		var compound = newNBTTagCompound();
+		for(var b in this){
+			if(typeof this[b] != "function"){
+				switch (typeof this[b]){
+					case "number":
+						this.constructInteger(compound, b, this[b]);
+						break;
+					case "string":
+						this.constructString(compound, b, this[b]);
+						break;
+					case "boolean":
+						this.constructBoolean(compound, b, this[b]);
+						break;
+					case "object":
+						if(this[b] instanceof __itemStack) this.constructItemStack(compound, b, this[b]);
+						if(this[b] instanceof __fluidStack) this.constructFluidStack(compound, b, this[b]);
+						break;
+
+
+				}
+			}
+		}
+		return compound;
+	};
+
+	return this;
+}
+
+
 // I was hoping that I would use this somewhere... oh well...
-function sendIMCMessage(target, key, value){
+function sendRuntimeIMCMessage(target, key, value){
 	if (typeof target != "string") throw("sendIMCMessage: target must be a string");
 	if (!__fml.common.FMLCommonHandler.instance().findContainerFor(target)) throw("sendIMCMessage: target must the mod ID of an installed mod.");
 	if (typeof key != "string") throw("sendIMCMessage: key must be a string");
 	__fml.common.event.FMLInterModComms.sendRuntimeMessage(modID, target, key, value);
 }
-
+function sendIMCMessage(to, key, value){
+	if (typeof to != "string") throw("sendIMCMessage: to must be a string");
+	if (typeof key != "string") throw("sendIMCMessage: key must be a string");
+	if (!__fml.common.FMLCommonHandler.instance().findContainerFor(to)) throw("sendIMCMessage: to must the mod ID of an installed mod.");
+	try{__mE.sendIMC(to, key, value);}
+	catch(e){throw e;}
+}
 
 log("Found the core!");
