@@ -352,7 +352,8 @@ function setNBTTagInteger(compound, key, value){
 function ItemStack(item, amount, meta){
 	this.itemDamage = meta ? meta : 0;
 	this.stackSize = amount ? amount : 1;
-	this.item = item;
+	if(typeof item != "undefined") this.item = item;
+	else throw("ItemStack: null item");
 	this.setstackSize = function(amount){
 		this.stackSize = amount;
 		return this;
@@ -364,15 +365,20 @@ function ItemStack(item, amount, meta){
 	this.getItem = function(){
 		return this.constructStack().func_77973_b()
 	};
-	this.constructStack = function(){
-		this.stack = newItemStack(this.item, this.stackSize, this.itemDamage);
-		return this.stack;
+	this.getItemName = function(){
+		return this.item;
 	};
 	this.getStackSize = function(){
 		return this.stackSize;
 	};
 	this.getItemDamage = function(){
 		return this.itemDamage;
+	};
+	this.constructStack = function(){
+		if (getItem(this.item) == null) throw("newItemStack: item does not exist.");
+		if (typeof this.item == "string" || isJavaClass(this.item, java.lang.String)) this.item = getItem(this.item);
+		this.stack = new net.minecraft.item.ItemStack(this.item, this.stackSize, this.itemDamage)
+		return this.stack;
 	};
 
 	return this;
@@ -381,70 +387,90 @@ function ItemStack(item, amount, meta){
 
 
 function NBTTagCompound(){
+	this.blankCompound = function(){
+		return new net.minecraft.nbt.NBTTagCompound();
+	};
 	this.setInteger = function(key, num){
-		if(typeof num == "number") this[key] = num;
+		if(typeof num == "number" && Math.floor(num) == num) this[key] = num;
+		return this;
 	};
 	this.setFluidStack = function(key, fluidStack){
 		if(isJavaClass(fluidStack, __fluidStack)) this[key] = fluidStack;
+		return this;
 	};
 	this.setItemStack = function(key, itemStack){
 		if(isJavaClass(itemStack, __itemStack)) this[key] = itemStack;
+		return this;
 	};
 	this.setBoolean = function(key, bool){
 		if(typeof bool == "boolean") this[key] = bool;
+		return this;
 	};
 	this.setString = function(key, string){
 		if(typeof string == "string") this[key] = string;
+		return this;
+	}
+	this.setFloat = function(key, fl){
+		if(typeof fl == "number" && Math.floor(fl) != fl) this[key] = fl;
+		return this;
 	}
 	this.constructInteger = function(comp, key, num){
 		comp.func_74768_a(key, num);
+		return comp;
 	};
 	this.constructFloat = function(comp, key, num){
 		comp.func_74776_a(key, num);
+		return comp;
 	};
 	this.constructFluidStack = function(comp, key, fluid){
-		var fs =  fluid.writeToNBT(newNBTTagCompound());
+		var fs =  fluid.writeToNBT(this.blankCompound());
 		comp.func_74782_a(key, fs);
+		return comp;
 	};
 	this.constructItemStack = function(comp, key, stack){
-		var nbt = stack.func_77978_p();
+		var nbt = stack.func_77955_b(this.blankCompound());
 		comp.func_74782_a(key, nbt);
+		return comp;
 	};
 	this.constructString = function(comp, key, string){
 		comp.func_74778_a(key, string);
+		return comp;
 	};
 	this.constructBoolean = function(comp, key, bool){
 		comp.func_74757_a(key, bool);
+		return comp;
 	};
 	this.constructTag = function(comp, key, tag){
 		comp.func_74782_a(key, tag);
+		return comp;
 	};
 
 
 	this.constructCompound = function(){
-		var compound = newNBTTagCompound();
+		var comp = this.blankCompound();
 		for(var b in this){
 			if(typeof this[b] != "function"){
 				switch (typeof this[b]){
 					case "number":
-						if(Math.floor(this[b]) == this[b]) this.constructInteger(compound, b, this[b]);
-						if(Math.floor(this[b]) != this[b]) this.constructFloat(compound, b, this[b]);
+						if(Math.floor(this[b]) == this[b]) this.constructInteger(comp, b, this[b]);
+						if(Math.floor(this[b]) != this[b]) this.constructFloat(comp, b, this[b]);
 						break;
 					case "string":
-						this.constructString(compound, b, this[b]);
+						this.constructString(comp, b, this[b]);
 						break;
 					case "boolean":
-						this.constructBoolean(compound, b, this[b]);
+						this.constructBoolean(comp, b, this[b]);
 						break;
 					case "object":
-						if(this[b] instanceof __itemStack) this.constructItemStack(compound, b, this[b]);
-						if(this[b] instanceof __fluidStack) this.constructFluidStack(compound, b, this[b]);
-						if(this[b] instanceof __nbtBase) this.constructTag(compound, b, this[b]);
+						if(this[b] instanceof __itemStack) this.constructItemStack(comp, b, this[b]);
+						if(this[b] instanceof __fluidStack) this.constructFluidStack(comp, b, this[b]);
+						if(this[b] instanceof __nbtBase) this.constructTag(comp, b, this[b]);
 						break;
 				}
 			}
 		}
-		return compound;
+		this.compound = comp;
+		return this.compound;
 	};
 
 	return this;

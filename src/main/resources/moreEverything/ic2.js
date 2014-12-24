@@ -2,6 +2,8 @@
 // By justastranger
 // Written with Industrial-Craft 2 version 2.2.646
 
+// 23-12-2014 adapted to pseudo-ItemStack
+
 var ic2Api = Packages.ic2.api;
 var ic2Recipes = ic2Api.recipe.Recipes;
 var ic2RecipeInputOreDict;
@@ -43,7 +45,7 @@ var ic2RIFC;
 
 	ic2RecipeInputItemStack = function(stack, amount, meta){
 		if (typeof stack == "string"){
-			stack = newItemStack(stack, amount, meta);
+			stack = new ItemStack(stack, amount, meta).constructStack();
 			return new ic2Api.recipe.RecipeInputItemStack(stack);
 		} else if (amount){
 			return new ic2Api.recipe.RecipeInputItemStack(stack, amount);
@@ -66,14 +68,14 @@ var ic2RIFC;
 	ic2AddMaceratorRecipe = function(input, output){
 		if (typeof input == "string"){
 			if (input.indexOf(':')){
-				input = ic2RIIS(newItemStack(input));
+				input = ic2RIIS(new ItemStack(input).constructStack());
 			} else {
 				input = ic2RIOD(input);
 			}
 		}
 		if (typeof output == "string"){
 			if (output.indexOf(':')){
-				output = newItemStack(output);
+				output = new ItemStack(output).constructStack();
 			} else {
 				output = getOres(output)[0];
 			}
@@ -84,14 +86,14 @@ var ic2RIFC;
 	ic2AddExtractorRecipe = function(input, output){
 		if (typeof input == "string"){
 			if (input.indexOf(':')){
-				input = ic2RIIS(newItemStack(input));
+				input = ic2RIIS(new ItemStack(input).constructStack());
 			} else {
 				input = ic2RIOD(input);
 			}
 		}
 		if (typeof output == "string"){
 			if (output.indexOf(':')){
-				output = newItemStack(output);
+				output = new ItemStack(output).constructStack();
 			} else {
 				output = getOres(output)[0];
 			}
@@ -102,14 +104,14 @@ var ic2RIFC;
 	ic2AddCompressorRecipe = function(input, output){
 		if (typeof input == "string"){
 			if (input.indexOf(':')){
-				input = ic2RIIS(newItemStack(input));
+				input = ic2RIIS(new ItemStack(input).constructStack());
 			} else {
 				input = ic2RIOD(input);
 			}
 		}
 		if (typeof output == "string"){
 			if (output.indexOf(':')){
-				output = newItemStack(output);
+				output = new ItemStack(output).constructStack();
 			} else {
 				output = getOres(output)[0];
 			}
@@ -120,14 +122,14 @@ var ic2RIFC;
 	ic2AddExtrudingRecipe = function(input, output){
 		if (typeof input == "string"){
 			if (input.indexOf(':')){
-				input = ic2RIIS(newItemStack(input));
+				input = ic2RIIS(new ItemStack(input).constructStack());
 			} else {
 				input = ic2RIOD(input);
 			}
 		}
 		if (typeof output == "string"){
 			if (output.indexOf(':')){
-				output = newItemStack(output);
+				output = new ItemStack(output).constructStack();
 			} else {
 				output = getOres(output)[0];
 			}
@@ -138,7 +140,7 @@ var ic2RIFC;
 	ic2AddCuttingRecipe = function(input, output){
 		if (typeof input == "string"){
 			if (input.indexOf(':')){
-				input = ic2RIIS(newItemStack(input));
+				input = ic2RIIS(new ItemStack(input).constructStack());
 			} else {
 				input = ic2RIOD(input);
 			}
@@ -156,14 +158,14 @@ var ic2RIFC;
 	ic2AddRollingRecipe = function(input, output){
 		if (typeof input == "string"){
 			if (input.indexOf(':')){
-				input = ic2RIIS(newItemStack(input));
+				input = ic2RIIS(new ItemStack(input).constructStack());
 			} else {
 				input = ic2RIOD(input);
 			}
 		}
 		if (typeof output == "string"){
 			if (output.indexOf(':')){
-				output = newItemStack(output);
+				output = new ItemStack(output).constructStack();
 			} else {
 				output = getOres(output)[0];
 			}
@@ -175,14 +177,14 @@ var ic2RIFC;
 	ic2AddRecyclingRecipe = function(input, output){
 		if (typeof input == "string"){
 			if (input.indexOf(':')){
-				input = ic2RIIS(newItemStack(input));
+				input = ic2RIIS(new ItemStack(input).constructStack());
 			} else {
 				input = ic2RIOD(input);
 			}
 		}
 		if (typeof output == "string"){
 			if (output.indexOf(':')){
-				output = newItemStack(output);
+				output = new ItemStack(output).constructStack();
 			} else {
 				output = getOres(output)[0];
 			}
@@ -202,7 +204,7 @@ var ic2RIFC;
 		if (output instanceof Array) output = newFluidStack(output[0], output[1]);
 		if (typeof additive == "string"){
 			if (additive.indexOf(':')){
-				additive = ic2RIIS(additive);
+				additive = ic2RIIS(new ItemStack(additive).constructStack());
 			} else {
 				additive = ic2RIOD(additive);
 			}
@@ -214,21 +216,21 @@ var ic2RIFC;
 		// item + item -> canned item
 		if (typeof container == "string"){
 			if (container.indexOf(':')){
-				container = ic2RIIS(newItemStack(container));
+				container = ic2RIIS(new ItemStack(container).constructStack());
 			} else {
 				container = ic2RIOD(container);
 			}
 		}
 		if (typeof fill == "string"){
 			if (fill.indexOf(':')){
-				fill = ic2RIIS(newItemStack(fill));
+				fill = ic2RIIS(new ItemStack(fill).constructStack());
 			} else {
 				fill = ic2RIOD(fill);
 			}
 		}
 		if (typeof output == "string"){
 			if (output.indexOf(':')){
-				output = newItemStack(output);
+				output = new ItemStack(output).constructStack();
 			} else {
 				output = getOres(output)[0];
 			}
@@ -237,18 +239,18 @@ var ic2RIFC;
 	};
 
 	ic2AddBlockCutterRecipe = function(input, hardness, output){
-		var nbt = new net.minecraft.nbt.NBTTagCompound();
-		nbt.func_74768_a("hardness", hardness);
+		var nbt = new NBTTagCompound().setInteger("hardness", hardness).constructCompound();
+		//nbt.func_74768_a("hardness", hardness);
 		if (typeof input == "string"){
 			if (input.indexOf(':')){
-				input = ic2RIIS(newItemStack(input));
+				input = ic2RIIS(new ItemStack(input));
 			} else {
 				input = ic2RIOD(input);
 			}
 		}
 		if (typeof output == "string"){
 			if (output.indexOf(':')){
-				output = newItemStack(output);
+				output = new ItemStack(output);
 			} else {
 				output = getOres(output)[0];
 			}
@@ -257,11 +259,11 @@ var ic2RIFC;
 	};
 
 	ic2AddCentrifugeRecipe = function(input, heat, output){
-		var nbt = new net.minecraft.nbt.NBTTagCompound();
-		nbt.func_74768_a("minHeat", heat);
+		var nbt = new NBTTagCompound().setInteger("minHeat", heat).constructCompound();
+		//nbt.func_74768_a("minHeat", heat);
 		if (typeof input == "string"){
 			if (input.indexOf(':')){
-				input = ic2RIIS(newItemStack(input));
+				input = ic2RIIS(new ItemStack(input).constructStack());
 			} else {
 				input = ic2RIOD(input);
 			}
@@ -271,7 +273,7 @@ var ic2RIFC;
 			for (var i = 0; i < output.length; i++){
 				if (typeof output[i] == "string"){
 					if (output[i].indexOf(':')){
-						output[i] = newItemStack(output[i]);
+						output[i] = new ItemStack(output[i]).constructStack();
 					} else {
 						output[i] = getOres(output[i])[0];
 					}
@@ -281,7 +283,7 @@ var ic2RIFC;
 		}
 		if (typeof output == "string"){
 			if (output.indexOf(':')){
-				output = newItemStack(output);
+				output = new ItemStack(output).constructStack();
 			} else {
 				output = getOres(output)[0];
 			}

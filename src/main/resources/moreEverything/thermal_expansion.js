@@ -19,6 +19,9 @@ var teAddFillRecipe;
 var teAddExtractRecipe;
 
 (function(){
+
+	if(!modList.ThermalExpansion) return;
+
 	teAddPulverizerRecipe = function(energy, input, output, bonus, chance, overwrite){ // Overwrite will default to false
 		overwrite = !!overwrite;
 		if (!energy) throw("teAddPulverizerRecipe: energy must be a positive number.");
@@ -202,12 +205,8 @@ var teAddExtractRecipe;
 			throw("teAddPulverizerRecipe: fluid must be a string or FluidStack");
 		}
 		overwrite = !!overwrite;
-		var nbt = newNBTTagCompound();
-		setNBTTagCustomItem(nbt, "input", input);
-		setNBTTagCustomFluidStack(nbt, "output", fluid);
-		setNBTTagInteger(nbt, "energy", energy);
-		setNBTTagBoolean(nbt, "overwrite", overwrite);
-
+		var nbt = new NBTTagCompound().setItemStack("input", input).setFluidStack("output", fluid).setInteger("energy", energy).setBoolean("overwrite", overwrite).constructCompound();
+		sendIMCMessage("ThermalExpansion", "CrucibleRecipe", nbt);
 
 	}
 
