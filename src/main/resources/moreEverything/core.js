@@ -14,6 +14,7 @@ var __item;
 var __block;
 var __itemStack = Packages.net.minecraft.item.ItemStack;
 var __fluidStack = Packages.net.minecraftforge.fluids.FluidStack;
+var __nbtBase = Packages.net.minecraft.nbt.NBTBase;
 var __itemsList;
 var logLevel = { debug : 0, info : 1, warning : 2, error : 3 };
 
@@ -348,9 +349,40 @@ function setNBTTagInteger(compound, key, value){
 	compound.func_74768_a(key, value);
 }
 
+function ItemStack(item, amount, meta){
+	this.itemDamage = meta ? meta : 0;
+	this.stackSize = amount ? amount : 1;
+	this.item = item;
+	this.setstackSize = function(amount){
+		this.stackSize = amount;
+		return this;
+	};
+	this.setItemDamage = function(meta){
+		this.itemDamage = meta;
+		return this;
+	};
+	this.getItem = function(){
+		return this.constructStack().func_77973_b()
+	};
+	this.constructStack = function(){
+		this.stack = newItemStack(this.item, this.stackSize, this.itemDamage);
+		return this.stack;
+	};
+	this.getStackSize = function(){
+		return this.stackSize;
+	};
+	this.getItemDamage = function(){
+		return this.itemDamage;
+	};
+
+	return this;
+}
+
+
+
 function NBTTagCompound(){
-	this.setInteger = function(key, int){
-		if(typeof int == "number") this[key] = int;
+	this.setInteger = function(key, num){
+		if(typeof num == "number") this[key] = num;
 	};
 	this.setFluidStack = function(key, fluidStack){
 		if(isJavaClass(fluidStack, __fluidStack)) this[key] = fluidStack;
@@ -361,8 +393,14 @@ function NBTTagCompound(){
 	this.setBoolean = function(key, bool){
 		if(typeof bool == "boolean") this[key] = bool;
 	};
-	this.constructInteger = function(comp, key, int){
-		comp.func_74768_a(key, int);
+	this.setString = function(key, string){
+		if(typeof string == "string") this[key] = string;
+	}
+	this.constructInteger = function(comp, key, num){
+		comp.func_74768_a(key, num);
+	};
+	this.constructFloat = function(comp, key, num){
+		comp.func_74776_a(key, num);
 	};
 	this.constructFluidStack = function(comp, key, fluid){
 		var fs =  fluid.writeToNBT(newNBTTagCompound());
@@ -375,8 +413,11 @@ function NBTTagCompound(){
 	this.constructString = function(comp, key, string){
 		comp.func_74778_a(key, string);
 	};
-	this.constructBoolean = function(comp, key, boolean){
-		comp.func_74757_a(key, boolean);
+	this.constructBoolean = function(comp, key, bool){
+		comp.func_74757_a(key, bool);
+	};
+	this.constructTag = function(comp, key, tag){
+		comp.func_74782_a(key, tag);
 	};
 
 
@@ -386,7 +427,8 @@ function NBTTagCompound(){
 			if(typeof this[b] != "function"){
 				switch (typeof this[b]){
 					case "number":
-						this.constructInteger(compound, b, this[b]);
+						if(Math.floor(this[b]) == this[b]) this.constructInteger(compound, b, this[b]);
+						if(Math.floor(this[b]) != this[b]) this.constructFloat(compound, b, this[b]);
 						break;
 					case "string":
 						this.constructString(compound, b, this[b]);
@@ -397,9 +439,8 @@ function NBTTagCompound(){
 					case "object":
 						if(this[b] instanceof __itemStack) this.constructItemStack(compound, b, this[b]);
 						if(this[b] instanceof __fluidStack) this.constructFluidStack(compound, b, this[b]);
+						if(this[b] instanceof __nbtBase) this.constructTag(compound, b, this[b]);
 						break;
-
-
 				}
 			}
 		}

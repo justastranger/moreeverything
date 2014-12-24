@@ -290,8 +290,7 @@ var ic2RIFC;
 	};
 
 	ic2AddWashingRecipe = function(input, water, output){
-		var nbt = new net.minecraft.nbt.NBTTagCompound();
-		nbt.func_74768_a("amount", water);
+		var nbt = new NBTTagCompound().setInteger("amount", water).constructCompound();
 		if (typeof input == "string"){
 			if (input.indexOf(':')){
 				input = ic2RIIS(newItemStack(input));
@@ -309,7 +308,6 @@ var ic2RIFC;
 						output[i] = getOres(output[i])[0];
 					}
 				}
-
 			}
 		}
 		if (typeof output == "string"){
@@ -352,8 +350,10 @@ var ic2RIFC;
 	};
 
 	ic2AddAmplifier = function(item, amplify){
-		var nbt = new net.minecraft.nbt.NBTTagCompound();
-		nbt.func_74768_a("amplification", amplify);
+		//var nbt = new net.minecraft.nbt.NBTTagCompound();
+		//nbt.func_74768_a("amplification", amplify);
+		var nbt = new NBTTagCompound().setInteger("amplification", amplify).constructCompound();
+		//nbt = nbt.setInteger("amplification", amplify).constructCompound();
 		if (typeof item == "string"){
 			if (item.indexOf(':')){
 				item = ic2RIIS(newItemStack(item));
