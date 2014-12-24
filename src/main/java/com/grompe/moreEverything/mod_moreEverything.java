@@ -25,12 +25,12 @@ import com.google.common.io.ByteSource;
 @Mod(modid="mod_moreEverything", name="moreEverything", version=mod_moreEverything.VERSION_TEXT)
 public class mod_moreEverything
 {
-    public static final String VERSION_TEXT = "@version@";
+    public static final String VERSION_TEXT = "@VERSION@";
     public static final int WILDCARD = 32767;
 	public static Logger logger;
 	public static Map<Item, String> itemMap = new HashMap<Item, String>();
-    public List<String> includePost;
-    public List<String> includeInit;
+    public static List<String> includePost;
+    public static List<String> includeInit;
     protected static File configDir;
     protected static boolean standalone = false;
     protected static boolean loaded = false;
@@ -403,6 +403,7 @@ public class mod_moreEverything
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
+        // IMC should happen here
         if (includeInit != null) {
             for(String a : includeInit) {
                 sH.__include(a);

@@ -7,6 +7,8 @@
 
 var teAPI = Packages.thermalexpansion.util;
 var teCrafting = teAPI.crafting;
+var TE = "ThermalExpansion";
+
 var teAddPulverizerRecipe;
 var teAddFurnaceRecipe;
 var teAddOreDictFurnaceRecipe;
@@ -17,6 +19,8 @@ var teAddSmelterBlastOreRecipe;
 var teAddSmelterRecipe;
 var teAddFillRecipe;
 var teAddExtractRecipe;
+var teIMCCrucible;
+var teIMCFurnace;
 
 (function(){
 
@@ -206,9 +210,25 @@ var teAddExtractRecipe;
 		}
 		overwrite = !!overwrite;
 		var nbt = new NBTTagCompound().setItemStack("input", input).setFluidStack("output", fluid).setInteger("energy", energy).setBoolean("overwrite", overwrite).constructCompound();
-		sendIMCMessage("ThermalExpansion", "CrucibleRecipe", nbt);
-
+		sendIMCMessage(TE, "CrucibleRecipe", nbt);
 	}
+	teIMCFurnace = function(energy, input, output, overwrite){
+		energy = energy ? energy : 1600; // 1600 seems to be the default?
+		if (typeof input == "string"){
+			input = input.indexOf(':') ? newItemStack(input) : getOres(input)[0];
+		} else if (!isJavaClass(input, __itemStack)){
+			throw("teAddFurnaceRecipe: input must be a string or ItemStack");
+		}
+		if (typeof output == "string"){
+			output = output.indexOf(':') ? newItemStack(output) : getOres(output)[0];
+		} else if (!isJavaClass(output, __itemStack)){
+			throw("teAddFurnaceRecipe: output must be a string or ItemStack");
+		}
+		overwrite = !!overwrite; // hooray for double negatives!
+		var nbt = new NBTTagCompound().setInteger("energy", energy).setItemStack("input", input).setItemStack("output", output).setBoolean("overwrite", overwrite).constructCompound();
+		sendIMCMessage(TE, "FurnaceRecipe", nbt);
+	}
+
 
 	log("Thermal expansion... how embarrassing.");
 
