@@ -122,23 +122,23 @@ var teIMCFurnace;
 	teAddSmelterRecipe = function(energy, input1, input2, output, bonus, chance, overwrite){
 		if (!energy) throw("teAddSmelterRecipe: energy must be a number.");
 		if (typeof input1 == "string"){
-			input1 = input1.indexOf(':') ? newItemStack(input1) : getOres(input1)[0];
+			input1 = input1.indexOf(':')>0 ? newItemStack(input1) : getOres(input1)[0];
 		} else if (!isJavaClass(input1, __itemStack)){
 			throw("teAddPulverizerRecipe: input1 must be a string or ItemStack");
 		}
 		if (typeof input2 == "string"){
-			input2 = input2.indexOf(':') ? newItemStack(input2) : getOres(input2)[0];
+			input2 = input2.indexOf(':')>0 ? newItemStack(input2) : getOres(input2)[0];
 		} else if (!isJavaClass(input2, __itemStack)){
 			throw("teAddPulverizerRecipe: input2 must be a string or ItemStack");
 		}
 		if (typeof output == "string"){
-			output = output.indexOf(':') ? newItemStack(output) : getOres(output)[0];
+			output = output.indexOf(':')>0 ? newItemStack(output) : getOres(output)[0];
 		} else if (!isJavaClass(output, __itemStack)){
 			throw("teAddPulverizerRecipe: output must be a string or ItemStack");
 		}
 		if (bonus != undefined){
 			if (typeof bonus == "string"){
-				bonus = bonus.indexOf(':') ? newItemStack(bonus) : getOres(bonus)[0];
+				bonus = bonus.indexOf(':')>0 ? newItemStack(bonus) : getOres(bonus)[0];
 			}
 		} else {
 			bonus = null;
@@ -155,12 +155,12 @@ var teIMCFurnace;
 	teAddFillRecipe = function(energy, input, output, fluid, extract, overwrite){
 		if (!energy) throw("teAddFillRecipe: energy must be a positive number.");
 		if (typeof input == "string"){
-			input = input.indexOf(':') ? newItemStack(input) : getOres(input)[0];
+			input = input.indexOf(':')>0 ? newItemStack(input) : getOres(input)[0];
 		} else if (!isJavaClass(input, __itemStack)){
 			throw("teAddFillRecipe: input must be a string or ItemStack");
 		}
 		if (typeof output == "string"){
-			output = output.indexOf(':') ? newItemStack(output) : getOres(output)[0];
+			output = output.indexOf(':')>0 ? newItemStack(output) : getOres(output)[0];
 		} else if (!isJavaClass(output, __itemStack)){
 			throw("teAddFillRecipe: output must be a string or ItemStack");
 		}
@@ -176,12 +176,12 @@ var teIMCFurnace;
 	teAddExtractRecipe = function(energy, input, output, chance, fluid, fill, overwrite){
 		if (!energy) throw("teAddFillRecipe: energy must be a positive number.");
 		if (typeof input == "string"){
-			input = input.indexOf(':') ? newItemStack(input) : getOres(input)[0];
+			input = input.indexOf(':')>0 ? newItemStack(input) : getOres(input)[0];
 		} else if (!isJavaClass(input, __itemStack)){
 			throw("teAddFillRecipe: input must be a string or ItemStack");
 		}
 		if (typeof output == "string"){
-			output = output.indexOf(':') ? newItemStack(output) : getOres(output)[0];
+			output = output.indexOf(':')>0 ? newItemStack(output) : getOres(output)[0];
 		} else if (!isJavaClass(output, __itemStack)){
 			chance = 0;
 			output = null;
@@ -199,7 +199,7 @@ var teIMCFurnace;
 	teIMCCrucible = function(energy, input, fluid, overwrite){
 		if (!energy) throw("teAddCrucibleRecipe: energy must be a number.");
 		if (typeof input == "string"){
-			input = (input.indexOf(':') > 0) ? newItemStack(input) : getOres(input)[0];
+			input = (input.indexOf(':')>0 > 0) ? newItemStack(input) : getOres(input)[0];
 		} else if (!isJavaClass(input, __itemStack)){
 			throw("teAddPulverizerRecipe: input must be a string or ItemStack");
 		}
@@ -215,12 +215,12 @@ var teIMCFurnace;
 	teIMCFurnace = function(energy, input, output, overwrite){
 		energy = energy ? energy : 1600; // 1600 seems to be the default?
 		if (typeof input == "string"){
-			input = input.indexOf(':') ? newItemStack(input) : getOres(input)[0];
+			input = input.indexOf(':')>0 ? newItemStack(input) : getOres(input)[0];
 		} else if (!isJavaClass(input, __itemStack)){
 			throw("teAddFurnaceRecipe: input must be a string or ItemStack");
 		}
 		if (typeof output == "string"){
-			output = output.indexOf(':') ? newItemStack(output) : getOres(output)[0];
+			output = output.indexOf(':')>0 ? newItemStack(output) : getOres(output)[0];
 		} else if (!isJavaClass(output, __itemStack)){
 			throw("teAddFurnaceRecipe: output must be a string or ItemStack");
 		}

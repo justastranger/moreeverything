@@ -5,7 +5,7 @@
 (function(){
 	if (!optionalFeature.mod_tweaks) return;
 
-	if (modList.BiomesOPlenty){
+	if (!!modList.BiomesOPlenty){
 		addFuel(40, "BiomesOPlenty:plants", 0);	// Dead grass
 		addFuel(40, "BiomesOPlenty:plants", 5); // Thorns
 		addFuel(40, "BiomesOPlenty:plants", 6); // Barley
@@ -16,7 +16,7 @@
 		addFuel(100, "BiomesOPlenty:bamboo");
 	}
 
-	if (modList.EE3 && (EE3Enabled == true)){
+	if (!!modList.EE3 && (EE3Enabled == true)){
 		// Most of this was rather straight forward porting, replacing any mentions of the old mods_init.js with 1.7+ item names,
 		// which shouldn't change version to version, between installs, worlds, or config options
 		if (optionalFeature.ee_vanilla_transmutations){
@@ -344,7 +344,7 @@
 		}
 	}
 
-	if (modList.ExtrabiomesXL){
+	if (!!modList.ExtrabiomesXL){
 		addFuel(40, "ExtrabiomesXL:plants4");
 		// addFuel(100, m.flower, 0);	// Shrub
 		//addFuel(100, "ExtrabiomesXL:flower1", 5);	// Root
@@ -357,18 +357,20 @@
 		// Add missing ore dictionary entries
 	}
 
-	if (modList.TwilightForest){
+	if (!!modList.TwilightForest){
 		addFuel(100, "TwilightForest:tile.TFSapling");
 		// Add missing ore dictionary entries
 		registerOre("logWood", newItemStack("TwilightForest:tile.TFLog", 1, WILDCARD));
 	}
 
-	if (modList.Thaumcraft){
+	if (!!modList.Thaumcraft){
 		addFuel(100, "Thaumcraft:blockCustomPlant", 0); // Greatwood sapling
 		addFuel(100, "Thaumcraft:blockCustomPlant", 1); // Silverwood sapling
+		addShapelessRecipe(new ItemStack(item.rottenFlesh,9).constructStack(),
+			[new ItemStack("Thaumcraft:blockTaint",1,2).constructStack()]); // Uncrafting of Block of Flesh
 	}
 
-	if (modList.Natura){
+	if (!!modList.Natura){
 		addFuel(100, "Natura:florasapling");
 		addFuel(40, "Natura:barleyFood", 0); // Barley
 		addFuel(300, "Natura:door.redwood");
@@ -380,6 +382,14 @@
 		addFuel(300, "Natura:door.redwoodbark");
 		// Add missing ore dictionary entries
 		registerOre("logWood", newItemStack("Natura:bloodwood", 1, WILDCARD));
+	}
+
+	if(!!modList.Botania){
+		if(!!modList.ThermalExpansion){
+			teAddSmelterRecipe(5000, "ingotMithril", "ingotIron", "ingotManasteel", null, null, false)
+
+		}
+
 	}
 
 	if (!!modList.TConstruct){

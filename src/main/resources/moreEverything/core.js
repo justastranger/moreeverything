@@ -384,7 +384,32 @@ function ItemStack(item, amount, meta){
 	return this;
 }
 
+function FluidStack(fluid, amount){
+	this.fluidID = typeof fluid == "string" ? getFluidID(fluid) : fluid;
+	this.amount = amount ? amount : 1000;
 
+	this.getFluid = function(){
+		return getFluid(this.fluidID);
+	};
+
+	this.getFluidName = function(){
+		return getFluidName(this.fluidID);
+	};
+
+	this.getAmount = function(){
+		return this.amount;
+	};
+
+	this.setAmount = function(amount){
+		this.amount = amount;
+		return this;
+	};
+
+	this.constructStack = function(){
+		return new __forge.fluids.FluidStack(id, amount);
+	};
+
+}
 
 function NBTTagCompound(){
 	this.blankCompound = function(){

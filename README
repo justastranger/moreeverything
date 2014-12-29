@@ -6,13 +6,11 @@ http://www.minecraftforum.net/topic/1819835-/
 
 How to build from source
 ========================
-You don't require MCP to build this mod.
-
-Building on Windows with JDK 6 or 7:
+Building on Windows with JDK 6, 7, or 8:
 1. Run "gradlew build" in the project root.
 
-Building on Windows with JDK 8:
-1. Don't.
+Running the mod with Java 8:
+1. It's probably a bad idea right now since Rhino was replaced with another engine.
 
 Goals of the mod
 ================
@@ -47,6 +45,8 @@ equivalent_exchange.js:
 - Probably going to be removed, along with the whole EE3 support section from tweaks_mods.js
 thaumcraft.js:
 - Provides functions for adding aspects to items and blocks.
+EnderIO.js, ic2.js, thermal_expansion.js, railcraft.js, TConstruct.js, buildcraft.js, blood_magic.js:
+- Provides functions for adding recipes to various machines
 
 - adds /eval command to execute JavaScript code
 
@@ -58,15 +58,20 @@ Supported APIs:
   Equivalent Exchange 3
   Thaumcraft
   Industrial-Craft 2
+  EnderIO
+  Thermal Expansion
+  Railcraft
+  Tinker's Construct
+  Buildcraft
+  Blood Magic
 
 Supported block/item IDs:
-
-  Supported item ID's shouldn't be a thing to worry about any more due to names being assigned to blocks.
+  Item ID's shouldn't be a thing to worry about any more due to names being assigned to items/blocks.
 
 
 Limitations
 ===========
-Currently requires Oracle Java 6 or 7. Maybe 8 is supported, but this is not tested.
+Currently requires Oracle Java 6 or 7. 8 is supported with the inclusion of 7's rt.jar.
 
 
 Future
