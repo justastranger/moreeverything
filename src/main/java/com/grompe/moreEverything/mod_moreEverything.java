@@ -29,8 +29,8 @@ public class mod_moreEverything
     public static final int WILDCARD = 32767;
 	public static Logger logger;
 	public static Map<Item, String> itemMap = new HashMap<Item, String>();
-    public static List<String> includePost;
-    public static List<String> includeInit;
+    public static List<String> includePost = new ArrayList<String>();
+    public static List<String> includeInit = new ArrayList<String>();
     protected static File configDir;
     protected static boolean standalone = false;
     protected static boolean loaded = false;
