@@ -2,7 +2,7 @@
 // By justastranger
 // Written with RotaryCraft v3d for 1.7.10
 
-var RoCRM = Reika.RotaryCraft.Auxiliary.RecipeManagers;
+var RoCRM = Packages.Reika.RotaryCraft.Auxiliary.RecipeManagers;
 
 // TODO Figure out why the actual recipes seem unreachable...
 // It's keeping recipe removal from being a thing.
