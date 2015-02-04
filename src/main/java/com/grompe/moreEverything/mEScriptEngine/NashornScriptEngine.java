@@ -2,29 +2,32 @@ package com.grompe.moreEverything.mEScriptEngine;
 
 import javax.script.*;
 import java.io.Reader;
-
-import static com.grompe.moreEverything.mod_moreEverything.logRhinoException;
+import java.io.StringReader;
 
 public class NashornScriptEngine {
     public static ScriptEngineManager engineManager = new ScriptEngineManager();
     public static ScriptEngine nashornEngine = engineManager.getEngineByName("nashorn");
-    public static Bindings global;
+    public static Bindings global = new SimpleBindings();
 
     public NashornScriptEngine() {
-        global = new SimpleBindings();
-        nashornEngine.setBindings(global, ScriptContext.ENGINE_SCOPE);
+
     }
 
-    public Object eval(Reader var1){
+    public Object eval(Reader var1) throws ScriptException {
         if(var1 == null)
         {
             throw new NullPointerException("null script");
         } else {
-            try {
-                return nashornEngine.eval(var1);
-            } catch (ScriptException e) {
-                logRhinoException(e);
-            }
+            return nashornEngine.eval(var1);
+        }
+    }
+
+    public Object eval(String var1) throws ScriptException {
+        if(var1 == null)
+        {
+            throw new NullPointerException("null script");
+        } else {
+            return nashornEngine.eval((Reader)(new StringReader(var1)));
         }
     }
 
