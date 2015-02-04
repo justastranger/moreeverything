@@ -375,8 +375,11 @@ function ItemStack(item, amount, meta){
 		return this.itemDamage;
 	};
 	this.constructStack = function(){
-		if (getItem(this.item) == null) throw("newItemStack: item does not exist.");
-		if (typeof this.item == "string" || isJavaClass(this.item, java.lang.String)) this.item = getItem(this.item);
+		if (typeof this.item == "string" && getItem(this.item) == null){
+			try{this.item = getItemName(this.item);}
+			catch(e){throw("newItemStack: item does not exist.");}
+		}
+		if (typeof this.item == "string" || (this.item instanceof java.lang.String)) this.item = getItem(this.item);
 		this.stack = new net.minecraft.item.ItemStack(this.item, this.stackSize, this.itemDamage)
 		return this.stack;
 	};

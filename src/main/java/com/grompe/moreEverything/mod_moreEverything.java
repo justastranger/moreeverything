@@ -3,24 +3,32 @@
 // Contact XMPP/email: i@grompe.org.ru
 package com.grompe.moreEverything;
 
+import com.google.common.io.ByteSource;
+import com.google.common.io.Files;
+import com.google.common.io.Resources;
+import com.grompe.moreEverything.mEScriptEngine.NashornScriptEngine;
+import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.*;
+import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import org.apache.logging.log4j.Logger;
+
+import javax.script.ScriptEngine;
+import javax.script.ScriptException;
 import java.io.*;
-import java.util.*;
-import java.lang.reflect.*;
-import java.util.regex.*;
-import javax.script.*;
-import sun.org.mozilla.javascript.internal.*;
-import com.grompe.moreEverything.mEScriptEngine.*;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.item.Item;
-import com.google.common.io.Resources;
-import com.google.common.io.Files;
-import com.google.common.io.ByteSource;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+//import sun.org.mozilla.javascript.internal.RhinoException;
 
 @Mod(modid="mod_moreEverything", name="moreEverything", version=mod_moreEverything.VERSION_TEXT)
 public class mod_moreEverything
@@ -34,7 +42,10 @@ public class mod_moreEverything
     protected static File configDir;
     protected static boolean standalone = false;
     protected static boolean loaded = false;
-    protected static RhinoScriptEngine engine = new RhinoScriptEngine();
+    //protected static RhinoScriptEngine engine = new RhinoScriptEngine();
+    protected static NashornScriptEngine engine = new NashornScriptEngine();
+    //public static ScriptEngineManager engineManager = new ScriptEngineManager();
+    //public static ScriptEngine nashornEngine = engineManager.getEngineByName("nashorn");
     protected static ScriptHandler sH = new ScriptHandler();
     protected static int warnings = 0;
     protected static int errors = 0;
@@ -122,7 +133,7 @@ public class mod_moreEverything
 			log(String.format(s, fmt));
 		}
 		
-        public static void __include(String str) throws RhinoException
+        public static void __include(String str) throws ScriptException
         {
             File file = new File(configDir, str);
             if (!file.exists())
@@ -141,7 +152,7 @@ public class mod_moreEverything
             execConfigFile(file);
         }
 
-        public static void __includeInternal(String str) throws RhinoException
+        public static void __includeInternal(String str) throws ScriptException
         {
             log("Including '%s' inside jar", str);
             execResource(str);
@@ -221,12 +232,12 @@ public class mod_moreEverything
     
     }
 
-    public static void logRhinoException(RhinoException ex)
+    public static void logRhinoException(ScriptException ex)
     {
         log("!SE! " + getScriptStacktrace(ex));
     }
 
-    public static String getScriptStacktrace(RhinoException ex)
+    public static String getScriptStacktrace(ScriptException ex)
     {
         errors += 1;
         CharArrayWriter ca = new CharArrayWriter();
@@ -235,7 +246,7 @@ public class mod_moreEverything
         return ca.toString().replaceAll("\tat "+boring+"[^\n]+\n", "").replaceFirst(boring, "");
     }
 
-    public static void execResource(String str) throws RhinoException
+    public static void execResource(String str) throws ScriptException
     {
 		try
 		{
@@ -256,13 +267,13 @@ public class mod_moreEverything
 		}
     }
     
-    public static void execStream(Reader reader, String name) throws RhinoException
+    public static void execStream(Reader reader, String name) throws ScriptException
     {
         engine.put(ScriptEngine.FILENAME, name);
         engine.eval(reader);
     }
 
-    public static void execConfigFile(File file) throws RhinoException
+    public static void execConfigFile(File file) throws ScriptException
     {
         try
         {
@@ -292,13 +303,6 @@ public class mod_moreEverything
 			log("something went wrong");
 			log(e.toString());
 		}
-        //InputStream s = mod_moreEverything.class.getResourceAsStream(name);
-        //if (resource == null) return false;
-        /* try
-        {
-            s.close();
-        }
-        catch(IOException e){} */
 		return true;
     }
     
@@ -340,7 +344,7 @@ public class mod_moreEverything
         File file = new File(configDir, "mod_moreEverything.js");
         if(!file.exists()) extractDefaultConfig();
 
-        engine = new RhinoScriptEngine();
+        //engine = new RhinoScriptEngine();
         sH = new ScriptHandler();
         
         engine.put("__api", sH);
@@ -349,7 +353,7 @@ public class mod_moreEverything
             execConfigFile(file);
             //execResource("moreEverything/core.js");
         }
-        catch(RhinoException e)
+        catch(ScriptException e)
         {
             logRhinoException(e);
         }
@@ -363,9 +367,6 @@ public class mod_moreEverything
     {
         return VERSION_TEXT;
     }
-
-    // Yay for old Minecraft support!
-    
 
     public String Version()
     {
@@ -406,7 +407,11 @@ public class mod_moreEverything
         // IMC should happen here
         if (includeInit != null) {
             for(String a : includeInit) {
-                sH.__include(a);
+                try {
+                    sH.__include(a);
+                } catch(ScriptException e) {
+                    logRhinoException(e);
+                }
             }
         }
     }
@@ -416,7 +421,11 @@ public class mod_moreEverything
 	{
         if (includePost != null) {
             for(String a : includePost) {
-                sH.__include(a);
+                try {
+                    sH.__include(a);
+                } catch (ScriptException e) {
+                    logRhinoException(e);
+                }
             }
         }
 	}

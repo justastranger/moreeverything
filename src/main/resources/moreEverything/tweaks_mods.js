@@ -445,6 +445,26 @@
 
 	}
 
+	if (modList.magicalcrops){
+		var essenceOrb = new ItemStack("magicalcrops:magicalcrops_EssenceOrb").constructStack();
+		var Essence = new ItemStack("magicalcrops:magicalcrops_MagicEssence");
+		var mc = Packages.com.mark719.magicalcrops.MagicalCrops;
+		var seeds = {};
+
+		for(var a in mc){
+			if(a instanceof __item){
+				if (a.func_77658_a().indexOf("seeds")){
+					seeds[a] = new ItemStack("magicalcrops:magicalcrops_"+a.func_77658_a()).constructStack();
+				}
+			}
+		}
+		for(var a in seeds){
+			addShapelessRecipe(Essence.setItemDamage(1).constructStack(), [essenceOrb, new ItemStack(a)])
+		}
+
+	}
+
+
 	log("Forcing my play-style on you.");
 
 })();

@@ -1,13 +1,13 @@
 package com.grompe.moreEverything;
 
-import javax.script.*;
+import net.minecraft.command.CommandBase;
+import net.minecraft.command.ICommand;
+import net.minecraft.command.ICommandSender;
+
+import javax.script.ScriptEngine;
+import javax.script.ScriptException;
 import java.util.ArrayList;
 import java.util.List;
-import java.lang.StringBuilder;
-import sun.org.mozilla.javascript.internal.*;
-import net.minecraft.command.CommandBase;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.command.ICommand;
 
 
 public class mEDependentCommand extends CommandBase
@@ -42,20 +42,20 @@ public class mEDependentCommand extends CommandBase
 		sb.append(args[0]);
 		for (int i = 1; i < args.length; i++) sb.append(" ").append(args[i]);
 		String command = sb.toString();
-		mod_moreEverything.engine.put(ScriptEngine.FILENAME, "chat");
+		mod_moreEverything.nashornEngine.put(ScriptEngine.FILENAME, "chat");
 		try
 		{
-			Object obj = mod_moreEverything.engine.eval("eval('"+command.replaceAll("'", "\\\\'")+"')");
+			Object obj = mod_moreEverything.nashornEngine.eval("eval('"+command.replaceAll("'", "\\\\'")+"')");
 			String result;
 			if (obj != null) 
 			{
-				result = (String)mod_moreEverything.engine.eval("'' + eval('"+command.replaceAll("'", "\\\\'")+"')").toString().replace("\r\n","\n");
+				result = (String)mod_moreEverything.nashornEngine.eval("'' + eval('"+command.replaceAll("'", "\\\\'")+"')").toString().replace("\r\n","\n");
 			} else {
 				result = "null";
 			}
 			ChatMessageHandler.multiLineCommandSenderReply(caller,("\u00a77>>> "+command+"\n\u00a7r"+result));
 		}
-		catch(RhinoException e)
+		catch(ScriptException e)
 		{
 			String msg = mod_moreEverything.getScriptStacktrace(e);
 			// Leave only the interesting part of the message
