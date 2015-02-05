@@ -6,11 +6,11 @@ import java.io.StringReader;
 
 public class NashornScriptEngine {
     public static ScriptEngineManager engineManager = new ScriptEngineManager();
-    public static ScriptEngine nashornEngine = engineManager.getEngineByName("nashorn");
-    public static Bindings global = new SimpleBindings();
+    public static ScriptEngine nashornEngine;// = engineManager.getEngineByName("nashorn");
+    // public static Bindings bindings = nashornEngine.getBindings(ScriptContext.ENGINE_SCOPE);
 
     public NashornScriptEngine() {
-
+        this.nashornEngine = engineManager.getEngineByName("nashorn");
     }
 
     public Object eval(Reader var1) throws ScriptException {
@@ -18,7 +18,7 @@ public class NashornScriptEngine {
         {
             throw new NullPointerException("null script");
         } else {
-            return nashornEngine.eval(var1);
+            return this.nashornEngine.eval(var1);
         }
     }
 
@@ -27,16 +27,16 @@ public class NashornScriptEngine {
         {
             throw new NullPointerException("null script");
         } else {
-            return nashornEngine.eval((Reader)(new StringReader(var1)));
+            return this.nashornEngine.eval((Reader)(new StringReader(var1)));
         }
     }
 
     public void put(String s, Object o){
-        global.put(s, o);
+        this.nashornEngine.put(s,o);
     }
 
     public Object get(String s){
-        return global.get(s);
+        return this.nashornEngine.get(s);
     }
 
 }

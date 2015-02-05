@@ -43,7 +43,7 @@ public class mod_moreEverything
     protected static boolean standalone = false;
     protected static boolean loaded = false;
     //protected static RhinoScriptEngine engine = new RhinoScriptEngine();
-    protected static NashornScriptEngine engine = new NashornScriptEngine();
+    protected static NashornScriptEngine engine;// = new NashornScriptEngine();
     //public static ScriptEngineManager engineManager = new ScriptEngineManager();
     //public static ScriptEngine nashornEngine = engineManager.getEngineByName("nashorn");
     protected static ScriptHandler sH = new ScriptHandler();
@@ -102,10 +102,10 @@ public class mod_moreEverything
 					log((String)workDir);
 					return new File(workDir, "config");
 				} else {
-					System.out.println("Couldn't get workDir, using current directory.");
+					log("Couldn't get workDir, using current directory.");
 				}
 			} else {
-				System.out.println("Couldn't get command line arguments, using current directory.");
+				log("Couldn't get command line arguments, using current directory.");
 			}
 		}
 		catch(ClassNotFoundException e2)
@@ -278,12 +278,12 @@ public class mod_moreEverything
         try
         {
             InputStreamReader reader = new InputStreamReader(new FileInputStream(file), "UTF-8");
-            execStream(reader, file.toString());
+            execStream(reader, file.getName());
             reader.close();
         }
         catch(FileNotFoundException e)
         {
-            log("File %s not found, ignoring.", file.toString());
+            log("File %s not found, ignoring.", file.getName());
         }
         catch(IOException e)
         {
@@ -345,8 +345,9 @@ public class mod_moreEverything
         if(!file.exists()) extractDefaultConfig();
 
         //engine = new RhinoScriptEngine();
+        engine = new NashornScriptEngine();
         sH = new ScriptHandler();
-        
+
         engine.put("__api", sH);
         try
         {
