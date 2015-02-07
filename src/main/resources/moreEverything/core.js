@@ -3,18 +3,18 @@
 // re-organized by justastranger
 
 
-var __int = java.lang.Integer.TYPE;
-var __float = java.lang.Float.TYPE;
-var __boolean = java.lang.Boolean.TYPE;
-var __char = java.lang.Character.TYPE;
-var __class = java.lang.Class.forName("java.lang.Class");
-var __objectArray = __class.forName("[Ljava.lang.Object;");
-var __method = __class.forName("java.lang.reflect.Method");
-var __item;
+var __int = java.type("java.lang.Integer");
+var __float = java.type("java.lang.Float");
+var __boolean = java.type("java.lang.Boolean");
+var __char = java.type("java.lang.Character");
+var __class = java.type("java.lang.Class");
+var __objectArray = java.type("java.lang.Object[]");
+var __method = java.type("java.lang.reflect.Method");
+var __item = java.type("net.minecraft.item.Item");
 var __block;
-var __itemStack = Packages.net.minecraft.item.ItemStack;
-var __fluidStack = Packages.net.minecraftforge.fluids.FluidStack;
-var __nbtBase = Packages.net.minecraft.nbt.NBTBase;
+var __itemStack = java.type("net.minecraft.item.ItemStack");
+var __fluidStack = java.type("net.minecraftforge.fluids.FluidStack");
+var __nbtBase = java.type("net.minecraft.nbt.NBTBase");
 var __itemsList;
 var logLevel = { debug : 0, info : 1, warning : 2, error : 3 };
 

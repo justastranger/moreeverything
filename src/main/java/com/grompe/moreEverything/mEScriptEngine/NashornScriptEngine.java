@@ -1,16 +1,47 @@
 package com.grompe.moreEverything.mEScriptEngine;
 
-import javax.script.*;
-import java.io.Reader;
-import java.io.StringReader;
+import com.google.common.io.ByteSource;
+import com.google.common.io.Resources;
+import com.grompe.moreEverything.mod_moreEverything;
+
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+import java.io.*;
 
 public class NashornScriptEngine {
-    public static ScriptEngineManager engineManager = new ScriptEngineManager();
-    public static ScriptEngine nashornEngine;// = engineManager.getEngineByName("nashorn");
+    //public static ScriptEngineManager engineManager;// = new ScriptEngineManager();
+    public ScriptEngine nashornEngine;// = engineManager.getEngineByName("nashorn");
     // public static Bindings bindings = nashornEngine.getBindings(ScriptContext.ENGINE_SCOPE);
 
     public NashornScriptEngine() {
-        this.nashornEngine = engineManager.getEngineByName("nashorn");
+        nashornEngine = new ScriptEngineManager(null).getEngineByName("nashorn");
+    }
+
+    public void execResource(String str) throws ScriptException
+    {
+        try
+        {
+            ByteSource resource = Resources.asByteSource(Resources.getResource(str));
+            InputStream is = resource.openStream();
+            if (is == null)
+            {
+                mod_moreEverything.log("Error: unable to find '%s' to include", str);
+                return;
+            }
+            execStream(new InputStreamReader(is), str);
+        }
+        catch(IOException e)
+        {
+            mod_moreEverything.log("Error: unable to find '%s' to include", str);
+            mod_moreEverything.log(e.toString());
+        }
+    }
+
+    public void execStream(Reader reader, String name) throws ScriptException
+    {
+        this.put("javax.script.filename", name);
+        this.eval(reader);
     }
 
     public Object eval(Reader var1) throws ScriptException {
@@ -18,7 +49,7 @@ public class NashornScriptEngine {
         {
             throw new NullPointerException("null script");
         } else {
-            return this.nashornEngine.eval(var1);
+            return nashornEngine.eval(var1);
         }
     }
 
@@ -27,16 +58,16 @@ public class NashornScriptEngine {
         {
             throw new NullPointerException("null script");
         } else {
-            return this.nashornEngine.eval((Reader)(new StringReader(var1)));
+            return nashornEngine.eval((Reader)(new StringReader(var1)));
         }
     }
 
     public void put(String s, Object o){
-        this.nashornEngine.put(s,o);
+        nashornEngine.put(s,o);
     }
 
     public Object get(String s){
-        return this.nashornEngine.get(s);
+        return nashornEngine.get(s);
     }
 
 }

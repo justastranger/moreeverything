@@ -42,14 +42,14 @@ public class mEDependentCommand extends CommandBase
 		sb.append(args[0]);
 		for (int i = 1; i < args.length; i++) sb.append(" ").append(args[i]);
 		String command = sb.toString();
-		mod_moreEverything.engine.put(ScriptEngine.FILENAME, "chat");
+		mod_moreEverything.me.engine.put(ScriptEngine.FILENAME, "chat");
 		try
 		{
-			Object obj = mod_moreEverything.engine.eval("eval('"+command.replaceAll("'", "\\\\'")+"')");
+			Object obj = mod_moreEverything.me.engine.eval("eval('"+command.replaceAll("'", "\\\\'")+"')");
 			String result;
 			if (obj != null) 
 			{
-				result = (String)mod_moreEverything.engine.eval("'' + eval('"+command.replaceAll("'", "\\\\'")+"')").toString().replace("\r\n","\n");
+				result = (String)mod_moreEverything.me.engine.eval("'' + eval('"+command.replaceAll("'", "\\\\'")+"')").toString().replace("\r\n","\n");
 			} else {
 				result = "null";
 			}
@@ -57,7 +57,7 @@ public class mEDependentCommand extends CommandBase
 		}
 		catch(ScriptException e)
 		{
-			String msg = mod_moreEverything.getScriptStacktrace(e);
+			String msg = mod_moreEverything.me.getScriptStacktrace(e);
 			// Leave only the interesting part of the message
 			mod_moreEverything.log(msg);
 			msg = msg.substring(0, msg.indexOf("\tat com.grompe.moreEverything.mEScriptEngine.RhinoScriptEngine")-2).replace("\t", "    ").replace("\r\n", "\n\u00a7c");

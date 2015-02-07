@@ -3,7 +3,6 @@
 // Contact XMPP/email: i@grompe.org.ru
 package com.grompe.moreEverything;
 
-import com.google.common.io.ByteSource;
 import com.google.common.io.Files;
 import com.google.common.io.Resources;
 import com.grompe.moreEverything.mEScriptEngine.NashornScriptEngine;
@@ -34,24 +33,25 @@ import java.util.regex.Pattern;
 public class mod_moreEverything
 {
     public static final String VERSION_TEXT = "@VERSION@";
-    public static final int WILDCARD = 32767;
+    public final int WILDCARD = 32767;
 	public static Logger logger;
-	public static Map<Item, String> itemMap = new HashMap<Item, String>();
-    public static List<String> includePost = new ArrayList<String>();
-    public static List<String> includeInit = new ArrayList<String>();
+	public Map<Item, String> itemMap = new HashMap<Item, String>();
+    public List<String> includePost = new ArrayList<String>();
+    public List<String> includeInit = new ArrayList<String>();
     protected static File configDir;
     protected static boolean standalone = false;
     protected static boolean loaded = false;
     //protected static RhinoScriptEngine engine = new RhinoScriptEngine();
-    protected static NashornScriptEngine engine;// = new NashornScriptEngine();
+    protected NashornScriptEngine engine;// = new NashornScriptEngine();
     //public static ScriptEngineManager engineManager = new ScriptEngineManager();
     //public static ScriptEngine nashornEngine = engineManager.getEngineByName("nashorn");
-    protected static ScriptHandler sH = new ScriptHandler();
+    protected ScriptHandler sH = new ScriptHandler();
+    protected static mod_moreEverything me;
     protected static int warnings = 0;
     protected static int errors = 0;
 
 	
-	public static void itemAdd(Item key, String value)
+	public void itemAdd(Item key, String value)
 	{
 		itemMap.put(key, value);
 	}
@@ -60,12 +60,12 @@ public class mod_moreEverything
         includePost.add(file);
     }
 	
-	public static String itemGet(Item key)
+	public String itemGet(Item key)
 	{
 		return itemMap.get(key);
 	}
 	
-	public static Map<Item, String> getItemMap()
+	public Map<Item, String> getItemMap()
 	{
 		return itemMap;
 	}
@@ -80,7 +80,7 @@ public class mod_moreEverything
         log(String.format(s, fmt));
     }
 
-    private static File getConfigDir()
+    private File getConfigDir()
     {
         if (standalone) return new File("config");
         try
@@ -115,32 +115,32 @@ public class mod_moreEverything
 		return new File("config");
 	}
     
-    public static class ScriptHandler
+    public class ScriptHandler
     {
 
-        public static String __getConfigDir()
+        public String __getConfigDir()
         {
             return configDir.toString();
         }
 		
-		public static void log(String s)
+		public void log(String s)
 		{
 			logger.info(s);
 		}
 		
-		public static void log(String s, Object... fmt)
+		public void log(String s, Object... fmt)
 		{
 			log(String.format(s, fmt));
 		}
 		
-        public static void __include(String str) throws ScriptException
+        public void __include(String str) throws ScriptException
         {
             File file = new File(configDir, str);
             if (!file.exists())
             {
-                if (hasResource(str))
+                if (me.hasResource(str))
                 {
-                    extractFromJar(str, configDir);
+                    me.extractFromJar(str, configDir);
                     log("Including '%s' (extracted from jar)", str);
                 } else {
                     log("Error: unable to find '%s' to include", str);
@@ -149,17 +149,17 @@ public class mod_moreEverything
             } else {
                 log("Including '%s'", str);
             }
-            execConfigFile(file);
+            me.execConfigFile(file);
         }
 
-        public static void __includeInternal(String str) throws ScriptException
+        public void __includeInternal(String str) throws ScriptException
         {
             log("Including '%s' inside jar", str);
-            execResource(str);
+            engine.execResource(str);
         }
 
         // if running without Minecraft
-        public static boolean __isStandalone()
+        public boolean __isStandalone()
         {
             return standalone;
         }
@@ -168,76 +168,76 @@ public class mod_moreEverything
         // Java 6 doesn't like to provide these deep-code-digging functions
         // to JavaScript, so have to provide it with the following few helpers
 
-        public static Method __getMethod(Class<?> c, String name, Class... paramtypes) throws Exception
+        public Method __getMethod(Class<?> c, String name, Class... paramtypes) throws Exception
         {
            return c.getMethod(name, paramtypes);
         }
 
-        public static Object __newInstance(Constructor c, Object... initargs) throws Exception
+        public Object __newInstance(Constructor c, Object... initargs) throws Exception
         {
            return c.newInstance(initargs);
         }
 
-        public static Constructor<?> __getConstructor(Class<?> c, Class... paramtypes) throws Exception
+        public Constructor<?> __getConstructor(Class<?> c, Class... paramtypes) throws Exception
         {
            return c.getConstructor(paramtypes);
         }
 
-        public static String __getMethodName(Method meth)
+        public String __getMethodName(Method meth)
         {
             return meth.getName();
         }
 
-        public static Class[] __getParameterTypes(Method meth)
+        public Class[] __getParameterTypes(Method meth)
         {
             return meth.getParameterTypes();
         }
 
-        public static Class __getReturnType(Method meth)
+        public Class __getReturnType(Method meth)
         {
             return meth.getReturnType();
         }
 
-        public static Object __invoke(Method meth, Object o, Object... args) throws Exception
+        public Object __invoke(Method meth, Object o, Object... args) throws Exception
         {
             return meth.invoke(o, args);
         }
 
-        public static Object __invokeStatic(Method meth, Object... args) throws Exception
+        public Object __invokeStatic(Method meth, Object... args) throws Exception
         {
             return meth.invoke(null, args);
         }
 
         // Various utility functions
 
-        public static Object __unwrap(Object o)
+        public Object __unwrap(Object o)
         {
             return o;
         }
         
-        public static void __testException() throws Exception
+        public void __testException() throws Exception
         {
             throw new IllegalArgumentException("O_O");
         }
 
-        public static int __incWarnings(int amount)
+        public int __incWarnings(int amount)
         {
             return warnings += amount;
         }
 
-        public static int __incErrors(int amount)
+        public int __incErrors(int amount)
         {
             return errors += amount;
         }
     
     }
 
-    public static void logRhinoException(ScriptException ex)
+    public void logRhinoException(ScriptException ex)
     {
         log("!SE! " + getScriptStacktrace(ex));
     }
 
-    public static String getScriptStacktrace(ScriptException ex)
+    public String getScriptStacktrace(ScriptException ex)
     {
         errors += 1;
         CharArrayWriter ca = new CharArrayWriter();
@@ -246,39 +246,12 @@ public class mod_moreEverything
         return ca.toString().replaceAll("\tat "+boring+"[^\n]+\n", "").replaceFirst(boring, "");
     }
 
-    public static void execResource(String str) throws ScriptException
-    {
-		try
-		{
-			ByteSource resource = Resources.asByteSource(Resources.getResource(str));
-			InputStream is = resource.openStream();
-			//InputStream s = mod_moreEverything.class.getResourceAsStream(str);
-			if (is == null)
-			{
-				log("Error: unable to find '%s' to include", str);
-				return;
-			}
-			execStream(new InputStreamReader(is), str);
-		}
-		catch(IOException e)
-		{
-			log("Error: unable to find '%s' to include", str);
-			log(e.toString());
-		}
-    }
-    
-    public static void execStream(Reader reader, String name) throws ScriptException
-    {
-        engine.put(ScriptEngine.FILENAME, name);
-        engine.eval(reader);
-    }
-
-    public static void execConfigFile(File file) throws ScriptException
+    public void execConfigFile(File file) throws ScriptException
     {
         try
         {
             InputStreamReader reader = new InputStreamReader(new FileInputStream(file), "UTF-8");
-            execStream(reader, file.getName());
+            engine.execStream(reader, file.getName());
             reader.close();
         }
         catch(FileNotFoundException e)
@@ -291,7 +264,7 @@ public class mod_moreEverything
         }
     }
 
-    public static boolean hasResource(String name)
+    public boolean hasResource(String name)
     {
 		try
 		{
@@ -307,7 +280,7 @@ public class mod_moreEverything
     }
     
 	
-    public static void extractFromJar(String name, File outdir)
+    public void extractFromJar(String name, File outdir)
     {
 		try
 		{
@@ -326,7 +299,7 @@ public class mod_moreEverything
 		}
     }
 
-    private static void extractDefaultConfig()
+    private void extractDefaultConfig()
     {
         log("Extracting default configuration file.");
         configDir.mkdir();
@@ -397,7 +370,7 @@ public class mod_moreEverything
 	{
         logger = event.getModLog();
         GameRegistry.registerFuelHandler(new mEFuelHandler());
-        mod_moreEverything me = new mod_moreEverything();
+        me = new mod_moreEverything();
         me.standalone = false;
         me.modsLoaded();
 	}
