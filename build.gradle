@@ -33,7 +33,7 @@ minecraft {
     version = minecraft_version + "-" + forge_version
     assetDir = "run/assets"
 
-    replaceIn "mod_moreEverything.java"
+    replaceIn "moreEverything.java"
     replace "@VERSION@", "${mod_version}.${build ?: 0}"
 }
 

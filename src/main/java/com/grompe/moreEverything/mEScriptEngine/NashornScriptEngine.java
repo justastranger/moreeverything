@@ -2,7 +2,7 @@ package com.grompe.moreEverything.mEScriptEngine;
 
 import com.google.common.io.ByteSource;
 import com.google.common.io.Resources;
-import com.grompe.moreEverything.mod_moreEverything;
+import com.grompe.moreEverything.moreEverything;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -26,15 +26,15 @@ public class NashornScriptEngine {
             InputStream is = resource.openStream();
             if (is == null)
             {
-                mod_moreEverything.log("Error: unable to find '%s' to include", str);
+                moreEverything.log("Error: unable to find '%s' to include", str);
                 return;
             }
             execStream(new InputStreamReader(is), str);
         }
         catch(IOException e)
         {
-            mod_moreEverything.log("Error: unable to find '%s' to include", str);
-            mod_moreEverything.log(e.toString());
+            moreEverything.log("Error: unable to find '%s' to include", str);
+            moreEverything.log(e.toString());
         }
     }
 

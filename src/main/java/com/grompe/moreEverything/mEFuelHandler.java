@@ -15,7 +15,7 @@ public class mEFuelHandler implements IFuelHandler {
 
     @Override
     public int getBurnTime(ItemStack stack){
-        String id = mod_moreEverything.me.itemGet(stack.getItem());
+        String id = moreEverything.me.itemGet(stack.getItem());
         int damage = stack.getItemDamage();
         return __getBurnTime(id, damage);
     }

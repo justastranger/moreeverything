@@ -42,14 +42,14 @@ public class mEDependentCommand extends CommandBase
 		sb.append(args[0]);
 		for (int i = 1; i < args.length; i++) sb.append(" ").append(args[i]);
 		String command = sb.toString();
-		mod_moreEverything.me.engine.put(ScriptEngine.FILENAME, "chat");
+		moreEverything.me.engine.put(ScriptEngine.FILENAME, "chat");
 		try
 		{
-			Object obj = mod_moreEverything.me.engine.eval("eval('"+command.replaceAll("'", "\\\\'")+"')");
+			Object obj = moreEverything.me.engine.eval("eval('"+command.replaceAll("'", "\\\\'")+"')");
 			String result;
 			if (obj != null) 
 			{
-				result = (String)mod_moreEverything.me.engine.eval("'' + eval('"+command.replaceAll("'", "\\\\'")+"')").toString().replace("\r\n","\n");
+				result = (String)moreEverything.me.engine.eval("'' + eval('"+command.replaceAll("'", "\\\\'")+"')").toString().replace("\r\n","\n");
 			} else {
 				result = "null";
 			}
@@ -57,16 +57,16 @@ public class mEDependentCommand extends CommandBase
 		}
 		catch(ScriptException e)
 		{
-			String msg = mod_moreEverything.me.getScriptStacktrace(e);
+			String msg = moreEverything.me.getScriptStacktrace(e);
 			// Leave only the interesting part of the message
-			mod_moreEverything.log(msg);
+			moreEverything.log(msg);
 			msg = msg.substring(0, msg.indexOf("\tat com.grompe.moreEverything.mEScriptEngine.RhinoScriptEngine")-2).replace("\t", "    ").replace("\r\n", "\n\u00a7c");
 			ChatMessageHandler.multiLineCommandSenderReply(caller,("\u00a77>>> "+command+"\n\u00a7c"+msg));
 		}
 		catch(Exception e)
 		{
 			String msg = e.toString();
-			mod_moreEverything.log(msg);
+			moreEverything.log(msg);
 		}
 	}
 	public int compareTo(Object obj)
