@@ -24,7 +24,7 @@ var __mE = Packages.com.grompe.moreEverything.mod_moreEverything;
 var modID = "mod_moreEverything";
 var __fuelHandler = Packages.com.grompe.moreEverything.mEFuelHandler;
 
-// var hasForge = !isEmpty(__fml.common.registry.GameRegistry); // We are kind of assuming that we have using Forge...
+// var hasForge = !isEmpty(__fml.common.registry.GameRegistry); // We are kind of assuming that we are using Forge...
 var isDedicatedServer = (isEmpty(Packages.net.minecraft.client.Minecraft) && isEmpty(Packages.net.minecraft.client.main.Main));
 var currentLogLevel = logLevel.info;
 
@@ -57,14 +57,6 @@ var modList;
 		modList[modID].push(item);
 	}
 
-
-	/*__fml.common.registry.GameRegistry.registerFuelHandler(new __fml.common.IFuelHandler(
-	 {
-	 getBurnTime: function(stack)
-	 {
-	 return __api.__getBurnTime(getItemName(getItemFromStack(stack)), getItemDamage(stack));
-	 }
-	 }));*/
 	log("Fires kindled and items sorted.")
 })();
 
@@ -103,21 +95,22 @@ function lowerCase(s){
 
 function javaArray(arrtype, arr){
 	if (arr instanceof Array){
-		var j = java.lang.reflect.Array.newInstance(arrtype, arr.length);
+		//var j = java.lang.reflect.Array.newInstance(arrtype, arr.length);
+		var j = new java.type(arrtype+"[]")(arr.length);
 		for (var i = 0; i < arr.length; i++) j[i] = arr[i];
 	} else {
-		var j = java.lang.reflect.Array.newInstance(arrtype, 1);
+		var j = new java.type(arrtype+"[]")(1);
 		j[0] = arr;
 	}
 	return j;
 }
 
 function objectArray(arr){
-	return javaArray(java.lang.Object, arr);
+	return javaArray("java.lang.Object", arr);
 }
 
 function intArray(arr){
-	return javaArray(java.lang.Integer, arr);
+	return javaArray("java.lang.Integer", arr);
 }
 
 function nativeArray(arr){
@@ -171,12 +164,16 @@ function setItemDamage(stack, damage){
 	return stack;
 }
 function setItemMaxStackSize(item, size){
-	var item = getItem(item);
+	if(typeof item == "string") var item = getItem(item);
+	else if(item instanceof __itemStack) item = getItemFromStack(item);
+	else if(!item instanceof __item) throw("setItemMaxStackSize: item must be the name of the item, or the actual item.");
 	if (size > 64) throw("setItemIDMaxStackSize: size can not be larger than 64.");
 	item.func_77639_j(size)
 }
 function getItemMaxStackSize(item){
-	var item = getItem(item);
+	if(typeof item == "string") var item = getItem(item);
+	else if(item instanceof __itemStack) item = getItemFromStack(item);
+	else if(!item instanceof __item) throw("getItemMaxStackSize: item must be the name of the item, or the actual item.");
 	return item.func_77639_j()
 }
 function getItemFromStack(stack){

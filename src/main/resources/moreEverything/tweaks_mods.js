@@ -399,13 +399,14 @@
 		//addFuel(300, m.woodPattern);
 		addFuel(160, "TConstruct:materials", 0); // Paper stack
 
-		if (!!modList.ThermalExpansion && optionalFeature.tinkers_te_crucible_melting){
+		if (!modList.ThermalSmeltery && !!modList.ThermalExpansion && optionalFeature.tinkers_te_crucible_melting){
+			// Thermal Smeltery does this better anyways.....
 			function s(string){
-				if (getOres("ingot"+string).length > 0) teAddOreDictCrucibleRecipe(5000, "ingot"+string, 1, newFluidStack(lowerCase(string)+".molten", 144));
-				if (getOres("dust"+string).length > 0) teAddOreDictCrucibleRecipe(5000, "dust"+string, 1, newFluidStack(lowerCase(string)+".molten", 144));
-				if (getOres("ore"+string).length > 0) teAddOreDictCrucibleRecipe(5000, "ore"+string, 1, newFluidStack(lowerCase(string)+".molten", 288));
-				if (getOres("nugget"+string).length > 0) teAddOreDictCrucibleRecipe(5000, "nugget"+string, 1, newFluidStack(lowerCase(string)+".molten", 16));
-				if (getOres("block"+string).length > 0) teAddOreDictCrucibleRecipe(5000, "block"+string, 1, newFluidStack(lowerCase(string)+".molten", 1296));
+				if (getOres("ingot"+string).length > 0) teAddCrucibleRecipe(5000, "ingot"+string, 1, newFluidStack(lowerCase(string)+".molten", 144));
+				if (getOres("dust"+string).length > 0) teAddCrucibleRecipe(5000, "dust"+string, 1, newFluidStack(lowerCase(string)+".molten", 144));
+				if (getOres("ore"+string).length > 0) teAddCrucibleRecipe(5000, "ore"+string, 1, newFluidStack(lowerCase(string)+".molten", 288));
+				if (getOres("nugget"+string).length > 0) teAddCrucibleRecipe(5000, "nugget"+string, 1, newFluidStack(lowerCase(string)+".molten", 16));
+				if (getOres("block"+string).length > 0) teAddCrucibleRecipe(5000, "block"+string, 1, newFluidStack(lowerCase(string)+".molten", 1296));
 			}
 
 			s("Iron");

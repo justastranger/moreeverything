@@ -5,7 +5,7 @@
 
 // Script mostly tested
 
-var teAPI = Packages.thermalexpansion.util;
+var teAPI = Packages.cofh.thermalexpansion.util;
 var teCrafting = teAPI.crafting;
 var TE = "ThermalExpansion";
 
@@ -19,8 +19,6 @@ var teAddSmelterBlastOreRecipe;
 var teAddSmelterRecipe;
 var teAddFillRecipe;
 var teAddExtractRecipe;
-var teIMCCrucible;
-var teIMCFurnace;
 
 (function(){
 
@@ -45,7 +43,13 @@ var teIMCFurnace;
 			bonus = null;
 		}
 		chance = chance ? chance : 0;
-		teCrafting.PulverizerManager.addRecipe(energy, input, output, bonus, chance, overwrite)
+
+		var nbt = new NBTTagCompound();
+		nbt.setInteger("energy", energy).setItemStack("input", input).setItemStack("primaryOutput", output).setBoolean("overwrite", overwrite);
+		if(!!bonus) nbt.setItemStack("secondaryOutput", bonus);
+		if(!!chance) nbt.setInteger("secondaryChance", chance);
+		sendIMCMessage("ThermalExpansion", "PulverizerRecipe", nbt.constructCompound());
+		//teCrafting.PulverizerManager.addRecipe(energy, input, output, bonus, chance, overwrite)
 	};
 	teAddFurnaceRecipe = function(energy, input, output, overwrite){
 		energy = energy ? energy : 1600; // 1600 seems to be the default?
@@ -60,9 +64,14 @@ var teIMCFurnace;
 			throw("teAddFurnaceRecipe: output must be a string or ItemStack");
 		}
 		overwrite = !!overwrite; // hooray for double negatives!
-		teCrafting.FurnaceManager.addRecipe(energy, input, output, overwrite);
+
+		var nbt = new NBTTagCompound();
+		nbt.setInteger("energy", energy).setItemStack("input", input).setItemStack("primaryOutput", output).setBoolean("overwrite", overwrite);
+		sendIMCMessage("ThermalExpansion", "FurnaceRecipe", nbt.constructCompound());
+		//teCrafting.FurnaceManager.addRecipe(energy, input, output, overwrite);
 	};
-	teAddOreDictFurnaceRecipe = function(energy, strInput, output){
+	// Deprecated since TE uses ComparableItemStack to allow OreDict compat
+	/*teAddOreDictFurnaceRecipe = function(energy, strInput, output){
 		energy = energy ? energy : 1600; // Again, 1600 seems to be the default?
 		if (typeof strInput != "string") throw("teAddOreDictFurnaceRecipe: strInput must be a string!");
 		if (typeof output == "string"){
@@ -71,7 +80,7 @@ var teIMCFurnace;
 			throw("teAddFurnaceRecipe: output must be a string or ItemStack");
 		}
 		teCrafting.FurnaceManager.addOreDictRecipe(energy, strInput, output);
-	};
+	};*/
 	teAddSawmillRecipe = function(energy, input, output, bonus, chance, overwrite){
 		energy = energy ? energy : 800; // Default for logs seems to be 800?
 		if (typeof input == "string"){
@@ -91,7 +100,13 @@ var teIMCFurnace;
 		}
 		chance = chance ? chance : 0;
 		overwrite = !!overwrite;
-		teCrafting.SawmillManager.addRecipe(energy, input, output, bonus, chance, overwrite);
+
+		var nbt = new NBTTagCompound();
+		nbt.setInteger("energy", energy).setItemStack("input", input).setItemStack("primaryOutput", output).setBoolean("overwrite", overwrite);
+		if(!!bonus) nbt.setItemStack("secondaryOutput", bonus);
+		if(!!chance) nbt.setInteger("secondaryChance", chance);
+		sendIMCMessage("ThermalExpansion", "SawmillRecipe", nbt.constructCompound());
+		//teCrafting.SawmillManager.addRecipe(energy, input, output, bonus, chance, overwrite);
 	};
 	teAddCrucibleRecipe = function(energy, input, fluid, overwrite){
 		if (!energy) throw("teAddCrucibleRecipe: energy must be a number.");
@@ -106,9 +121,14 @@ var teIMCFurnace;
 			throw("teAddPulverizerRecipe: fluid must be a string or FluidStack");
 		}
 		overwrite = !!overwrite;
-		teCrafting.CrucibleManager.addRecipe(energy, input, fluid, overwrite);
+
+		var nbt = new NBTTagCompound();
+		nbt.setInteger("energy", energy).setItemStack("input", input).setFluidStack("output", fluid).setBoolean("overwrite", overwrite);
+		sendIMCMessage("ThermalExpansion", "CrucibleRecipe", nbt.constructCompound());
+		//teCrafting.CrucibleManager.addRecipe(energy, input, fluid, overwrite);
 	};
-	teAddOreDictCrucibleRecipe = function(energy, strInput, amount, fluid){
+	// Deprecated due to ComparableItemStack
+	/*teAddOreDictCrucibleRecipe = function(energy, strInput, amount, fluid){
 		if (!energy) throw("teAddOreDictCrucibleRecipe: energy must be a number.");
 		if (!typeof strInput == "string") throw("teAddOreDictCrucibleRecipe: strInput must be a string.");
 		amount = amount ? amount : 1;
@@ -118,7 +138,7 @@ var teIMCFurnace;
 			throw("teAddOreDictCrucibleRecipe: fluid must be a string or FluidStack");
 		}
 		teCrafting.CrucibleManager.addOreDictionaryRecipe(energy, strInput, amount, fluid);
-	};
+	};*/
 	teAddSmelterRecipe = function(energy, input1, input2, output, bonus, chance, overwrite){
 		if (!energy) throw("teAddSmelterRecipe: energy must be a number.");
 		if (typeof input1 == "string"){
@@ -145,12 +165,22 @@ var teIMCFurnace;
 			chance = 0
 		}
 		overwrite = !!overwrite;
-		teCrafting.SmelterManager.addRecipe(energy, input1, input2, output, bonus, chance, overwrite);
+
+		var nbt = new NBTTagCompound();
+		nbt.setInteger("energy", energy).setItemStack("primaryInput", input1).setItemStack("secondaryInput", input2).setItemStack("primaryOutput", output).setBoolean("overwrite", overwrite);
+		if(!!bonus) nbt.setItemStack("secondaryOutput", bonus);
+		if(!!chance) nbt.setInteger("secondaryChance", chance);
+		sendIMCMessage("ThermalExpansion", "SmelterRecipe", nbt.constructCompound());
+		//teCrafting.SmelterManager.addRecipe(energy, input1, input2, output, bonus, chance, overwrite);
 	};
 	teAddSmelterBlastOreRecipe = function(strInput){
-		var titleCase = strInput.substring(0, 1).toUpperCase()+strInput.substring(1);
+		var titleCase = strInput.charAt(0).toUpperCase() + strInput.slice(1);
 		if (!getOres("ingot"+titleCase)) return false;
-		teCrafting.SmelterManager.addBlastOreRecipe(strInput);
+
+		var nbt = new NBTTagCompound();
+		nbt.setString("oreType", strInput);
+		sendIMCMessage("ThermalExpansion", "SmelterBlastOreType", nbt.constructCompound());
+		//teCrafting.SmelterManager.addBlastOreRecipe(strInput);
 	};
 	teAddFillRecipe = function(energy, input, output, fluid, extract, overwrite){
 		if (!energy) throw("teAddFillRecipe: energy must be a positive number.");
@@ -195,39 +225,6 @@ var teIMCFurnace;
 		overwrite = !!overwrite;
 		teCrafting.TransposerManager.addTEExtractionRecipe(energy, input, output, fluid, chance, fill, overwrite);
 	};
-
-	teIMCCrucible = function(energy, input, fluid, overwrite){
-		if (!energy) throw("teAddCrucibleRecipe: energy must be a number.");
-		if (typeof input == "string"){
-			input = (input.indexOf(':')>0 > 0) ? newItemStack(input) : getOres(input)[0];
-		} else if (!isJavaClass(input, __itemStack)){
-			throw("teAddPulverizerRecipe: input must be a string or ItemStack");
-		}
-		if (stringOrNumber(fluid)){
-			fluid = newFluidStack(fluid, 1000);
-		} else if (!isJavaClass(fluid, __fluidStack)){
-			throw("teAddPulverizerRecipe: fluid must be a string or FluidStack");
-		}
-		overwrite = !!overwrite;
-		var nbt = new NBTTagCompound().setItemStack("input", input).setFluidStack("output", fluid).setInteger("energy", energy).setBoolean("overwrite", overwrite).constructCompound();
-		sendIMCMessage(TE, "CrucibleRecipe", nbt);
-	}
-	teIMCFurnace = function(energy, input, output, overwrite){
-		energy = energy ? energy : 1600; // 1600 seems to be the default?
-		if (typeof input == "string"){
-			input = input.indexOf(':')>0 ? newItemStack(input) : getOres(input)[0];
-		} else if (!isJavaClass(input, __itemStack)){
-			throw("teAddFurnaceRecipe: input must be a string or ItemStack");
-		}
-		if (typeof output == "string"){
-			output = output.indexOf(':')>0 ? newItemStack(output) : getOres(output)[0];
-		} else if (!isJavaClass(output, __itemStack)){
-			throw("teAddFurnaceRecipe: output must be a string or ItemStack");
-		}
-		overwrite = !!overwrite; // hooray for double negatives!
-		var nbt = new NBTTagCompound().setInteger("energy", energy).setItemStack("input", input).setItemStack("output", output).setBoolean("overwrite", overwrite).constructCompound();
-		sendIMCMessage(TE, "FurnaceRecipe", nbt);
-	}
 
 
 	log("Thermal expansion... how embarrassing.");
