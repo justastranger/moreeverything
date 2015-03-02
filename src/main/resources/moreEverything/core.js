@@ -377,7 +377,7 @@ function ItemStack(item, amount, meta){
 			catch(e){throw("newItemStack: item does not exist.");}
 		}
 		if (typeof this.item == "string" || (this.item instanceof java.lang.String)) this.item = getItem(this.item);
-		this.stack = new net.minecraft.item.ItemStack(this.item, this.stackSize, this.itemDamage)
+		this.stack = new __itemStack(this.item, this.stackSize, this.itemDamage);
 		return this.stack;
 	};
 

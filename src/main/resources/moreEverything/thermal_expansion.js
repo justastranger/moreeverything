@@ -45,7 +45,8 @@ var teAddExtractRecipe;
 		chance = chance ? chance : 0;
 
 		var nbt = new NBTTagCompound();
-		nbt.setInteger("energy", energy).setItemStack("input", input).setItemStack("primaryOutput", output).setBoolean("overwrite", overwrite);
+		nbt.setInteger("energy", energy).setItemStack("input", input).setItemStack("primaryOutput", output)
+			.setBoolean("overwrite", overwrite);
 		if(!!bonus) nbt.setItemStack("secondaryOutput", bonus);
 		if(!!chance) nbt.setInteger("secondaryChance", chance);
 		sendIMCMessage("ThermalExpansion", "PulverizerRecipe", nbt.constructCompound());
@@ -66,7 +67,8 @@ var teAddExtractRecipe;
 		overwrite = !!overwrite; // hooray for double negatives!
 
 		var nbt = new NBTTagCompound();
-		nbt.setInteger("energy", energy).setItemStack("input", input).setItemStack("primaryOutput", output).setBoolean("overwrite", overwrite);
+		nbt.setInteger("energy", energy).setItemStack("input", input).setItemStack("primaryOutput", output)
+			.setBoolean("overwrite", overwrite);
 		sendIMCMessage("ThermalExpansion", "FurnaceRecipe", nbt.constructCompound());
 		//teCrafting.FurnaceManager.addRecipe(energy, input, output, overwrite);
 	};
@@ -102,7 +104,8 @@ var teAddExtractRecipe;
 		overwrite = !!overwrite;
 
 		var nbt = new NBTTagCompound();
-		nbt.setInteger("energy", energy).setItemStack("input", input).setItemStack("primaryOutput", output).setBoolean("overwrite", overwrite);
+		nbt.setInteger("energy", energy).setItemStack("input", input).setItemStack("primaryOutput", output)
+			.setBoolean("overwrite", overwrite);
 		if(!!bonus) nbt.setItemStack("secondaryOutput", bonus);
 		if(!!chance) nbt.setInteger("secondaryChance", chance);
 		sendIMCMessage("ThermalExpansion", "SawmillRecipe", nbt.constructCompound());
@@ -123,7 +126,8 @@ var teAddExtractRecipe;
 		overwrite = !!overwrite;
 
 		var nbt = new NBTTagCompound();
-		nbt.setInteger("energy", energy).setItemStack("input", input).setFluidStack("output", fluid).setBoolean("overwrite", overwrite);
+		nbt.setInteger("energy", energy).setItemStack("input", input).setFluidStack("output", fluid)
+			.setBoolean("overwrite", overwrite);
 		sendIMCMessage("ThermalExpansion", "CrucibleRecipe", nbt.constructCompound());
 		//teCrafting.CrucibleManager.addRecipe(energy, input, fluid, overwrite);
 	};
@@ -167,7 +171,8 @@ var teAddExtractRecipe;
 		overwrite = !!overwrite;
 
 		var nbt = new NBTTagCompound();
-		nbt.setInteger("energy", energy).setItemStack("primaryInput", input1).setItemStack("secondaryInput", input2).setItemStack("primaryOutput", output).setBoolean("overwrite", overwrite);
+		nbt.setInteger("energy", energy).setItemStack("primaryInput", input1).setItemStack("secondaryInput", input2)
+			.setItemStack("primaryOutput", output).setBoolean("overwrite", overwrite);
 		if(!!bonus) nbt.setItemStack("secondaryOutput", bonus);
 		if(!!chance) nbt.setInteger("secondaryChance", chance);
 		sendIMCMessage("ThermalExpansion", "SmelterRecipe", nbt.constructCompound());
@@ -199,9 +204,14 @@ var teAddExtractRecipe;
 		} else if (!isJavaClass(fluid, __fluidStack)){
 			throw("teAddFillRecipe: fluid must be a string or FluidStack");
 		}
-		extract = !!extract;
+		//extract = !!extract;
 		overwrite = !!overwrite;
-		teCrafting.TransposerManager.addTEFillRecipe(energy, input, output, fluid, extract, overwrite);
+
+		var nbt = new NBTTagCompound();
+		nbt.setInteger("energy", energy).setItemStack("input", input).setFluidStack("fluid", fluid)
+			.setItemStack("output", output).setBoolean("overwrite", overwrite);
+		sendIMCMessage("ThermalExpansion", "TransposerFillRecipe", nbt.constructCompound());
+		//teCrafting.TransposerManager.addTEFillRecipe(energy, input, output, fluid, extract, overwrite);
 	};
 	teAddExtractRecipe = function(energy, input, output, chance, fluid, fill, overwrite){
 		if (!energy) throw("teAddFillRecipe: energy must be a positive number.");
@@ -223,7 +233,13 @@ var teAddExtractRecipe;
 		}
 		fill = !!fill;
 		overwrite = !!overwrite;
-		teCrafting.TransposerManager.addTEExtractionRecipe(energy, input, output, fluid, chance, fill, overwrite);
+
+		var nbt = new NBTTagCompound();
+		nbt.setInteger("energy", energy).setItemStack("input", input).setFluidStack("fluid", fluid)
+			.setItemStack("output", output).setBoolean("overwrite", overwrite).setBoolean("reversible", fill)
+			.setInteger("chance", chance);
+		sendIMCMessage("ThermalExpansion", "TransposerExtractRecipe", nbt.constructCompound());
+		//teCrafting.TransposerManager.addTEExtractionRecipe(energy, input, output, fluid, chance, fill, overwrite);
 	};
 
 
