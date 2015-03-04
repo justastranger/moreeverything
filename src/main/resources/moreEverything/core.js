@@ -3,25 +3,26 @@
 // re-organized by justastranger
 
 
-var __int = java.type("java.lang.Integer");
-var __float = java.type("java.lang.Float");
-var __boolean = java.type("java.lang.Boolean");
-var __char = java.type("java.lang.Character");
-var __class = java.type("java.lang.Class");
-var __objectArray = java.type("java.lang.Object[]");
-var __method = java.type("java.lang.reflect.Method");
-var __item = java.type("net.minecraft.item.Item");
-var __block;
-var __itemStack = java.type("net.minecraft.item.ItemStack");
-var __fluidStack = java.type("net.minecraftforge.fluids.FluidStack");
-var __nbtBase = java.type("net.minecraft.nbt.NBTBase");
+var __int = Java.type("java.lang.Integer");
+var __float = Java.type("java.lang.Float");
+var __boolean = Java.type("java.lang.Boolean");
+var __char = Java.type("java.lang.Character");
+var __class = Java.type("java.lang.Class");
+var __objectArray = Java.type("java.lang.Object[]");
+var __method = Java.type("java.lang.reflect.Method");
+var __item = Java.type("net.minecraft.item.Item");
+var __block = Java.type("net.minecraft.block.Block");
+var __itemStack = Java.type("net.minecraft.item.ItemStack");
+var __fluidStack = Java.type("net.minecraftforge.fluids.FluidStack");
+var __nbtBase = Java.type("net.minecraft.nbt.NBTBase");
+var __nbtTagCompound = Java.type("net.minecraft.nbt.NBTTagCompound")
 var __itemsList;
 var logLevel = { debug : 0, info : 1, warning : 2, error : 3 };
 
 var __fml = Packages.cpw.mods.fml;
 var __forge = Packages.net.minecraftforge;
-var __mE = Packages.com.grompe.moreEverything.mod_moreEverything;
-var modID = "mod_moreEverything";
+var __mE = Packages.com.grompe.moreEverything.moreEverything;
+var modID = "moreEverything";
 var __fuelHandler = Packages.com.grompe.moreEverything.mEFuelHandler;
 
 // var hasForge = !isEmpty(__fml.common.registry.GameRegistry); // We are kind of assuming that we are using Forge...
@@ -69,7 +70,7 @@ function getMods(){
 }
 
 function getClass(s){
-	return java.lang.Class.forName(s, true, __api.getClass().getClassLoader());
+	return Java.type(s);
 }
 
 function isEmpty(obj){
@@ -94,12 +95,12 @@ function lowerCase(s){
 }
 
 function javaArray(arrtype, arr){
+	var t = Java.type(arrtype+"[]");
 	if (arr instanceof Array){
-		//var j = java.lang.reflect.Array.newInstance(arrtype, arr.length);
-		var j = new java.type(arrtype+"[]")(arr.length);
+		var j = new t(arr.length);
 		for (var i = 0; i < arr.length; i++) j[i] = arr[i];
 	} else {
-		var j = new java.type(arrtype+"[]")(1);
+		var j = new t(1);
 		j[0] = arr;
 	}
 	return j;
@@ -208,7 +209,7 @@ function newItemStack(item, amount, metadata){
 	if (typeof item == "string" || isJavaClass(item, java.lang.String)) item = getItem(item);
 	if (typeof amount == "undefined") amount = 1;
 	if (typeof metadata == "undefined") metadata = 0;
-	return new net.minecraft.item.ItemStack(item, amount, metadata)
+	return new __itemStack(item, amount, metadata)
 }
 
 function newFluidStack(id, amount){
@@ -384,16 +385,25 @@ function ItemStack(item, amount, meta){
 	return this;
 }
 
+function getFluidID(name){
+	if (typeof name != "string") throw("getFluidName: name must be a string.");
+	return __forge.fluids.FluidRegistry.getFluidID(name)
+}
+function getFluidName(id){
+	if (typeof id != "number") throw("getFluidName: id must be a number.");
+	return __forge.fluids.FluidRegistry.getFluidName(id)
+}
+
 function FluidStack(fluid, amount){
 	this.fluidID = typeof fluid == "string" ? getFluidID(fluid) : fluid;
 	this.amount = amount ? amount : 1000;
 
 	this.getFluid = function(){
-		return getFluid(this.fluidID);
+		return __forge.fluids.FluidRegistry.getFluid(this.fluidID);
 	};
 
 	this.getFluidName = function(){
-		return getFluidName(this.fluidID);
+		return __forge.fluids.FluidRegistry.getFluidName(this.fluidID);
 	};
 
 	this.getAmount = function(){
@@ -406,14 +416,14 @@ function FluidStack(fluid, amount){
 	};
 
 	this.constructStack = function(){
-		return new __forge.fluids.FluidStack(id, amount);
+		return new __forge.fluids.FluidStack(this.fluidID, this.amount);
 	};
 
 }
 
 function NBTTagCompound(){
 	this.blankCompound = function(){
-		return new net.minecraft.nbt.NBTTagCompound();
+		return new __nbtTagCompound();
 	};
 	this.setInteger = function(key, num){
 		if(typeof num == "number" && Math.floor(num) == num) this[key] = num;

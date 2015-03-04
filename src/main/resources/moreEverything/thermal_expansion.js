@@ -11,7 +11,6 @@ var TE = "ThermalExpansion";
 
 var teAddPulverizerRecipe;
 var teAddFurnaceRecipe;
-var teAddOreDictFurnaceRecipe;
 var teAddSawmillRecipe;
 var teAddCrucibleRecipe;
 var teAddOreDictCrucibleRecipe;
@@ -187,7 +186,7 @@ var teAddExtractRecipe;
 		sendIMCMessage("ThermalExpansion", "SmelterBlastOreType", nbt.constructCompound());
 		//teCrafting.SmelterManager.addBlastOreRecipe(strInput);
 	};
-	teAddFillRecipe = function(energy, input, output, fluid, extract, overwrite){
+	teAddFillRecipe = function(energy, input, output, fluid, overwrite){
 		if (!energy) throw("teAddFillRecipe: energy must be a positive number.");
 		if (typeof input == "string"){
 			input = input.indexOf(':')>0 ? newItemStack(input) : getOres(input)[0];
