@@ -28,15 +28,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-@Mod(modid="moreEverything", name="moreEverything", version=moreEverything.VERSION_TEXT)
+@Mod(modid="moreEverything", name="moreEverything", version=moreEverything.VERSION_TEXT, dependencies = "after:*")
 public class moreEverything
 {
     public static final String VERSION_TEXT = "@VERSION@";
     public final int WILDCARD = 32767;
 	public static Logger logger;
-	public Map<Item, String> itemMap = new HashMap<Item, String>();
-    public List<String> includePost = new ArrayList<String>();
-    public List<String> includeInit = new ArrayList<String>();
+	public static Map<Item, String> itemMap = new HashMap<Item, String>();
+    public static List<String> includePost = new ArrayList<String>();
+    public static List<String> includeInit = new ArrayList<String>();
     protected static File configDir;
     protected static boolean standalone = false;
     protected static boolean loaded = false;
@@ -47,21 +47,25 @@ public class moreEverything
     protected static int errors = 0;
 
 	
-	public void itemAdd(Item key, String value)
+	public static void itemAdd(Item key, String value)
 	{
 		itemMap.put(key, value);
 	}
 
-    public void postAdd(String file){
+    public static void postAdd(String file){
         includePost.add(file);
     }
-	
-	public String itemGet(Item key)
+
+	public static void initAdd(String file){
+        includeInit.add(file);
+    }
+
+	public static String itemGet(Item key)
 	{
 		return itemMap.get(key);
 	}
 	
-	public Map<Item, String> getItemMap()
+	public static Map<Item, String> getItemMap()
 	{
 		return itemMap;
 	}
@@ -350,13 +354,13 @@ public class moreEverything
         me.modsLoaded();
     }*/
 
-    public void sendIMC(String to, String key, NBTTagCompound value){
+    public static void sendIMC(String to, String key, NBTTagCompound value){
         FMLInterModComms.sendMessage(to, key, value);
     }
-    public void sendIMC(String to, String key, ItemStack value){
+    public static void sendIMC(String to, String key, ItemStack value){
         FMLInterModComms.sendMessage(to, key, value);
     }
-    public void sendIMC(String to, String key, String value){
+    public static void sendIMC(String to, String key, String value){
         FMLInterModComms.sendMessage(to, key, value);
     }
 

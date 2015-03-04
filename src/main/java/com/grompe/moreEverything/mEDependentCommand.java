@@ -49,7 +49,7 @@ public class mEDependentCommand extends CommandBase
 			String result;
 			if (obj != null) 
 			{
-				result = (String)moreEverything.me.engine.eval("'' + eval('"+command.replaceAll("'", "\\\\'")+"')").toString().replace("\r\n","\n");
+				result = (String)moreEverything.me.engine.eval("'' + eval('"+command.replaceAll("'", "\\\\'")+"')").toString().replace("\r\n","\n").replace("\t", "    ");
 			} else {
 				result = "null";
 			}
@@ -60,7 +60,7 @@ public class mEDependentCommand extends CommandBase
 			String msg = moreEverything.me.getScriptStacktrace(e);
 			// Leave only the interesting part of the message
 			moreEverything.log(msg);
-			msg = msg.substring(0, msg.indexOf("\tat com.grompe.moreEverything.mEScriptEngine.RhinoScriptEngine")-2).replace("\t", "    ").replace("\r\n", "\n\u00a7c");
+			msg = msg.substring(0, msg.indexOf("\tat com.grompe.moreEverything.mEScriptEngine.NashornScriptEngine")-2).replace("\t", "    ").replace("\r\n", "\n\u00a7c");
 			ChatMessageHandler.multiLineCommandSenderReply(caller,("\u00a77>>> "+command+"\n\u00a7c"+msg));
 		}
 		catch(Exception e)
