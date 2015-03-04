@@ -430,11 +430,11 @@ function NBTTagCompound(){
 		return this;
 	};
 	this.setFluidStack = function(key, fluidStack){
-		if(isJavaClass(fluidStack, __fluidStack)) this[key] = fluidStack;
+		if(fluidStack instanceof __fluidStack) this[key] = fluidStack;
 		return this;
 	};
 	this.setItemStack = function(key, itemStack){
-		if(isJavaClass(itemStack, __itemStack)) this[key] = itemStack;
+		if(itemStack instanceof __itemStack)this[key] = itemStack;
 		return this;
 	};
 	this.setBoolean = function(key, bool){
@@ -444,11 +444,11 @@ function NBTTagCompound(){
 	this.setString = function(key, string){
 		if(typeof string == "string") this[key] = string;
 		return this;
-	}
+	};
 	this.setFloat = function(key, fl){
 		if(typeof fl == "number" && Math.floor(fl) != fl) this[key] = fl;
 		return this;
-	}
+	};
 	this.constructInteger = function(comp, key, num){
 		comp.func_74768_a(key, num);
 		return comp;

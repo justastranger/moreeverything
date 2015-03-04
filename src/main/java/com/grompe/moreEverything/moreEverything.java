@@ -355,12 +355,15 @@ public class moreEverything
     }*/
 
     public static void sendIMC(String to, String key, NBTTagCompound value){
+        log("Sending IMC message to " + to + " for " + key);
         FMLInterModComms.sendMessage(to, key, value);
     }
     public static void sendIMC(String to, String key, ItemStack value){
+        log("Sending IMC message to " + to + " for " + key);
         FMLInterModComms.sendMessage(to, key, value);
     }
     public static void sendIMC(String to, String key, String value){
+        log("Sending IMC message to " + to + " for " + key);
         FMLInterModComms.sendMessage(to, key, value);
     }
 
