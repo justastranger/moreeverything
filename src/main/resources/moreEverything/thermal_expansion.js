@@ -1,12 +1,10 @@
 // Thermal Expansion support
 // By justastranger
-// Written with Thermal Expansion 4.0.0B6-16 for 1.7.10
+// Written with Thermal Expansion 4.0.0RC3-132 for 1.7.10
 
 
 // Script mostly tested
 
-var teAPI = Packages.cofh.thermalexpansion.util;
-var teCrafting = teAPI.crafting;
 var TE = "ThermalExpansion";
 
 var teAddPulverizerRecipe;
@@ -18,8 +16,6 @@ var teAddSmelterBlastOreRecipe;
 var teAddSmelterRecipe;
 var teAddFillRecipe;
 var teAddExtractRecipe;
-
-var testerino;
 
 (function(){
 
@@ -50,8 +46,7 @@ var testerino;
 			.setBoolean("overwrite", overwrite);
 		if(!!bonus) nbt.setItemStack("secondaryOutput", bonus);
 		if(!!chance) nbt.setInteger("secondaryChance", chance);
-		testerino = nbt.constructCompound();
-		sendIMCMessage("ThermalExpansion", "PulverizerRecipe", nbt.constructCompound());
+		sendIMCMessage(TE, "PulverizerRecipe", nbt.constructCompound());
 		//teCrafting.PulverizerManager.addRecipe(energy, input, output, bonus, chance, overwrite)
 	};
 	teAddFurnaceRecipe = function(energy, input, output, overwrite){
@@ -71,7 +66,7 @@ var testerino;
 		var nbt = new NBTTagCompound();
 		nbt.setInteger("energy", energy).setItemStack("input", input).setItemStack("primaryOutput", output)
 			.setBoolean("overwrite", overwrite);
-		sendIMCMessage("ThermalExpansion", "FurnaceRecipe", nbt.constructCompound());
+		sendIMCMessage(TE, "FurnaceRecipe", nbt.constructCompound());
 		//teCrafting.FurnaceManager.addRecipe(energy, input, output, overwrite);
 	};
 	teAddSawmillRecipe = function(energy, input, output, bonus, chance, overwrite){
@@ -99,7 +94,7 @@ var testerino;
 			.setBoolean("overwrite", overwrite);
 		if(!!bonus) nbt.setItemStack("secondaryOutput", bonus);
 		if(!!chance) nbt.setInteger("secondaryChance", chance);
-		sendIMCMessage("ThermalExpansion", "SawmillRecipe", nbt.constructCompound());
+		sendIMCMessage(TE, "SawmillRecipe", nbt.constructCompound());
 		//teCrafting.SawmillManager.addRecipe(energy, input, output, bonus, chance, overwrite);
 	};
 	teAddCrucibleRecipe = function(energy, input, fluid, overwrite){
@@ -119,7 +114,7 @@ var testerino;
 		var nbt = new NBTTagCompound();
 		nbt.setInteger("energy", energy).setItemStack("input", input).setFluidStack("output", fluid)
 			.setBoolean("overwrite", overwrite);
-		sendIMCMessage("ThermalExpansion", "CrucibleRecipe", nbt.constructCompound());
+		sendIMCMessage(TE, "CrucibleRecipe", nbt.constructCompound());
 		//teCrafting.CrucibleManager.addRecipe(energy, input, fluid, overwrite);
 	};
 	teAddSmelterRecipe = function(energy, input1, input2, output, bonus, chance, overwrite){
@@ -154,7 +149,7 @@ var testerino;
 			.setItemStack("primaryOutput", output).setBoolean("overwrite", overwrite);
 		if(!!bonus) nbt.setItemStack("secondaryOutput", bonus);
 		if(!!chance) nbt.setInteger("secondaryChance", chance);
-		sendIMCMessage("ThermalExpansion", "SmelterRecipe", nbt.constructCompound());
+		sendIMCMessage(TE, "SmelterRecipe", nbt.constructCompound());
 		//teCrafting.SmelterManager.addRecipe(energy, input1, input2, output, bonus, chance, overwrite);
 	};
 	teAddSmelterBlastOreRecipe = function(strInput){
@@ -163,7 +158,7 @@ var testerino;
 
 		var nbt = new NBTTagCompound();
 		nbt.setString("oreType", strInput);
-		sendIMCMessage("ThermalExpansion", "SmelterBlastOreType", nbt.constructCompound());
+		sendIMCMessage(TE, "SmelterBlastOreType", nbt.constructCompound());
 		//teCrafting.SmelterManager.addBlastOreRecipe(strInput);
 	};
 	teAddFillRecipe = function(energy, input, output, fluid, overwrite){
@@ -189,7 +184,7 @@ var testerino;
 		var nbt = new NBTTagCompound();
 		nbt.setInteger("energy", energy).setItemStack("input", input).setFluidStack("fluid", fluid)
 			.setItemStack("output", output).setBoolean("overwrite", overwrite);
-		sendIMCMessage("ThermalExpansion", "TransposerFillRecipe", nbt.constructCompound());
+		sendIMCMessage(TE, "TransposerFillRecipe", nbt.constructCompound());
 		//teCrafting.TransposerManager.addTEFillRecipe(energy, input, output, fluid, extract, overwrite);
 	};
 	teAddExtractRecipe = function(energy, input, output, chance, fluid, fill, overwrite){
@@ -217,7 +212,7 @@ var testerino;
 		nbt.setInteger("energy", energy).setItemStack("input", input).setFluidStack("fluid", fluid)
 			.setItemStack("output", output).setBoolean("overwrite", overwrite).setBoolean("reversible", fill)
 			.setInteger("chance", chance);
-		sendIMCMessage("ThermalExpansion", "TransposerExtractRecipe", nbt.constructCompound());
+		sendIMCMessage(TE, "TransposerExtractRecipe", nbt.constructCompound());
 		//teCrafting.TransposerManager.addTEExtractionRecipe(energy, input, output, fluid, chance, fill, overwrite);
 	};
 
