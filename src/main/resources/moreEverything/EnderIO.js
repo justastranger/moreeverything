@@ -100,7 +100,7 @@ var eioAddVatRecipe;
 	 * */
 
 	eioAddCrusherRecipe = function(energy, input, output){
-		if (typeof energy != "number") throw("eioAddCrusherRecipe: energy must be a number.")
+		if (typeof energy != "number") throw("eioAddCrusherRecipe: energy must be a number.");
 		var recipe = eioNewRecipe(input, energy, output);
 		__eIO.machine.crusher.CrusherRecipeManager.getInstance().addRecipe(recipe);
 	};
@@ -112,7 +112,7 @@ var eioAddVatRecipe;
 	 * */
 
 	eioAddAlloyRecipe = function(energy, inputs, output){
-		if (typeof energy != "number") throw("eioAddAlloyRecipe: energy must be a number.")
+		if (typeof energy != "number") throw("eioAddAlloyRecipe: energy must be a number.");
 		var recipe = new __eioManyToOneRecipe(eioNewRecipe(inputs, energy, output));
 		__eIO.machine.alloy.AlloyRecipeManager.getInstance().addRecipe(recipe);
 	};

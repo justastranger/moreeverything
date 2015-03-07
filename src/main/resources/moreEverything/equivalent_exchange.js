@@ -15,19 +15,19 @@ var addAludelRecipe;
 	if (!modList.EE3) return;
 
 	addAludelRecipe = function(output, input, dust){
-		if(typeof output == "string") {
+		if (typeof output == "string"){
 			output = output.indexOf(':') ? new ItemStack(output).constructStack() : getOres(output)[0];
-		}else if(!output instanceof __itemStack){
+		} else if (!output instanceof __itemStack){
 			throw("addAludelRecipe: output must be a string or ItemStack")
 		}
-		if(typeof input == "string") {
+		if (typeof input == "string"){
 			input = input.indexOf(':') ? new ItemStack(input).constructStack() : getOres(input)[0];
-		}else if(!input instanceof __itemStack){
+		} else if (!input instanceof __itemStack){
 			throw("addAludelRecipe: input must be a string or ItemStack")
 		}
-		if(typeof dust == "string") {
+		if (typeof dust == "string"){
 			dust = dust.indexOf(':') ? new ItemStack(dust).constructStack() : getOres(dust)[0];
-		}else if(!dust instanceof __itemStack){
+		} else if (!dust instanceof __itemStack){
 			throw("addAludelRecipe: dust must be a string or ItemStack")
 		}
 		EE3Api.AludelRecipeProxy.addRecipe(output, input, dust);

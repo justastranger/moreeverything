@@ -10,9 +10,7 @@ import javax.script.ScriptException;
 import java.io.*;
 
 public class NashornScriptEngine {
-    //public static ScriptEngineManager engineManager;// = new ScriptEngineManager();
-    public ScriptEngine nashornEngine;// = engineManager.getEngineByName("nashorn");
-    // public static Bindings bindings = nashornEngine.getBindings(ScriptContext.ENGINE_SCOPE);
+    public ScriptEngine nashornEngine;
 
     public NashornScriptEngine() {
         nashornEngine = new ScriptEngineManager(null).getEngineByName("nashorn");

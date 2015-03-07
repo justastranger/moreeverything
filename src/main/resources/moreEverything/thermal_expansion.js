@@ -23,7 +23,7 @@ var teAddExtractRecipe;
 
 (function(){
 
-	if(!modList.ThermalExpansion) return;
+	if (!modList.ThermalExpansion) return;
 
 	teAddPulverizerRecipe = function(energy, input, output, bonus, chance, overwrite){ // Overwrite will default to false
 		overwrite = !!overwrite;
@@ -47,8 +47,8 @@ var teAddExtractRecipe;
 		var nbt = new NBTTagCompound();
 		nbt.setInteger("energy", energy).setItemStack("input", input).setItemStack("primaryOutput", output)
 			.setBoolean("overwrite", overwrite);
-		if(!!bonus) nbt.setItemStack("secondaryOutput", bonus);
-		if(!!chance) nbt.setInteger("secondaryChance", chance);
+		if (!!bonus) nbt.setItemStack("secondaryOutput", bonus);
+		if (!!chance) nbt.setInteger("secondaryChance", chance);
 		sendIMCMessage(TE, "PulverizerRecipe", nbt.constructCompound());
 	};
 	teAddFurnaceRecipe = function(energy, input, output, overwrite){
@@ -91,8 +91,8 @@ var teAddExtractRecipe;
 		var nbt = new NBTTagCompound();
 		nbt.setInteger("energy", energy).setItemStack("input", input).setItemStack("primaryOutput", output)
 			.setBoolean("overwrite", overwrite);
-		if(!!bonus) nbt.setItemStack("secondaryOutput", bonus);
-		if(!!chance) nbt.setInteger("secondaryChance", chance);
+		if (!!bonus) nbt.setItemStack("secondaryOutput", bonus);
+		if (!!chance) nbt.setInteger("secondaryChance", chance);
 		sendIMCMessage(TE, "SawmillRecipe", nbt.constructCompound());
 	};
 	teAddCrucibleRecipe = function(energy, input, fluid, overwrite){
@@ -116,23 +116,23 @@ var teAddExtractRecipe;
 	teAddSmelterRecipe = function(energy, input1, input2, output, bonus, chance, overwrite){
 		if (!energy) throw("teAddSmelterRecipe: energy must be a number.");
 		if (typeof input1 == "string"){
-			input1 = input1.indexOf(':')>0 ? new ItemStack(input1).constructStack() : getOres(input1)[0];
+			input1 = input1.indexOf(':') > 0 ? new ItemStack(input1).constructStack() : getOres(input1)[0];
 		} else if (!input1 instanceof __itemStack){
 			throw("teAddPulverizerRecipe: input1 must be a string or ItemStack");
 		}
 		if (typeof input2 == "string"){
-			input2 = input2.indexOf(':')>0 ? new ItemStack(input2).constructStack() : getOres(input2)[0];
+			input2 = input2.indexOf(':') > 0 ? new ItemStack(input2).constructStack() : getOres(input2)[0];
 		} else if (!input2 instanceof __itemStack){
 			throw("teAddPulverizerRecipe: input2 must be a string or ItemStack");
 		}
 		if (typeof output == "string"){
-			output = output.indexOf(':')>0 ? new ItemStack(output).constructStack() : getOres(output)[0];
+			output = output.indexOf(':') > 0 ? new ItemStack(output).constructStack() : getOres(output)[0];
 		} else if (!output instanceof __itemStack){
 			throw("teAddPulverizerRecipe: output must be a string or ItemStack");
 		}
 		if (bonus != undefined){
 			if (typeof bonus == "string"){
-				bonus = bonus.indexOf(':')>0 ? newItemStack(bonus) : getOres(bonus)[0];
+				bonus = bonus.indexOf(':') > 0 ? newItemStack(bonus) : getOres(bonus)[0];
 			}
 		} else {
 			bonus = null;
@@ -142,12 +142,12 @@ var teAddExtractRecipe;
 		var nbt = new NBTTagCompound();
 		nbt.setInteger("energy", energy).setItemStack("primaryInput", input1).setItemStack("secondaryInput", input2)
 			.setItemStack("primaryOutput", output).setBoolean("overwrite", overwrite);
-		if(!!bonus) nbt.setItemStack("secondaryOutput", bonus);
-		if(!!chance) nbt.setInteger("secondaryChance", chance);
+		if (!!bonus) nbt.setItemStack("secondaryOutput", bonus);
+		if (!!chance) nbt.setInteger("secondaryChance", chance);
 		sendIMCMessage(TE, "SmelterRecipe", nbt.constructCompound());
 	};
 	teAddSmelterBlastOreRecipe = function(strInput){
-		var titleCase = strInput.charAt(0).toUpperCase() + strInput.slice(1);
+		var titleCase = strInput.charAt(0).toUpperCase()+strInput.slice(1);
 		if (!getOres("ingot"+titleCase)) return false;
 		var nbt = new NBTTagCompound();
 		nbt.setString("oreType", strInput);
@@ -156,12 +156,12 @@ var teAddExtractRecipe;
 	teAddFillRecipe = function(energy, input, output, fluid, overwrite){
 		if (!energy) throw("teAddFillRecipe: energy must be a positive number.");
 		if (typeof input == "string"){
-			input = input.indexOf(':')>0 ? new ItemStack(input).constructStack() : getOres(input)[0];
+			input = input.indexOf(':') > 0 ? new ItemStack(input).constructStack() : getOres(input)[0];
 		} else if (!input instanceof __itemStack){
 			throw("teAddFillRecipe: input must be a string or ItemStack");
 		}
 		if (typeof output == "string"){
-			output = output.indexOf(':')>0 ? new ItemStack(output).constructStack() : getOres(output)[0];
+			output = output.indexOf(':') > 0 ? new ItemStack(output).constructStack() : getOres(output)[0];
 		} else if (!output instanceof __itemStack){
 			throw("teAddFillRecipe: output must be a string or ItemStack");
 		}
@@ -179,12 +179,12 @@ var teAddExtractRecipe;
 	teAddExtractRecipe = function(energy, input, output, chance, fluid, fill, overwrite){
 		if (!energy) throw("teAddFillRecipe: energy must be a positive number.");
 		if (typeof input == "string"){
-			input = input.indexOf(':')>0 ? new ItemStack(input).constructStack() : getOres(input)[0];
+			input = input.indexOf(':') > 0 ? new ItemStack(input).constructStack() : getOres(input)[0];
 		} else if (!input instanceof __itemStack){
 			throw("teAddFillRecipe: input must be a string or ItemStack");
 		}
 		if (typeof output == "string"){
-			output = output.indexOf(':')>0 ? new ItemStack(output).constructStack() : getOres(output)[0];
+			output = output.indexOf(':') > 0 ? new ItemStack(output).constructStack() : getOres(output)[0];
 		} else if (!output instanceof __itemStack){
 			chance = 0;
 			output = null;

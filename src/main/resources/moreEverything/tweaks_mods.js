@@ -38,8 +38,8 @@
 	if (!!modList.Thaumcraft){
 		addFuel(100, "Thaumcraft:blockCustomPlant", 0); // Greatwood sapling
 		addFuel(100, "Thaumcraft:blockCustomPlant", 1); // Silverwood sapling
-		addShapelessRecipe(new ItemStack(item.rottenFlesh,9).constructStack(),
-			[new ItemStack("Thaumcraft:blockTaint",1,2).constructStack()]); // Uncrafting of Block of Flesh
+		addShapelessRecipe(new ItemStack(item.rottenFlesh, 9).constructStack(),
+			[new ItemStack("Thaumcraft:blockTaint", 1, 2).constructStack()]); // Uncrafting of Block of Flesh
 	}
 
 	if (!!modList.Natura){
@@ -56,8 +56,8 @@
 		registerOre("logWood", newItemStack("Natura:bloodwood", 1, WILDCARD));
 	}
 
-	if(!!modList.Botania){
-		if(!!modList.ThermalExpansion){
+	if (!!modList.Botania){
+		if (!!modList.ThermalExpansion){
 			teAddSmelterRecipe(5000, "ingotMithril", "ingotIron", "ingotManasteel", null, null, false)
 
 		}
@@ -124,14 +124,14 @@
 		var mc = Packages.com.mark719.magicalcrops.MagicalCrops;
 		var seeds = {};
 
-		for(var a in mc){
-			if(a instanceof __item){
+		for (var a in mc){
+			if (a instanceof __item){
 				if (a.func_77658_a().indexOf("seeds")){
 					seeds[a] = new ItemStack("magicalcrops:magicalcrops_"+a.func_77658_a()).constructStack();
 				}
 			}
 		}
-		for(var a in seeds){
+		for (var a in seeds){
 			addShapelessRecipe(Essence.setItemDamage(1).constructStack(), [essenceOrb, new ItemStack(a)])
 		}
 

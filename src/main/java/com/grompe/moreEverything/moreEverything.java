@@ -156,7 +156,7 @@ public class moreEverything
             engine.execResource(str);
         }
 
-        public void __testException() throws Exception
+        public void __testException() throws IllegalArgumentException
         {
             throw new IllegalArgumentException("O_O");
         }
@@ -246,10 +246,7 @@ public class moreEverything
         configDir.mkdir();
         extractFromJar("mod_moreEverything.js", configDir);
     }
-	
-    public void load()
-    {
-    }
+
 
     // Need to load after all other mods...
     public void modsLoaded()

@@ -69,7 +69,7 @@ var bcAddCoolant;
 		if (typeof id != "string") throw("bcAddAssemblyTableRecipe: id must be a string.");
 		if (typeof energyCost != "number") throw("bcAddAssemblyTableRecipe: energyCost must be a nunber.");
 		if (typeof output == "string"){
-			output = output.indexOf(':')>0 ? newItemStack(output) : getOres(output)[0];
+			output = output.indexOf(':') > 0 ? newItemStack(output) : getOres(output)[0];
 		}
 		if (inputs instanceof Array){
 			for (var i = 0; i < inputs.length; i++){
@@ -83,7 +83,7 @@ var bcAddCoolant;
 			}
 		}
 		if (typeof inputs == "string"){
-			inputs = inputs.indexOf(':')>0 ? newItemStack(inputs) : getOres(inputs)[0];
+			inputs = inputs.indexOf(':') > 0 ? newItemStack(inputs) : getOres(inputs)[0];
 		}
 		bcRecipeRegistry.assemblyTable.addRecipe(id, energyCost, output, inputs);
 	};

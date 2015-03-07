@@ -119,7 +119,7 @@ var removeAlchemyRecipe;
 
 	addAlchemyRecipe = function(output, lpRequired, recipe, bloodOrbLevel){
 		if (typeof output == "string"){
-				output = (output.indexOf(':') > 0) ? newItemStack(output) : getOres(output)[0];
+			output = (output.indexOf(':') > 0) ? newItemStack(output) : getOres(output)[0];
 		}
 		if (recipe instanceof Array){
 			for (var i = 0; i < recipe.length; i++){

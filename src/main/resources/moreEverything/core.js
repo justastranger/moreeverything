@@ -15,7 +15,7 @@ var __block = Java.type("net.minecraft.block.Block");
 var __itemStack = Java.type("net.minecraft.item.ItemStack");
 var __fluidStack = Java.type("net.minecraftforge.fluids.FluidStack");
 var __nbtBase = Java.type("net.minecraft.nbt.NBTBase");
-var __nbtTagCompound = Java.type("net.minecraft.nbt.NBTTagCompound")
+var __nbtTagCompound = Java.type("net.minecraft.nbt.NBTTagCompound");
 var __itemsList;
 var logLevel = { debug : 0, info : 1, warning : 2, error : 3 };
 
@@ -165,16 +165,16 @@ function setItemDamage(stack, damage){
 	return stack;
 }
 function setItemMaxStackSize(item, size){
-	if(typeof item == "string") var item = getItem(item);
-	else if(item instanceof __itemStack) item = getItemFromStack(item);
-	else if(!item instanceof __item) throw("setItemMaxStackSize: item must be the name of the item, or the actual item.");
+	if (typeof item == "string") var item = getItem(item);
+	else if (item instanceof __itemStack) item = getItemFromStack(item);
+	else if (!item instanceof __item) throw("setItemMaxStackSize: item must be the name of the item, or the actual item.");
 	if (size > 64) throw("setItemIDMaxStackSize: size can not be larger than 64.");
 	item.func_77639_j(size)
 }
 function getItemMaxStackSize(item){
-	if(typeof item == "string") var item = getItem(item);
-	else if(item instanceof __itemStack) item = getItemFromStack(item);
-	else if(!item instanceof __item) throw("getItemMaxStackSize: item must be the name of the item, or the actual item.");
+	if (typeof item == "string") var item = getItem(item);
+	else if (item instanceof __itemStack) item = getItemFromStack(item);
+	else if (!item instanceof __item) throw("getItemMaxStackSize: item must be the name of the item, or the actual item.");
 	return item.func_77639_j()
 }
 function getItemFromStack(stack){
@@ -223,9 +223,9 @@ function stringOrNumber(thing){
 }
 
 function _nameStack(name){
-	if(typeof name == "string"){
-		if(name.indexOf(':')>0) return newItemStack(name);
-		else return getOres(name)[0];
+	if (typeof name == "string"){
+		name = (name.indexOf(':') > 0) ? new ItemStack(name).constructStack() : getOres(name)[0];
+		return name
 	} else {
 		return name;
 	}
@@ -339,7 +339,7 @@ function stripNBTTag(compound, tag){
 }
 
 function setNBTTagCustomFluidStack(compound, key, fluidStack){
-	var fs =  fluidStack.writeToNBT(newNBTTagCompound());
+	var fs = fluidStack.writeToNBT(newNBTTagCompound());
 	compound.func_74782_a(key, fs);
 }
 
@@ -350,7 +350,7 @@ function setNBTTagInteger(compound, key, value){
 function ItemStack(item, amount, meta){
 	this.itemDamage = meta ? meta : 0;
 	this.stackSize = amount ? amount : 1;
-	if(typeof item != "undefined") this.item = item;
+	if (typeof item != "undefined") this.item = item;
 	else throw("ItemStack: null item");
 	this.setstackSize = function(amount){
 		this.stackSize = amount;
@@ -374,8 +374,12 @@ function ItemStack(item, amount, meta){
 	};
 	this.constructStack = function(){
 		if (typeof this.item == "string" && getItem(this.item) == null){
-			try{this.item = getItemName(this.item);}
-			catch(e){throw("newItemStack: item does not exist.");}
+			try{
+				this.item = getItemName(this.item);
+			}
+			catch (e) {
+				throw("newItemStack: item does not exist.");
+			}
 		}
 		if (typeof this.item == "string" || (this.item instanceof java.lang.String)) this.item = getItem(this.item);
 		this.stack = new __itemStack(this.item, this.stackSize, this.itemDamage);
@@ -426,27 +430,27 @@ function NBTTagCompound(){
 		return new __nbtTagCompound();
 	};
 	this.setInteger = function(key, num){
-		if(typeof num == "number" && Math.floor(num) == num) this[key] = num;
+		if (typeof num == "number" && Math.floor(num) == num) this[key] = num;
 		return this;
 	};
 	this.setFluidStack = function(key, fluidStack){
-		if(fluidStack instanceof __fluidStack) this[key] = fluidStack;
+		if (fluidStack instanceof __fluidStack) this[key] = fluidStack;
 		return this;
 	};
 	this.setItemStack = function(key, itemStack){
-		if(itemStack instanceof __itemStack)this[key] = itemStack;
+		if (itemStack instanceof __itemStack)this[key] = itemStack;
 		return this;
 	};
 	this.setBoolean = function(key, bool){
-		if(typeof bool == "boolean") this[key] = bool;
+		if (typeof bool == "boolean") this[key] = bool;
 		return this;
 	};
 	this.setString = function(key, string){
-		if(typeof string == "string") this[key] = string;
+		if (typeof string == "string") this[key] = string;
 		return this;
 	};
 	this.setFloat = function(key, fl){
-		if(typeof fl == "number" && Math.floor(fl) != fl) this[key] = fl;
+		if (typeof fl == "number" && Math.floor(fl) != fl) this[key] = fl;
 		return this;
 	};
 	this.constructInteger = function(comp, key, num){
@@ -458,7 +462,7 @@ function NBTTagCompound(){
 		return comp;
 	};
 	this.constructFluidStack = function(comp, key, fluid){
-		var fs =  fluid.writeToNBT(this.blankCompound());
+		var fs = fluid.writeToNBT(this.blankCompound());
 		comp.func_74782_a(key, fs);
 		return comp;
 	};
@@ -483,12 +487,12 @@ function NBTTagCompound(){
 
 	this.constructCompound = function(){
 		var comp = this.blankCompound();
-		for(var b in this){
-			if(typeof this[b] != "function"){
+		for (var b in this){
+			if (typeof this[b] != "function"){
 				switch (typeof this[b]){
 					case "number":
-						if(Math.floor(this[b]) == this[b]) this.constructInteger(comp, b, this[b]);
-						if(Math.floor(this[b]) != this[b]) this.constructFloat(comp, b, this[b]);
+						if (Math.floor(this[b]) == this[b]) this.constructInteger(comp, b, this[b]);
+						if (Math.floor(this[b]) != this[b]) this.constructFloat(comp, b, this[b]);
 						break;
 					case "string":
 						this.constructString(comp, b, this[b]);
@@ -497,9 +501,9 @@ function NBTTagCompound(){
 						this.constructBoolean(comp, b, this[b]);
 						break;
 					case "object":
-						if(this[b] instanceof __itemStack) this.constructItemStack(comp, b, this[b]);
-						if(this[b] instanceof __fluidStack) this.constructFluidStack(comp, b, this[b]);
-						if(this[b] instanceof __nbtBase) this.constructTag(comp, b, this[b]);
+						if (this[b] instanceof __itemStack) this.constructItemStack(comp, b, this[b]);
+						if (this[b] instanceof __fluidStack) this.constructFluidStack(comp, b, this[b]);
+						if (this[b] instanceof __nbtBase) this.constructTag(comp, b, this[b]);
 						break;
 				}
 			}
@@ -523,8 +527,12 @@ function sendIMCMessage(to, key, value){
 	if (typeof to != "string") throw("sendIMCMessage: to must be a string");
 	if (typeof key != "string") throw("sendIMCMessage: key must be a string");
 	if (!__fml.common.FMLCommonHandler.instance().findContainerFor(to)) throw("sendIMCMessage: to must the mod ID of an installed mod.");
-	try{__mE.sendIMC(to, key, value);}
-	catch(e){throw e;}
+	try{
+		__mE.sendIMC(to, key, value);
+	}
+	catch (e) {
+		throw e;
+	}
 }
 
 log("Found the core!");
