@@ -1,5 +1,7 @@
 // Basic definitions
 
+// It was a massive pain in the ass to create this monstrosity and I don't even use it half the time...
+
 var item =
     {
 	    stone               : "minecraft:stone",
@@ -329,4 +331,4 @@ var villager =
 	    butcher    : 4
     };
 
-log("Defining the world!")
+log("Defining the world!");

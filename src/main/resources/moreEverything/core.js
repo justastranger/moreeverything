@@ -512,7 +512,7 @@ function NBTTagCompound(){
 }
 
 
-// I was hoping that I would use this somewhere... oh well...
+// Do any mods actually have runtime IMC support?
 function sendRuntimeIMCMessage(target, key, value){
 	if (typeof target != "string") throw("sendIMCMessage: target must be a string");
 	if (!__fml.common.FMLCommonHandler.instance().findContainerFor(target)) throw("sendIMCMessage: target must the mod ID of an installed mod.");

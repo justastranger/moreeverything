@@ -18,8 +18,6 @@ import org.apache.logging.log4j.Logger;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 import java.io.*;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -158,63 +156,6 @@ public class moreEverything
             engine.execResource(str);
         }
 
-        // if running without Minecraft
-        public boolean __isStandalone()
-        {
-            return standalone;
-        }
-
-
-        // Java 6 doesn't like to provide these deep-code-digging functions
-        // to JavaScript, so have to provide it with the following few helpers
-        // Not sure these are necessary anymore so they might get removed soon.
-        public Method __getMethod(Class<?> c, String name, Class... paramtypes) throws Exception
-        {
-           return c.getMethod(name, paramtypes);
-        }
-
-        public Object __newInstance(Constructor c, Object... initargs) throws Exception
-        {
-           return c.newInstance(initargs);
-        }
-
-        public Constructor<?> __getConstructor(Class<?> c, Class... paramtypes) throws Exception
-        {
-           return c.getConstructor(paramtypes);
-        }
-
-        public String __getMethodName(Method meth)
-        {
-            return meth.getName();
-        }
-
-        public Class[] __getParameterTypes(Method meth)
-        {
-            return meth.getParameterTypes();
-        }
-
-        public Class __getReturnType(Method meth)
-        {
-            return meth.getReturnType();
-        }
-
-        public Object __invoke(Method meth, Object o, Object... args) throws Exception
-        {
-            return meth.invoke(o, args);
-        }
-
-        public Object __invokeStatic(Method meth, Object... args) throws Exception
-        {
-            return meth.invoke(null, args);
-        }
-
-        // Various utility functions
-
-        public Object __unwrap(Object o)
-        {
-            return o;
-        }
-        
         public void __testException() throws Exception
         {
             throw new IllegalArgumentException("O_O");
@@ -336,24 +277,6 @@ public class moreEverything
         log("Script load complete. "+warnings+" warnings, "+errors+" errors.");
     }
 
-
-    public String getVersion()
-    {
-        return VERSION_TEXT;
-    }
-
-    public String Version()
-    {
-        return VERSION_TEXT;
-    }
-
-    /*public static void main(String[] args)
-    {
-        mod_moreEverything me = new mod_moreEverything();
-        me.standalone = true;
-        me.modsLoaded();
-    }*/
-
     public static void sendIMC(String to, String key, NBTTagCompound value){
         log("Sending IMC message to " + to + " for " + key);
         FMLInterModComms.sendMessage(to, key, value);
@@ -366,7 +289,6 @@ public class moreEverything
         log("Sending IMC message to " + to + " for " + key);
         FMLInterModComms.sendMessage(to, key, value);
     }
-
 
     @EventHandler
 	public void preInit(FMLPreInitializationEvent event)

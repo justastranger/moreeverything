@@ -2,6 +2,8 @@
 // By justastranger
 // Written with EnderIO 2.2.1.276 for 1.7.10
 
+// EnderIO recipes are evil.
+
 var __eIO = Packages.crazypants.enderio;
 var __eioRecipeInput = __eIO.machine.recipe.RecipeInput;
 var __eioRecipeOutput = __eIO.machine.recipe.RecipeOutput;

@@ -6,7 +6,7 @@
 // However, ProjectE does, so those recipes may be reborn in a script for ProjectE
 
 
-var EE3Enabled = false;
+//var EE3Enabled = false;
 var EE3Api = Packages.com.pahimar.ee3.api;
 
 var addAludelRecipe;

@@ -25,21 +25,18 @@ var forestryAddFabricatorMeltingRecipe;
 	 *   box - ItemStack, item name - Extra ItemStack that is consumed along with the recipe.
 	 *   output - ItemStack, item name, ore dictionary name - output
 	 *   recipe - Shaped Recipe-esque array, supports ItemStacks and OreDict names - Example: ["xxx", "xyx", "xxx", char('x'), newItemStack(item.coal), char('y'), "oreCoal"]
-	 *   Works with other fluids, but you have to break-and-replace carpenters when adding recipes that use a as-of-yet-unused fluid such as Tinkers Construct's "molten obsidian"
+	 *   Recipes can be added in-world, but you have to break-and-replace carpenters in order for them to recognize new fluids.
 	 * */
 	forestryAddCarpenterRecipe = function(timePerItem, liquid, box, output, recipe){
 		if (typeof timePerItem != "number" || timePerItem < 0) throw("forestryAddCarpenterRecipe: timePerItem must be a number.");
 		if (!isJavaClass(liquid, __fluidStack) && stringOrNumber(liquid)) liquid = newFluidStack(liquid);
 		if (typeof box == "undefined") box = null;
 		if (typeof output == "string"){
-			if (output.indexOf(':') > 0){
-				output = newItemStack(output);
-			} else {
-				output = getOres(output)[0];
-			}
+			output = (output.indexOf(':') > 0) ? newItemStack(output) : getOres(output)[0];
 		}
 		if (!recipe instanceof Array) throw("forestryAddCarpenterRecipe: recipe is invalid, it must be an Array.");
 		for (var i = 1; i < recipe.length; i++){
+			// Iterates the array converting everything into a shaped-recipe-alike fashion
 			if (typeof recipe[i-1] == "object" && typeof recipe[i] == "string") recipe[i] = newItemStack(recipe[i]);
 		}
 		try{
@@ -61,31 +58,29 @@ var forestryAddFabricatorMeltingRecipe;
 	forestryAddCentrifugeRecipe = function(timePerItem, input, outputs, chances){
 		if (typeof timePerItem != "number" || timePerItem < 0) throw("forestryAddCentrifugeRecipe: timePerItem must be a number above 0.");
 		if (typeof input == "string"){
-			if (input.indexOf(':') > 0){
-				input = newItemStack(input);
-			} else {
-				input = getOres(input)[0];
-			}
+			input = (input.indexOf(':') > 0) ? newItemStack(input) : getOres(input)[0];
 		}
 		if (!outputs instanceof Array){
 			outputs = [outputs];
 			chances = [100];
 		}
+		// I was fond of passing a single array for outputs+chances so I added this to make it easier.
 		if (outputs[0] instanceof Array){
-			chances = outputs[1]
-			outputs = outputs[0]
+			chances = outputs[1];
+			outputs = outputs[0];
 		}
 		if (((outputs instanceof Array) && (chances instanceof Array)) && (outputs.length != chances.length)) throw("forestryAddCentrifugeRecipe: length mismatch between outputs and chances.");
 		for (var i = 0; i < outputs.length; i++){
 			if (typeof outputs[i] == "string"){
-				if (outputs[i].indexOf(':') > 0){
-					outputs[i] = newItemStack(outputs[i]);
-				} else {
-					outputs[i] = getOres(outputs[i])[0];
-				}
+				outputs[i] = (outputs[i].indexOf(':') > 0) ? newItemStack(outputs[i]) : getOres(outputs[i])[0];
 			}
+			// By this point in time, there should be 2 arrays of equal length, one for outputs, and one for chances
+			// for those outputs with each element in the array having a corresponding element in the other array
+			// at the same index. Chances should also be nothing but numbers.
 			if (typeof chances[i] != "number") throw("forestryAddCentrifugeRecipe: chances must be an Array of numbers.")
 		}
+		// Convert the two arrays into actual java arrays. Why? I don't remember.
+		// Maybe Nashorn automatically handles conversions, but oh well.
 		chances = javaArray(__int, chances);
 		outputs = javaArray(__itemStack, outputs);
 		forestryRecipeManagers.centrifugeManager.addRecipe(timePerItem, input, outputs, chances)
@@ -101,11 +96,7 @@ var forestryAddFabricatorMeltingRecipe;
 		if (typeof fermentationValue != "number" || fermentationValue < 0) throw("forestryAddFermenterRecipe: fermentationValue must be a positive number.");
 		if (typeof modifier != "number" || fermentationValue < 0) throw("forestryAddFermenterRecipe: modifier must be a positive number.");
 		if (typeof input == "string"){
-			if (input.indexOf(':') > 0){
-				input = newItemStack(input);
-			} else {
-				input = getOres(input)[0];
-			}
+			input = (input.indexOf(':') > 0) ? newItemStack(input) : getOres(input)[0];
 		}
 		if (stringOrNumber(output)) output = newFluidStack(output);
 		if (stringOrNumber(liquid)) liquid = newFluidStack(liquid);
@@ -119,18 +110,10 @@ var forestryAddFabricatorMeltingRecipe;
 	 * */
 	forestryAddMoistenerRecipe = function(input, output, timePerItem){
 		if (typeof input == "string"){
-			if (input.indexOf(':') > 0){
-				input = newItemStack(input);
-			} else {
-				input = getOres(input)[0];
-			}
+			input = (input.indexOf(':') > 0) ? newItemStack(input) : getOres(input)[0];
 		}
 		if (typeof output == "string"){
-			if (output.indexOf(':') > 0){
-				output = newItemStack(output);
-			} else {
-				output = getOres(output)[0];
-			}
+			output = (output.indexOf(':') > 0) ? newItemStack(output) : getOres(output)[0];
 		}
 		if (typeof timePerItem != "number" || timePerItem < 0) throw("forestryAddMoistenerRecipe: timePerItem must be a positive number.");
 		forestryRecipeManagers.moistenerManager.addRecipe(input, output, timePerItem);
@@ -151,26 +134,18 @@ var forestryAddFabricatorMeltingRecipe;
 		if (resources instanceof Array){
 			for (var i = 0; i < resources.length; i++){
 				if (typeof resources[i] == "string"){
-					if (resources[i].indexOf(':') > 0){
-						resources[i] = newItemStack(resources[i]);
-					} else {
-						resources[i] = getOres(resources[i])[0];
-					}
+					resources[i] = (resources[i].indexOf(':') > 0) ? newItemStack(resources[i]) : getOres(resources[i])[0];
 				}
 			}
 		}
 		if (stringOrNumber(liquid)) liquid = newFluidStack(liquid);
 		if (typeof remnants == "string"){
-			if (remnants.indexOf(':') > 0){
-				remnants = newItemStack(remnants);
-			} else {
-				remnants = getOres(remnants)[0];
-			}
+			remnants = (remnants.indexOf(':') > 0) ? newItemStack(remnants) : getOres(remnants)[0];
 		}
 		if (typeof chance == "undefined" && typeof remnants != "undefined") chance = 100;
 		if (typeof remnants == "undefined") chance = null;
 		forestryRecipeManagers.squeezerManager.addRecipe(timePerItem, resources, liquid, remnants, chance);
-	}
+	};
 
 	/*
 	 *   timePerUnit - number
@@ -178,29 +153,25 @@ var forestryAddFabricatorMeltingRecipe;
 	 *   output - FluidStack, fluid name, fluid ID
 	 * */
 	forestryAddStillRecipe = function(timePerUnit, input, output){
-		if (typeof timePerUnit != "number") throw("");
+		if (typeof timePerUnit != "number") throw("forestryAddStillRecipe: timePerUnit must be a number");
 		if (stringOrNumber(input)) input = newFluidStack(input);
 		if (stringOrNumber(output)) output = newFluidStack(output);
 		forestryRecipeManagers.stillManager.addRecipe(timePerUnit, input, output);
-	}
+	};
 
 	/*
-	 *   molten - FluidStack, fluid name, fluid ID - input liquid, only seems to take glass
+	 *   molten - FluidStack, fluid name, fluid ID - input liquid, only seems to like glass
 	 *   result - ItemStack, item name, ore dictionary name - output
 	 *   pattern - Shaped Recipe-esque array
 	 * */
 	forestryAddFabricatorRecipe = function(molten, result, pattern){
 		if (stringOrNumber(molten)) molten = newFluidStack(molten);
 		if (typeof result == "string"){
-			if (result.indexOf(':') > 0){
-				result = newItemStack(result);
-			} else {
-				result = getOres(result)[0];
-			}
+			result = (result.indexOf(':') > 0) ? newItemStack(result) : getOres(result)[0];
 		}
-		if (!pattern instanceof Array) throw("forestryAddFabricatorRecipe: pattern must be an Array.")
+		if (!pattern instanceof Array) throw("forestryAddFabricatorRecipe: pattern must be an Array.");
 		forestryRecipeManagers.fabricatorManager.addRecipe(null, molten, result, pattern);
-	}
+	};
 
 	/*
 	 *   cast - ItemStack, item name, ore dictionary name - Don't these usually have damage values?
@@ -210,23 +181,15 @@ var forestryAddFabricatorMeltingRecipe;
 	 * */
 	forestryAddFabricatorCastRecipe = function(cast, molten, result, pattern){
 		if (typeof cast == "string"){
-			if (cast.indexOf(':') > 0){
-				cast = newItemStack(cast);
-			} else {
-				cast = getOres(cast)[0];
-			}
+			cast = (cast.indexOf(':') > 0) ? newItemStack(cast) : getOres(cast)[0];
 		}
 		if (stringOrNumber(molten)) molten = newFluidStack(molten);
 		if (typeof result == "string"){
-			if (result.indexOf(':') > 0){
-				result = newItemStack(result);
-			} else {
-				result = getOres(result)[0];
-			}
+			result = (result.indexOf(':') > 0) ? newItemStack(result) : getOres(result)[0];
 		}
 		if (!pattern instanceof Array) throw("forestryAddFabricatorRecipe: pattern must be an Array.");
 		forestryRecipeManagers.fabricatorManager.addRecipe(cast, molten, result, pattern);
-	}
+	};
 
 	/*
 	 *   input - ItemStack, item name, ore dictionary name
@@ -237,11 +200,7 @@ var forestryAddFabricatorMeltingRecipe;
 	forestryAddFabricatorMeltingRecipe = function(input, fluidOut, meltingPoint){
 		if (typeof meltingPoint != "number" || meltingPoint <= 0) throw("forestryAddFabricatorMeltingRecipe: meltingPoint must be a number above 0.");
 		if (typeof input == "string"){
-			if (input.indexOf(':') > 0){
-				input = newItemStack(input);
-			} else {
-				input = getOres(input)[0];
-			}
+			input = (input.indexOf(':') > 0) ? newItemStack(input) : getOres(input)[0];
 		}
 		if (stringOrNumber(fluidOut)) fluidOut = newFluidStack(fluidOut);
 		forestryRecipeManagers.fabricatorManager.addSmelting(input, fluidOut, meltingPoint);

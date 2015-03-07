@@ -17,18 +17,7 @@ var optionalFeature = {
 	thaumcraft_vanilla_aspects: true,
 	thaumcraft_mod_aspects: true,
 	tinkers_te_crucible_melting: true,
-	tinkers_bc_refinery_mixing: true,
-	// This block contains deprecated features, since EE3 seems to be dropping crafting-table transmutations
-	/*ee_vanilla_transmutations: 1,
-	ee_vanilla_uncrafting: 1,
-	ee_stairs_slabs_walls_uncrafting: 1,
-	ee_ore_transmutations: 1,
-	ee_thaumcraft_transmutations: 1,
-	ee_natura_transmutations: 1,
-	ee_underground_biomes_transmutations: 1,
-	ee_biome_mods_transmutations: 1,
-	ee_minefantasy_transmutations: 1,
-	ee_tinkersconstruct_transmutations: 1,*/
+	tinkers_bc_refinery_mixing: false,
 
 	// Disabled by default
 	rotten_flesh_to_leather: false,
@@ -38,25 +27,35 @@ var optionalFeature = {
 // Uncomment for debugging; valid logLevels are debug, info, warning, error
 // currentLogLevel = logLevel.debug;
 
-function Include(filename) { return __api.__include(filename); }
-function IncludeInit(filename) { return __mE.includeInit.add(filename); log("Added "+filename+" to postInit execution.") }
-function IncludePost(filename) { return __mE.includePost.add(filename); log("Added "+filename+" to postInit execution.") }
-function IncludeInternal(filename) { return __api.__includeInternal(filename); }
+function Include(filename) {
+	return __api.__include(filename);
+}
+function IncludeInit(filename) {
+	log("Added "+filename+" to Init execution.");
+	return __mE.includeInit.add(filename);
+}
+function IncludePost(filename) {
+	log("Added "+filename+" to postInit execution.");
+	return __mE.includePost.add(filename);
+}
+function IncludeInternal(filename) {
+	return __api.__includeInternal(filename);
+}
 // Ease-of-use function - Example: IncludeJS("forestry") or IncludeJS("EnderIO")
 function IncludeJS(filename) { Include("moreEverything/"+filename+".js"); }
 
 function test() {
 	try{Include("moreEverything/test.js");}
 	catch(e){
-		log(e)
-		if(e.toString().indexOf("not found") > 0)throw("You need to create a test.js file within the moreEverything folder located in the config folder.")
+		log(e);
+		if(e.toString().indexOf("not found") > 0)throw("You need to create a test.js file within the moreEverything folder located in the config folder.");
 		throw(e);
 	}
 }
 
 
 
-var defaultScripts = [
+var preScripts = [
 	"moreEverything/core.js",
 	"moreEverything/defs.js",
 	"moreEverything/ic2.js",
@@ -84,7 +83,7 @@ var postScripts = [
 // If you do extract default scripts, you'll have to update (delete) them manually
 // Actually, better look inside the mod .zip file for a reference and add your own code in this file below
 // for (i in defaultScripts) IncludeInternal(defaultScripts[i]);
-for (var i in defaultScripts) Include(defaultScripts[i]);
+for (var i in preScripts) Include(preScripts[i]);
 for (var i in initScripts) IncludeInit(initScripts[i]);
 for (var i in postScripts) IncludePost(postScripts[i]);
 
@@ -110,7 +109,7 @@ Syntax: addShapelessRecipe(
 )
 Dependency: core.js
 Examples:
-	addShapelessRecipe(item.wool, item.cobblestone, item.cobblestone);
+	addShapelessRecipe(item.wool, [item.cobblestone, item.cobblestone]);
 
 Add smelting recipe
 Syntax: addSmelting(

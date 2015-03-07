@@ -119,25 +119,19 @@ var removeAlchemyRecipe;
 
 	addAlchemyRecipe = function(output, lpRequired, recipe, bloodOrbLevel){
 		if (typeof output == "string"){
-			if (output.indexOf(':') > 0){
-				output = newItemStack(output);
-			} else {
-				output = getOres(output)[0];
-			}
+				output = (output.indexOf(':') > 0) ? newItemStack(output) : getOres(output)[0];
 		}
 		if (recipe instanceof Array){
 			for (var i = 0; i < recipe.length; i++){
 				if (typeof recipe[i] == "string"){
 					if (recipe[i].indexOf(':') > 0){
-						recipe[i] = newItemStack(recipe[i]);
+						recipe[i] = (recipe[i].indexOf(':') > 0) ? newItemStack(recipe[i]) : getOres(recipe[i])[0];
 					}
 				}
 			}
 		}
 		if (typeof recipe == "string"){
-			if (recipe.indexOf(':') > 0){
-				recipe = newItemStack(recipe);
-			}
+			recipe = (recipe.indexOf(':') > 0) ? newItemStack(recipe) : getOres(recipe)[0];
 			recipe = [recipe]
 		}
 		bmAPI.alchemy.AlchemyRecipeRegistry.registerRecipe(output, lpRequired, recipe, bloodOrbLevel);
@@ -146,11 +140,7 @@ var removeAlchemyRecipe;
 
 	removeAlchemyRecipe = function(output){
 		if (typeof output == "string"){
-			if (output.indexOf(':') > 0){
-				output = newItemStack(output);
-			} else {
-				output = getOres(output)[0];
-			}
+			output = (output.indexOf(':') > 0) ? newItemStack(output) : getOres(output)[0];
 		}
 		var recipes = bmAPI.alchemy.AlchemyRecipeRegistry.recipes;
 		var recipeArray = bmAPI.alchemy.AlchemyRecipeRegistry.recipes.toArray();
