@@ -2,6 +2,8 @@ Easy
 ====
 - Tinkers Construct support.
 
+- Support for TE's new farm-in-a-block
+
 
 Medium
 ======
@@ -12,34 +14,26 @@ Medium
 Hard/Tricky/Unknown
 ===================
 - Use Forge's adding trades
-
-- Make it compatible with dedicated server
-  (don't use "Packages." construct, try to fix Forge or modify Rhino)
+	- It's apparently possible, but is a massive undocumented quagmire that is hard to understand.
 
 - Dispenser planting seeds
-
-- Wrap ItemStack and Method in JavaScript pseudo-classes for more straightforward work
-  Alternatively, find out if it's possible to add fields into these specifically for JS engine
 
 
 Maintenance/Boring
 ==================
 - Add Thaumcraft aspects for mod items/blocks
 
-- Ensure correct mod load order
-
 - Write better documentation, etc.
 
+- Make sure everything is standardized/doing the same things the same way
 
 Future
 ======
-- If Equivalent Exchange 3 doesn't crash with TFC, support them
 - more Thaumcraft API support - Working on it I guess...
 - recipes inspection to help adding missing ones
 - allow changing chests loot
 - plant more stuff in pots
 - villagers drop last trade (if it's enabled) when killed by a player? Can this be done?
-- villagers show a bubble with last viewed offer
 - on medium and especially hard difficulty, regenerating from full hunger bar makes player hungry
 - charge double amount of XP instead of showing "too expensive!" on anvils
 - change fishing interval? Can this be done?
@@ -48,13 +42,12 @@ Future
   if possible, such an egg hatches instead of disappearing in 5 minutes 
 - use lapis in brewing potions? Can this be done?
 - make bookshelves have direction. Can this be done?
-- support Better Than Wolves - See BTWTweak!
 
 
 Forum suggestions
 =================
 - Forestry recipe support -- carpenter, centrifuge 
-- GregTech -- There's a lot of machines, but I'll see what I can do.
+- GregTech -- Maybe?
 
 - http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/1287878-dartcraft-beta-0-2-20
   Not yet 1.7.10, so this might not happen if it never updates.

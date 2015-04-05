@@ -43,8 +43,6 @@ tweaks_mods.js:
 - Allows some mods' blocks and items to be used as furnace fuel
 - Adds recipes for using mods' blocks and items between mods
 - Adds Thaumcraft aspects for various blocks and items from other mods if Thaumcraft is installed.
-equivalent_exchange.js:
-- Probably going to be removed, along with the whole EE3 support section from tweaks_mods.js
 thaumcraft.js:
 - Provides functions for adding aspects to items and blocks.
 EnderIO.js, ic2.js, thermal_expansion.js, railcraft.js, TConstruct.js, buildcraft.js, blood_magic.js:
