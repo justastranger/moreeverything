@@ -20,6 +20,19 @@ var teAddSmelterBlastOreRecipe;
 var teAddSmelterRecipe;
 var teAddFillRecipe;
 var teAddExtractRecipe;
+var teAddInsolatorRecipe;
+
+var teRemovePulverizerRecipe;
+var teRemoveFurnaceRecipe;
+var teRemoveSawmillRecipe;
+var teRemoveCrucibleRecipe;
+var teRemoveOreDictCrucibleRecipe;
+var teRemoveSmelterBlastOreRecipe;
+var teRemoveSmelterRecipe;
+var teRemoveFillRecipe;
+var teRemoveExtractRecipe;
+var teRemoveInsolatorRecipe;
+
 
 (function(){
 
@@ -199,9 +212,47 @@ var teAddExtractRecipe;
 
 		var nbt = new NBTTagCompound();
 		nbt.setInteger("energy", energy).setItemStack("input", input).setFluidStack("fluid", fluid)
-			.setItemStack("output", output).setBoolean("overwrite", overwrite).setBoolean("reversible", fill)
-			.setInteger("chance", chance);
+		   .setItemStack("output", output).setBoolean("overwrite", overwrite).setBoolean("reversible", fill)
+		   .setInteger("chance", chance);
 		sendIMCMessage(TE, "TransposerExtractRecipe", nbt.constructCompound());
+	};
+	teAddInsolatorRecipe = function(energy, input1, input2, output1, output2, chance, overwrite){
+		// "Phytogenic Insolator"
+		// Insolator requires water to function, perhaps make a feature request for custom liquids?
+		if (!energy) throw("teAddInsolatorRecipe: energy must be a positive number.");
+		if (typeof input1 == "string"){
+			input1 = input1.indexOf(':') > 0 ? new ItemStack(input1).constructStack() : getOres(input1)[0];
+		} else if (!input1 instanceof __itemStack){
+			throw("teAddInsolatorRecipe: input1 must be a string or ItemStack");
+		}
+		if (typeof input2 == "string"){
+			input2 = input2.indexOf(':') > 0 ? new ItemStack(input2).constructStack() : getOres(input2)[0];
+		} else if (!input2 instanceof __itemStack){
+			throw("teAddInsolatorRecipe: input2 must be a string or ItemStack");
+		}
+		if (typeof output1 == "string"){
+			output1 = output1.indexOf(':') ? new ItemStack(output1).constructStack() : getOres(output1)[0];
+		} else if (!output1 instanceof __itemStack){
+			throw("teAddInsolatorRecipe: output1 must be a string or ItemStack");
+		}
+		chance = chance ? chance : 0;
+		if (typeof output2 == "string"){
+			output2 = output2.indexOf(':') ? new ItemStack(output2).constructStack() : getOres(output2)[0];
+		} else if (!output2 instanceof __itemStack){
+			log("teAddInsolatorRecipe: output2 is null");
+			output2 = null;
+			chance = 0;
+		}
+		overwrite = !!overwrite;
+		var temp = new NBTTagCompound();
+			temp.setBoolean("overwrite", overwrite).setInteger("energy", energy)
+				.setItemStack("primaryInput", input1).setItemStack("secondaryInput", input2)
+				.setItemStack("primaryOutput", output1);
+		if(output2 != null){
+			temp.setItemStack("secondaryOutput", output2);
+			if(chance > 0) temp.setInteger("secondaryChance", chance);
+		}
+		sendIMCMessage(TE, "InsolatorRecipe", temp);
 	};
 
 
