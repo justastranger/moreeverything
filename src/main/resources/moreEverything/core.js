@@ -5,6 +5,7 @@
 
 var __int = Java.type("java.lang.Integer");
 var __float = Java.type("java.lang.Float");
+var __string = Java.type("java.lang.String")
 var __boolean = Java.type("java.lang.Boolean");
 var __char = Java.type("java.lang.Character");
 var __class = Java.type("java.lang.Class");
@@ -91,7 +92,7 @@ function chr(s){
 }
 
 function lowerCase(s){
-	return java.lang.String(s).toLowerCase();
+	return __string(s).toLowerCase();
 }
 
 function javaArray(arrtype, arr){
@@ -206,14 +207,14 @@ function QgetFluid(nameOrID){
 
 function newItemStack(item, amount, metadata){
 	if (getItem(item) == null) throw("newItemStack: item does not exist.");
-	if (typeof item == "string" || isJavaClass(item, java.lang.String)) item = getItem(item);
+	if (typeof item == "string" || item instanceof __string) item = getItem(item);
 	if (typeof amount == "undefined") amount = 1;
 	if (typeof metadata == "undefined") metadata = 0;
 	return new __itemStack(item, amount, metadata)
 }
 
 function newFluidStack(id, amount){
-	if (typeof id == "string") id = getFluidID(id);
+	if (typeof id == "string" || id instanceof __string) id = getFluidID(id);
 	if (typeof amount == "undefined") amount = 1000;
 	return new __forge.fluids.FluidStack(id, amount);
 }
