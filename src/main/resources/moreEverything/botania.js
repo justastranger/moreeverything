@@ -28,6 +28,7 @@ var blackListItemFromLoonium;
 
 (function(){
 
+	// Untested
 	registerElvenTradeRecipe = function(output, inputsArray){
 		if (typeof output == "string"){
 			output = output.indexOf(':') ? new ItemStack(output).constructStack() : getOres(output)[0];
@@ -39,14 +40,14 @@ var blackListItemFromLoonium;
 				if (typeof inputsArray[i] == "string"){
 					inputsArray[i] = inputsArray[i].indexOf(':') ? new ItemStack(inputsArray[i]).constructStack() : getOres(inputsArray[i])[0];
 				} else if (!inputsArray[i] instanceof __itemStack && !inputsArray[i] instanceof ItemStack){
-					throw("teAddPulverizerRecipe: input must be a string or ItemStack");
+					throw("registerElvenTradeRecipe: input must be a string or ItemStack");
 				}
 			}
 		} else {
 			if (typeof inputsArray == "string"){
 				inputsArray = inputsArray.indexOf(':') ? new ItemStack(inputsArray).constructStack() : getOres(inputsArray)[0];
 			} else if (!inputsArray instanceof __itemStack && !inputsArray instanceof ItemStack){
-				throw("teAddPulverizerRecipe: input must be a string or ItemStack");
+				throw("registerElvenTradeRecipe: input must be a string or ItemStack");
 			}
 		}
 		inputsArray = objectArray(inputsArray);
