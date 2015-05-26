@@ -16,9 +16,9 @@
 var botApi = Packages.vazkii.botania.api.BotaniaAPI;
 
 var registerElvenTradeRecipe;
+var registerManaInfusionRecipe;
 var registerManaAlchemyRecipe;
 var registerManaConjurationRecipe;
-var registerManaInfusionRecipe;
 var registerPetalRecipe;
 var registerPureDaisyRecipe;
 var registerRuneAltarRecipe;
@@ -27,6 +27,8 @@ var addSeed;
 var blackListItemFromLoonium;
 
 (function(){
+
+	if(!modList.Botania) return;
 
 	// Untested
 	registerElvenTradeRecipe = function(output, inputsArray){
@@ -52,9 +54,24 @@ var blackListItemFromLoonium;
 		}
 		inputsArray = objectArray(inputsArray);
 		botApi.registerElvenTradeRecipe(output, inputsArray);
-	}
+	};
 
+	// Untested
+	registerManaInfusionRecipe = function(output, input, mana){
+		if (typeof output == "string"){
+			output = output.indexOf(':') ? new ItemStack(output).constructStack() : getOres(output)[0];
+		} else if (!output instanceof __itemStack && !output instanceof ItemStack){
+			throw("registerManaInfusionRecipe: output must be a string or ItemStack");
+		}
+		if (typeof input == "string"){
+			input = input.indexOf(':') ? new ItemStack(input).constructStack() : getOres(input)[0];
+		} else if (!input instanceof __itemStack && !input instanceof ItemStack){
+			throw("registerManaInfusionRecipe: input must be a string or ItemStack");
+		}
+		if(typeof mana != number) throw("registerManaInfusionRecipe: mana cost must be specified.")
 
+		botApi.registerManaInfusionRecipe(output, input, mana);
+	};
 
 
 
