@@ -20,6 +20,7 @@ var optionalFeature = {
 	tinkers_bc_refinery_mixing: false,
 
 	// Disabled by default
+	enable_thermal_expansion: false, // Thermal expansion stuff is disabled by default.
 	rotten_flesh_to_leather: false,
 	stack_more: false
 };
@@ -100,7 +101,9 @@ Syntax: addShapedRecipe(
 Dependency: core.js
 Examples:
 	addShapedRecipe(item.wool, "xx", "yy", Chr("x"), item.cobblestone, Chr("y"), item.dirt);
+	addShapedRecipe(item.wool, ["xx", "yy", Chr("x"), item.cobblestone, Chr("y"), item.dirt]);
 	addShapedRecipe(item.wool, "xx", "yy", Chr("x"), "ingotSilver", Chr("y"), "ingotCopper");
+	addShapedRecipe(item.wool, ["xx", "yy", Chr("x"), "ingotSilver", Chr("y"), "ingotCopper"]);
 
 Add shapeless recipe or shapeless ore recipe
 Syntax: addShapelessRecipe(
@@ -155,15 +158,13 @@ currentLogLevel = logLevel.debug;
 	//registerOre("ingotIron", item.ironIngot);
 	//addShapelessRecipe(item.wool, ["ingotIron", "ingotIron"]);
 	//addShapelessRecipe(item.wool, arrayOf("ingotIron", 2));
-	
+
 	// See core.js for basic, non-mod related functions
 	// Functions directly related to a mod will usually reside in a file named after the mod.
 
 	if (modList.EE3) {
 		// Do something with Equivalent Exchange
-		//addTransmutation(item.coal, arrayOf(item.redstone, 2));
-		//addTransmutation(newItemStack(item.redstone, 2), newItemStack(item.coal, 1, 0));
-		//addTransmutation1to1(item.stonePressurePlate, item.woodenPressurePlate);
+		//addAludelRecipe(item.coal, item.dirt, item.stone)
 	}
 	if (modList.Thaumcraft) {
 		// Do something with Thaumcraft

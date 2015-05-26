@@ -7,20 +7,26 @@
 // Will be documented whenever the hell I get around to it.
 // New in later versions of TE is the ability to remove recipes over IMC
 
-// TODO add recipe removal functions
+// Thermal Expansion now natively supports recipe addition and removal.
+// As such, support is officially deprecated and has to be manually enabled in the config script.
+// Elsewise, any calls to the provided functions log an error message.
 
 var TE = "ThermalExpansion";
 
-var teAddPulverizerRecipe;
-var teAddFurnaceRecipe;
-var teAddSawmillRecipe;
-var teAddCrucibleRecipe;
-var teAddOreDictCrucibleRecipe;
-var teAddSmelterBlastOreRecipe;
-var teAddSmelterRecipe;
-var teAddFillRecipe;
-var teAddExtractRecipe;
-var teAddInsolatorRecipe;
+function teDeprecated(){
+	log("Thermal Expansion support is deprecated.", logLevel.warning);
+}
+
+var teAddPulverizerRecipe = teDeprecated;
+var teAddFurnaceRecipe = teDeprecated;
+var teAddSawmillRecipe = teDeprecated;
+var teAddCrucibleRecipe = teDeprecated;
+var teAddOreDictCrucibleRecipe = teDeprecated;
+var teAddSmelterBlastOreRecipe = teDeprecated;
+var teAddSmelterRecipe = teDeprecated;
+var teAddFillRecipe = teDeprecated;
+var teAddExtractRecipe = teDeprecated;
+var teAddInsolatorRecipe = teDeprecated;
 
 var teRemovePulverizerRecipe;
 var teRemoveFurnaceRecipe;
@@ -36,7 +42,7 @@ var teRemoveInsolatorRecipe;
 
 (function(){
 
-	if (!modList.ThermalExpansion) return;
+	if (!modList.ThermalExpansion || !optionalFeature.enable_thermal_expansion) return;
 
 	teAddPulverizerRecipe = function(energy, input, output, bonus, chance, overwrite){ // Overwrite will default to false
 		overwrite = !!overwrite;
