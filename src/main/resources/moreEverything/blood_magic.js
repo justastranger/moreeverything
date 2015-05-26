@@ -146,7 +146,7 @@ var removeAlchemyRecipe;
 		var recipeArray = bmAPI.alchemy.AlchemyRecipeRegistry.recipes.toArray();
 		for (var i = 0; i < recipeArray.length; i++){
 			if (isJavaClass(recipeArray[i], bmAPI.alchemy.AlchemyRecipe)){
-				if (itemStackEquals(recipeArray[i].getResult(), output)){
+				if (recipeArray[i].getResult().equals(output)){
 					recipes.remove(recipeArray[i]);
 					return true;
 				}

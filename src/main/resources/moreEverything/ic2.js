@@ -59,7 +59,7 @@ var ic2AddScrapboxDrop;
 	};
 
 	ic2RecipeInputFluidContainer = function(fluid, amount){
-		fluid = QgetFluid(fluid);
+		fluid = getFluid(fluid);
 		if (amount) return ic2Api.recipe.RecipeInputFluidContainer(fluid, amount);
 		return ic2Api.recipe.RecipeInputFluidContainer(fluid);
 	};

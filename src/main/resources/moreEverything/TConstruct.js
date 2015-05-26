@@ -131,8 +131,8 @@ var tconAddMeltingRecipe;
 			}
 		}
 		if (typeof block == "undefined"){
-			block = !!net.minecraft.block.Block.func_149634_a(input.func_77973_b()) ? net.minecraft.block.Block.func_149634_a(input.func_77973_b()) : net.minecraft.block.Block.func_149634_a(newItemStack(item.stone).func_77973_b());
-			meta = !!net.minecraft.block.Block.func_149634_a(input.func_77973_b()) ? input.func_77960_j() : 0;
+			block = !!__block.func_149634_a(input.func_77973_b()) ? __block.func_149634_a(input.func_77973_b()) : __block.func_149634_a(newItemStack(item.stone).func_77973_b());
+			meta = !!__block.func_149634_a(input.func_77973_b()) ? input.func_77960_j() : 0;
 		}
 		meta = meta ? meta : 0;
 		if (typeof temp != "number") throw("tconAddMeltingRecipe: temp must be a number.");

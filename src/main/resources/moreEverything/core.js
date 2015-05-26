@@ -5,7 +5,7 @@
 
 var __int = Java.type("java.lang.Integer");
 var __float = Java.type("java.lang.Float");
-var __string = Java.type("java.lang.String")
+var __string = Java.type("java.lang.String");
 var __boolean = Java.type("java.lang.Boolean");
 var __char = Java.type("java.lang.Character");
 var __class = Java.type("java.lang.Class");
@@ -33,10 +33,11 @@ var currentLogLevel = logLevel.info;
 var WILDCARD = __forge.oredict.OreDictionary.WILDCARD_VALUE;
 
 
-var modList;
+var modList = {};
 
 (function(){
-
+	// This creates a reverse look up map so that you can get the item name from an item stack without too much work.
+	// It's hideous and I wish the ItemRegistry was a BiMap
 	var itemNames = __fml.common.registry.GameData.getItemRegistry().func_148742_b().toArray();
 
 	for (var i = 0; i < itemNames.length; i++){
@@ -44,24 +45,29 @@ var modList;
 		__mE.itemAdd(itemKey, itemNames[i]);
 	}
 
+	// THIS, however, sorts all item names into mod-specific arrays for debug purposes.
+	// It's also used to detect the presence of mods in a simple, global way.
+	// The only limitation is that it doesn't detect mods without blocks or items.
 	var itemListArray = __mE.getItemMap().values().toArray();
-	modList = {};
 	var modID = "";
 
+	// Create an array for each mod
 	for (var i = 0; i < itemListArray.length; i++){
 		modID = itemListArray[i].substring(0, itemListArray[i].indexOf(':'));
 		if (typeof modList[modID] == "undefined") modList[modID] = [];
 	}
 
+	// Populate the arrays
 	for (var i = 0; i < itemListArray.length; i++){
 		var item = itemListArray[i];
 		modID = item.substring(0, item.indexOf(':'));
 		modList[modID].push(item);
 	}
 
-	log("Fires kindled and items sorted.")
+	log("Sorting Machine completed.")
 })();
 
+// Returns an array of all of the current mods with items/blocks
 function getMods(){
 	var l = [];
 	for (var i in modList){
@@ -70,10 +76,12 @@ function getMods(){
 	return l
 }
 
+// I think this is the incorrect usage.....
 function getClass(s){
 	return Java.type(s);
 }
 
+// Used for catching empty arrays and objects
 function isEmpty(obj){
 	try{
 		for (var i in obj) return false;
@@ -83,18 +91,24 @@ function isEmpty(obj){
 	return true;
 }
 
+// Sugar for instanceof, which should replace it since it actually works in Rhino.
 function isJavaClass(thing, cls){
 	return (typeof thing != "undefined") && (typeof thing.getClass != "undefined") && (thing.getClass() == cls);
 }
 
+// Because who has time for java.lang.Character.valueOf(s);?
 function chr(s){
-	return java.lang.Character.valueOf(s);
+	//return java.lang.Character.valueOf(s);
+	return __char.valueOf(s);
 }
 
+// Exactly what it says on the tin.
 function lowerCase(s){
 	return __string(s).toLowerCase();
 }
 
+// Creates a java array of the specified type, using the given array.
+// TODO have javaArray try/catch for when someone tries putting a string into an Integer[]
 function javaArray(arrtype, arr){
 	var t = Java.type(arrtype+"[]");
 	if (arr instanceof Array){
@@ -107,20 +121,24 @@ function javaArray(arrtype, arr){
 	return j;
 }
 
+// Syntactic sugar
 function objectArray(arr){
 	return javaArray("java.lang.Object", arr);
 }
 
+// More sugar
 function intArray(arr){
 	return javaArray("java.lang.Integer", arr);
 }
 
+// Convert a java array into a javascript
 function nativeArray(arr){
 	var tmp = [];
 	for (var i = 0; i < arr.length; i++) tmp.push(arr[i]);
 	return tmp;
 }
 
+// Create an arbitrarily long array consisting of a single item
 function arrayOf(thing, count){
 	var tmp = [];
 	for (var i = 0; i < count; i++) tmp.push(thing);
@@ -142,6 +160,8 @@ function log(msg, level){
 	}
 }
 
+// Deprecated: Was used in parsing pre-1.7.x config files for block/item IDs
+// Maybe someone will find a use for it.
 function findIntMatch(regex){
 	var res = FindMatch(regex);
 	if (res) return parseInt(res);
@@ -151,6 +171,8 @@ function findIntMatch(regex){
 function getItem(name){
 	return __fml.common.registry.GameData.getItemRegistry().func_82594_a(name);
 }
+
+// A stack of 35 apples will return 35
 function getItemStackSize(stack){
 	return stack.field_77994_a;
 }
@@ -158,6 +180,8 @@ function setItemStackSize(stack, size){
 	stack.field_77994_a = size;
 	return stack;
 }
+
+// Metadata stuff, will become deprecated for 1.8.x
 function getItemDamage(stack){
 	return stack.func_77960_j();
 }
@@ -165,11 +189,14 @@ function setItemDamage(stack, damage){
 	stack.field_77991_e = damage;
 	return stack;
 }
+
+
 function setItemMaxStackSize(item, size){
 	if (typeof item == "string") var item = getItem(item);
 	else if (item instanceof __itemStack) item = getItemFromStack(item);
 	else if (!item instanceof __item) throw("setItemMaxStackSize: item must be the name of the item, or the actual item.");
 	if (size > 64) throw("setItemIDMaxStackSize: size can not be larger than 64.");
+	if (size < 1) throw("setItemIDMaxStackSize: size can not be less than 1")
 	item.func_77639_j(size)
 }
 function getItemMaxStackSize(item){
@@ -181,48 +208,12 @@ function getItemMaxStackSize(item){
 function getItemFromStack(stack){
 	return stack.func_77973_b();
 }
-function getItemName(item){
-	if (isJavaClass(item, __itemStack)) item = getItemFromStack(item);
-	return __mE.itemGet(item);
-}
-function itemStackEquals(first, second){
-	return !!((getItemName(first) == getItemName(second)) && (getItemDamage(first) == getItemDamage(second)) && (getItemStackSize(first) == getItemStackSize(second)));
-}
-function getFluidID(name){
-	if (typeof name != "string") throw("getFluidName: name must be a string.");
-	return __forge.fluids.FluidRegistry.getFluidID(name)
-}
-function getFluidName(id){
-	if (typeof id != "number") throw("getFluidName: id must be a number.");
-	return __forge.fluids.FluidRegistry.getFluidName(id)
-}
-function getFluid(nameOrID){
-	if (!(typeof nameOrID == "string" || typeof nameOrID == "number")) throw("getFluid: nameOrID must either be a string or a number.");
-	return __forge.fluids.FluidRegistry.getFluid(nameOrID)
-}
-function QgetFluid(nameOrID){
-	if (typeof nameOrID != "string" || typeof nameOrID != "number") return nameOrID;
-	return __forge.fluids.FluidRegistry.getFluid(nameOrID)
+function getItemName(itemOrStack){
+	if (isJavaClass(itemOrStack, __itemStack)) itemOrStack = getItemFromStack(itemOrStack);
+	return __mE.itemGet(itemOrStack);
 }
 
-function newItemStack(item, amount, metadata){
-	if (getItem(item) == null) throw("newItemStack: item does not exist.");
-	if (typeof item == "string" || item instanceof __string) item = getItem(item);
-	if (typeof amount == "undefined") amount = 1;
-	if (typeof metadata == "undefined") metadata = 0;
-	return new __itemStack(item, amount, metadata)
-}
-
-function newFluidStack(id, amount){
-	if (typeof id == "string" || id instanceof __string) id = getFluidID(id);
-	if (typeof amount == "undefined") amount = 1000;
-	return new __forge.fluids.FluidStack(id, amount);
-}
-
-function stringOrNumber(thing){
-	return !!(typeof thing == "string" || typeof thing == "number");
-}
-
+// Syntactic sugar to convert item names or OreDict names to an ItemStack
 function _nameStack(name){
 	if (typeof name == "string"){
 		name = (name.indexOf(':') > 0) ? new ItemStack(name).constructStack() : getOres(name)[0];
@@ -249,13 +240,14 @@ function registerOre(name, stackOrBlockName, itemDamage){
 	return true;
 }
 
-function forInObject(object){ // This is more of a dev function for discovering methods in an object or class.
+// This is more of a debug function for discovering public methods in an object or class.
+function forInObject(object){
 	for (var a in object) log(a)
 }
 
 function addSmelting(input, output, experience){
-	if (typeof input != "string" && input.getClass() != "net.minecraft.item.ItemStack") throw("addSmelting: input must be a string or ItemStack.");
-	if (typeof output != "string" && output.getClass() != "net.minecraft.item.ItemStack") throw("addSmelting: output must be a string or ItemStack.");
+	if (typeof input != "string" && !input instanceof __itemStack) throw("addSmelting: input must be a string or ItemStack.");
+	if (typeof output != "string" && !output instanceof __itemStack) throw("addSmelting: output must be a string or ItemStack.");
 	if (typeof input == "string") input = newItemStack(input);
 	if (typeof output == "string") output = newItemStack(output);
 	if (typeof experience == "undefined") experience = 1.0;
@@ -287,7 +279,7 @@ function addShapedRecipe(stack, arr){
 		for (var i = 1; i < arguments.length; i++) tmp.push(arguments[i]);
 		arr = tmp;
 	}
-	if (typeof stack == "undefined") throw("addShapedRecipe: stack is undefined.");
+	if (typeof stack == "undefined") throw("addShapedRecipe: stack is undefined."); // How the hell would this even happen?
 	if (typeof stack == "string") stack = newItemStack(stack);
 	for (var i = 0; i < arr.length; i++){
 		if ((typeof arr[i] == "string") && (arr[i].indexOf(':') > 0)) arr[i] = newItemStack(arr[i], 1, WILDCARD);
@@ -300,8 +292,8 @@ function addShapedRecipe(stack, arr){
 
 function addFuel(burnTime, id, damage){
 	if (isNaN(burnTime) || (burnTime <= 0)) throw("addFuel: burnTime argument must be a number greater than 0.");
-	if (typeof id == "String" && !id.indexOf(":") > 0) throw("addFuel: id must be an item name, such as 'minecraft:dirt'");
-	if (typeof damage == "undefined") damage = 32767; // Java program always uses 32767 as wildcard
+	if (typeof id == "String" && !id.indexOf(":") > 0) throw("addFuel: id must be an item name");
+	if (typeof damage == "undefined") damage = WILDCARD; // Java program always uses 32767 as wildcard
 	__fuelHandler.__addFuel(id, damage, burnTime);
 	var logitem = (damage != 32767) ? (id+":"+damage) : id;
 	log("Added fuel: ID "+logitem+" to burn for "+burnTime+" ticks.", logLevel.debug);
@@ -309,43 +301,18 @@ function addFuel(burnTime, id, damage){
 }
 
 function getFuel(name, damage){
-	damage = damage ? damage : WILDCARD;
+	damage = typeof damage != "undefined" ? damage : WILDCARD;
 	if (typeof name == "string") return __fuelHandler.__getBurnTime(name, damage);
 	if (isJavaClass(name, __itemStack)) return __fuelHandler.getBurnTime(name);
 }
 
-function newNBTTagCompound(){
-	return new net.minecraft.nbt.NBTTagCompound();
-}
-
-function setNBTTagItemStack(compound, itemStack){
-	return itemStack.func_77955_b(compound);
-}
-
-function setNBTTagCustomItem(compound, key, itemStack){
-	var nbt = itemStack.func_77978_p();
-	compound.func_74782_a(key, nbt);
-}
-
-function setNBTTagBoolean(compound, key, bool){
-	compound.func_74757_a(key, bool);
-}
-
-function setNBTTagFluidStack(compound, fluidStack){
-	return fluidStack.writeToNBT(compound);
-}
-
-function stripNBTTag(compound, tag){
-	compound.func_82580_o(tag);
-}
-
-function setNBTTagCustomFluidStack(compound, key, fluidStack){
-	var fs = fluidStack.writeToNBT(newNBTTagCompound());
-	compound.func_74782_a(key, fs);
-}
-
-function setNBTTagInteger(compound, key, value){
-	compound.func_74768_a(key, value);
+// Functions for working with __itemStacks
+function newItemStack(item, amount, metadata){
+	if (getItem(item) == null) throw("newItemStack: item does not exist.");
+	if (typeof item == "string" || item instanceof __string) item = getItem(item);
+	if (typeof amount == "undefined") amount = 1;
+	if (typeof metadata == "undefined") metadata = 0;
+	return new __itemStack(item, amount, metadata)
 }
 
 function ItemStack(item, amount, meta){
@@ -390,6 +357,7 @@ function ItemStack(item, amount, meta){
 	return this;
 }
 
+// Functions for working with __fluidStacks
 function getFluidID(name){
 	if (typeof name != "string") throw("getFluidName: name must be a string.");
 	return __forge.fluids.FluidRegistry.getFluidID(name)
@@ -397,6 +365,18 @@ function getFluidID(name){
 function getFluidName(id){
 	if (typeof id != "number") throw("getFluidName: id must be a number.");
 	return __forge.fluids.FluidRegistry.getFluidName(id)
+}
+function getFluid(nameOrID){
+	if (!(typeof nameOrID == "string" || typeof nameOrID == "number")) throw("getFluid: nameOrID must either be a string or a number.");
+	return __forge.fluids.FluidRegistry.getFluid(nameOrID)
+}
+function newFluidStack(id, amount){
+	if (typeof id == "string" || id instanceof __string) id = getFluidID(id);
+	if (typeof amount == "undefined") amount = 1000;
+	return new __forge.fluids.FluidStack(id, amount);
+}
+function stringOrNumber(thing){
+	return !!(typeof thing == "string" || typeof thing == "number");
 }
 
 function FluidStack(fluid, amount){
@@ -424,6 +404,41 @@ function FluidStack(fluid, amount){
 		return new __forge.fluids.FluidStack(this.fluidID, this.amount);
 	};
 
+}
+
+// Functions for working with __nbtTagCompounds
+function newNBTTagCompound(){
+	return new net.minecraft.nbt.NBTTagCompound();
+}
+
+function setNBTTagItemStack(compound, itemStack){
+	return itemStack.func_77955_b(compound);
+}
+
+function setNBTTagCustomItem(compound, key, itemStack){
+	var nbt = itemStack.func_77978_p();
+	compound.func_74782_a(key, nbt);
+}
+
+function setNBTTagBoolean(compound, key, bool){
+	compound.func_74757_a(key, bool);
+}
+
+function setNBTTagFluidStack(compound, fluidStack){
+	return fluidStack.writeToNBT(compound);
+}
+
+function stripNBTTag(compound, tag){
+	compound.func_82580_o(tag);
+}
+
+function setNBTTagCustomFluidStack(compound, key, fluidStack){
+	var fs = fluidStack.writeToNBT(newNBTTagCompound());
+	compound.func_74782_a(key, fs);
+}
+
+function setNBTTagInteger(compound, key, value){
+	compound.func_74768_a(key, value);
 }
 
 function NBTTagCompound(){
