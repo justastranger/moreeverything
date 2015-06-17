@@ -57,6 +57,7 @@ var blackListItemFromLoonium;
 	};
 
 	// Untested
+	//For recipes that don't require anything but a Mana Pool.
 	registerManaInfusionRecipe = function(output, input, mana){
 		if (typeof output == "string"){
 			output = output.indexOf(':') ? new ItemStack(output).constructStack() : getOres(output)[0];
@@ -68,11 +69,59 @@ var blackListItemFromLoonium;
 		} else if (!input instanceof __itemStack && !input instanceof ItemStack){
 			throw("registerManaInfusionRecipe: input must be a string or ItemStack");
 		}
-		if(typeof mana != number) throw("registerManaInfusionRecipe: mana cost must be specified.")
+		if(typeof mana != number) throw("registerManaInfusionRecipe: mana cost must be specified.");
 
 		botApi.registerManaInfusionRecipe(output, input, mana);
 	};
 
+	// Untested
+	// For recipes that require an Alchemy Catalyst
+	registerManaAlchemyRecipe = function(output, input, mana){
+		if (typeof output == "string"){
+			output = output.indexOf(':') ? new ItemStack(output).constructStack() : getOres(output)[0];
+		} else if (!output instanceof __itemStack && !output instanceof ItemStack){
+			throw("registerManaAlchemyRecipe: output must be a string or ItemStack");
+		}
+		if (typeof input == "string"){
+			input = input.indexOf(':') ? new ItemStack(input).constructStack() : getOres(input)[0];
+		} else if (!input instanceof __itemStack && !input instanceof ItemStack){
+			throw("registerManaAlchemyRecipe: input must be a string or ItemStack");
+		}
+		if(typeof mana != number) throw("registerManaAlchemyRecipe: mana cost must be specified.");
+
+		botApi.registerManaAlchemyRecipe(output, input, mana);
+	};
+
+	// Untested
+	// For recipes that require a Conjuration Catalyst
+	registerManaConjurationRecipe = function(output, input, mana){
+		if (typeof output == "string"){
+			output = output.indexOf(':') ? new ItemStack(output).constructStack() : getOres(output)[0];
+		} else if (!output instanceof __itemStack && !output instanceof ItemStack){
+			throw("registerManaConjurationRecipe: output must be a string or ItemStack");
+		}
+		if (typeof input == "string"){
+			input = input.indexOf(':') ? new ItemStack(input).constructStack() : getOres(input)[0];
+		} else if (!input instanceof __itemStack && !input instanceof ItemStack){
+			throw("registerManaConjurationRecipe: input must be a string or ItemStack");
+		}
+		if(typeof mana != number) throw("registerManaConjurationRecipe: mana cost must be specified.");
+
+		botApi.registerManaAlchemyRecipe(output, input, mana);
+	};
+
+	// Untested
+	// I suppose the petal apothecary doesn't actually require petals.
+	// You could make a dirt->diamond recipe if you wanted...
+	registerPetalRecipe = function(output, inputs){
+		if (typeof output == "string"){
+			output = output.indexOf(':') ? new ItemStack(output).constructStack() : getOres(output)[0];
+		} else if (output instanceof ItemStack){
+			output = output.constructStack();
+		} else if (!output instanceof __itemStack && !output instanceof ItemStack){
+			throw("registerManaConjurationRecipe: output must be a string or ItemStack");
+		}
+	}
 
 
 }

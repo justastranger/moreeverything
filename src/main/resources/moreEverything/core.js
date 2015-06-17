@@ -4,6 +4,7 @@
 
 
 var __int = Java.type("java.lang.Integer");
+var __long = Java.type("java.lang.Long");
 var __float = Java.type("java.lang.Float");
 var __string = Java.type("java.lang.String");
 var __boolean = Java.type("java.lang.Boolean");
@@ -13,6 +14,7 @@ var __objectArray = Java.type("java.lang.Object[]");
 var __method = Java.type("java.lang.reflect.Method");
 var __item = Java.type("net.minecraft.item.Item");
 var __block = Java.type("net.minecraft.block.Block");
+var __fluid = Java.type("net.minecraftforge.fluids.Fluid");
 var __itemStack = Java.type("net.minecraft.item.ItemStack");
 var __fluidStack = Java.type("net.minecraftforge.fluids.FluidStack");
 var __nbtBase = Java.type("net.minecraft.nbt.NBTBase");
@@ -168,6 +170,7 @@ function findIntMatch(regex){
 	throw("FindIntMatch: Couldn't find "+regex);
 }
 
+// Returns null if the name is invalid
 function getItem(name){
 	return __fml.common.registry.GameData.getItemRegistry().func_82594_a(name);
 }
@@ -315,12 +318,16 @@ function newItemStack(item, amount, metadata){
 	return new __itemStack(item, amount, metadata)
 }
 
-function ItemStack(item, amount, meta){
+function ItemStack(name, amount, meta){
+	this.name = name;
 	this.itemDamage = meta ? meta : 0;
 	this.stackSize = amount ? amount : 1;
-	if (typeof item != "undefined") this.item = item;
-	else throw("ItemStack: null item");
-	this.setstackSize = function(amount){
+	if(getItem(name) != null){
+		this.item = getItem(name);
+	} else {
+		throw("ItemStack: Invalid Item Name.")
+	}
+	this.setStackSize = function(amount){
 		this.stackSize = amount;
 		return this;
 	};
@@ -328,11 +335,22 @@ function ItemStack(item, amount, meta){
 		this.itemDamage = meta;
 		return this;
 	};
+	this.setItem = function(nameOrItem){
+		if(typeof nameOrItem == "string" && getItem(nameOrItem) != null){
+			this.name = nameOrItem;
+			this.item = getItem(nameOrItem);
+		} else if (nameOrItem instanceof __item){
+			this.name = getItemName(nameOrItem);
+			this.item = nameOrItem;
+		} else {
+			throw("ItemStack.setItem: Invalid Item Name.");
+		}
+	};
 	this.getItem = function(){
-		return this.constructStack().func_77973_b()
+		return this.item;
 	};
 	this.getItemName = function(){
-		return this.item;
+		return this.name;
 	};
 	this.getStackSize = function(){
 		return this.stackSize;
@@ -341,15 +359,6 @@ function ItemStack(item, amount, meta){
 		return this.itemDamage;
 	};
 	this.constructStack = function(){
-		if (typeof this.item == "string" && getItem(this.item) == null){
-			try{
-				this.item = getItemName(this.item);
-			}
-			catch (e) {
-				throw("newItemStack: item does not exist.");
-			}
-		}
-		if (typeof this.item == "string" || (this.item instanceof java.lang.String)) this.item = getItem(this.item);
 		this.stack = new __itemStack(this.item, this.stackSize, this.itemDamage);
 		return this.stack;
 	};
