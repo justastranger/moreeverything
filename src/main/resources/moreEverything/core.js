@@ -216,14 +216,17 @@ function getItemName(itemOrStack){
 	return __mE.itemGet(itemOrStack);
 }
 
-// Syntactic sugar to convert item names or OreDict names to an ItemStack
-function _nameStack(name){
+// Syntactic sugar to convert whatever into an ItemStack, even if it already is.
+function _lazyStack(name){
+	if (name instanceof __itemStack) return name;
 	if (typeof name == "string"){
-		name = (name.indexOf(':') > 0) ? new ItemStack(name).constructStack() : getOres(name)[0];
-		return name
+		name = (name.indexOf(':') > 0) ? new ItemStack(name).getStack() : getOres(name)[0];
+	} else if (name instanceof ItemStack) {
+		name = name.getStack();
 	} else {
-		return name;
+		throw("Expected string, got "+ typeof name);
 	}
+	return name
 }
 
 function getOres(name){
@@ -245,7 +248,7 @@ function registerOre(name, stackOrBlockName, itemDamage){
 
 // This is more of a debug function for discovering public methods in an object or class.
 function forInObject(object){
-	for (var a in object) log(a)
+	for (var a in object) log(a);
 }
 
 function addSmelting(input, output, experience){
@@ -322,17 +325,20 @@ function ItemStack(name, amount, meta){
 	this.name = name;
 	this.itemDamage = meta ? meta : 0;
 	this.stackSize = amount ? amount : 1;
-	if(getItem(name) != null){
-		this.item = getItem(name);
+	if(getItem(this.name) != null){
+		this.item = getItem(this.name);
+		this.stack = new __itemStack(this.item, this.stackSize, this.itemDamage);
 	} else {
 		throw("ItemStack: Invalid Item Name.")
 	}
 	this.setStackSize = function(amount){
 		this.stackSize = amount;
+		this.update();
 		return this;
 	};
 	this.setItemDamage = function(meta){
 		this.itemDamage = meta;
+		this.update();
 		return this;
 	};
 	this.setItem = function(nameOrItem){
@@ -345,6 +351,8 @@ function ItemStack(name, amount, meta){
 		} else {
 			throw("ItemStack.setItem: Invalid Item Name.");
 		}
+		this.update();
+		return this;
 	};
 	this.getItem = function(){
 		return this.item;
@@ -358,9 +366,13 @@ function ItemStack(name, amount, meta){
 	this.getItemDamage = function(){
 		return this.itemDamage;
 	};
-	this.constructStack = function(){
-		this.stack = new __itemStack(this.item, this.stackSize, this.itemDamage);
+	this.getStack = function(){
 		return this.stack;
+	};
+
+	// Behind the scenes function, gets called whenever one of the three constructors gets changed
+	this.update = function(){
+		this.stack = new __itemStack(this.item, this.stackSize, this.itemDamage);
 	};
 
 	return this;
@@ -390,7 +402,29 @@ function stringOrNumber(thing){
 
 function FluidStack(fluid, amount){
 	this.fluidID = typeof fluid == "string" ? getFluidID(fluid) : fluid;
-	this.amount = amount ? amount : 1000;
+	this.amount = amount ? amount : 1000; // 1000 = 1 bucket
+	this.stack = new __forge.fluids.FluidStack(this.fluidID, this.amount);
+
+	this.setFluid = function(nameIDorFluid){
+		switch (typeof(nameIDorFluid)) {
+			case "number": // a fluid ID
+				this.fluidID = nameIDorFluid;
+				break;
+			case "string": // a fluid name
+				this.fluidID = getFluidID(nameIDorFluid);
+				break;
+			case "object": // an object of some sort
+				if(nameIDorFluid instanceof __fluid){ // a fluid
+					this.fluidID = getFluidID(nameIDorFluid);
+				} else { // something that isn't a fluid.
+					throw("FluidStack.setFluid: expected string, number, or Fluid, got " + nameIDorFluid.getClass());
+				}
+				break;
+			default: // Something that isn't a java object that we don't care about.
+				throw("FluidStack.setFluid: expected string, number, or Fluid, got " + typeof nameIDorFluid);
+		}
+		this.update();
+	};
 
 	this.getFluid = function(){
 		return __forge.fluids.FluidRegistry.getFluid(this.fluidID);
@@ -400,19 +434,24 @@ function FluidStack(fluid, amount){
 		return __forge.fluids.FluidRegistry.getFluidName(this.fluidID);
 	};
 
-	this.getAmount = function(){
-		return this.amount;
-	};
-
 	this.setAmount = function(amount){
 		this.amount = amount;
 		return this;
 	};
 
-	this.constructStack = function(){
-		return new __forge.fluids.FluidStack(this.fluidID, this.amount);
+	this.getAmount = function(){
+		return this.amount;
 	};
 
+	this.getStack = function(){
+		return this.stack;
+	};
+
+	this.update = function(){
+		this.stack = new __forge.fluids.FluidStack(this.fluidID, this.amount);
+	};
+
+	return this;
 }
 
 // Functions for working with __nbtTagCompounds

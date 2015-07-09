@@ -101,13 +101,12 @@ var newAspect;
 		return templist
 	};
 
-	registerObjectTag = function(id, aspectList, aspectAmounts){
-		var logitem = id;
-		if (getItem(id) == null) throw("registerObjectTag: no such item.");
-		if (typeof id == "string" && id.indexOf(':')) id = newItemStack(id);
-		if (aspectList instanceof Array && aspectAmounts instanceof Array) newAspectList(aspectList, aspectAmounts);
+	registerObjectTag = function(item, aspectList, aspectAmounts){
+		var logitem = item;
+		item = _lazyStack(item);
+		if (aspectList instanceof Array && aspectAmounts instanceof Array) aspectList = newAspectList(aspectList, aspectAmounts);
 		TCApi.ThaumcraftApi.registerObjectTag(id, aspectList);
-		log("Registered object tag for "+logitem+": "+aspectList.toString(), logLevel.debug);
+		//log("Registered object tag for "+logitem+": "+aspectList.toString(), logLevel.debug);
 		return true;
 	};
 
@@ -116,7 +115,7 @@ var newAspect;
 		if (getOres(name) == null) throw("registerObjectTag: no such OreDict entry.");
 		if (aspectList instanceof Array && aspectAmounts instanceof Array) aspectList = newAspectList(aspectList, aspectAmounts);
 		TCApi.ThaumcraftApi.registerObjectTag(name, aspectList);
-		log("Registered object tag for "+logitem+": "+aspectList.toString(), logLevel.debug);
+		//log("Registered object tag for "+logitem+": "+aspectList.toString(), logLevel.debug);
 		return true;
 	};
 

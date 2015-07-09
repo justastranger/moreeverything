@@ -38,8 +38,8 @@
 	if (!!modList.Thaumcraft){
 		addFuel(100, "Thaumcraft:blockCustomPlant", 0); // Greatwood sapling
 		addFuel(100, "Thaumcraft:blockCustomPlant", 1); // Silverwood sapling
-		addShapelessRecipe(new ItemStack(item.rottenFlesh, 9).constructStack(),
-			[new ItemStack("Thaumcraft:blockTaint", 1, 2).constructStack()]); // Uncrafting of Block of Flesh
+		addShapelessRecipe(new ItemStack(item.rottenFlesh, 9).getStack(),
+			[new ItemStack("Thaumcraft:blockTaint", 1, 2).getStack()]); // Uncrafting of Block of Flesh
 	}
 
 	if (!!modList.Natura){
@@ -114,25 +114,6 @@
 			bcAddRefinery2to1Recipe("manyullyn", newFluidStack("cobalt.molten", 1), newFluidStack("ardite.molten", 1), newFluidStack("manyullyn.molten", 1), 10, 1);
 			bcAddRefinery2to1Recipe("electrum", newFluidStack("gold.molten", 1), newFluidStack("silver.molten", 1), newFluidStack("electrum.molten", 2), 10, 1);
 			bcAddRefinery2to1Recipe("invar", newFluidStack("iron.molten", 1), newFluidStack("nickel.molten", 3), newFluidStack("electrum.molten", 4), 10, 1);
-		}
-
-	}
-
-	if (modList.magicalcrops){
-		var essenceOrb = new ItemStack("magicalcrops:magicalcrops_EssenceOrb").constructStack();
-		var Essence = new ItemStack("magicalcrops:magicalcrops_MagicEssence");
-		var mc = Packages.com.mark719.magicalcrops.MagicalCrops;
-		var seeds = {};
-
-		for (var a in mc){
-			if (a instanceof __item){
-				if (a.func_77658_a().indexOf("seeds")){
-					seeds[a] = new ItemStack("magicalcrops:magicalcrops_"+a.func_77658_a()).constructStack();
-				}
-			}
-		}
-		for (var a in seeds){
-			addShapelessRecipe(Essence.setItemDamage(1).constructStack(), [essenceOrb, new ItemStack(a)])
 		}
 
 	}

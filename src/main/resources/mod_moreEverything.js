@@ -20,7 +20,8 @@ var optionalFeature = {
 	tinkers_bc_refinery_mixing: false,
 
 	// Disabled by default
-	enable_thermal_expansion: false, // Thermal expansion stuff is disabled by default.
+	enable_thermal_expansion: false, // TE offers native support for recipe addition.
+									 //  This is still provided so you can keep everything in one place.
 	rotten_flesh_to_leather: false,
 	stack_more: false
 };
@@ -29,27 +30,27 @@ var optionalFeature = {
 // currentLogLevel = logLevel.debug;
 
 function Include(filename) {
+	log("Included " + filename);
 	return __api.__include(filename);
 }
 function IncludeInit(filename) {
-	log("Added "+filename+" to Init execution.");
+	log("Added " + filename + " to Init execution.");
 	return __mE.includeInit.add(filename);
 }
 function IncludePost(filename) {
-	log("Added "+filename+" to postInit execution.");
+	log("Added " + filename + " to postInit execution.");
 	return __mE.includePost.add(filename);
 }
 function IncludeInternal(filename) {
 	return __api.__includeInternal(filename);
 }
-// Ease-of-use function - Example: IncludeJS("forestry") or IncludeJS("EnderIO")
-function IncludeJS(filename) { Include("moreEverything/"+filename+".js"); }
+// Syntactic sugar - includes a file from the default config directory based on name. Keeps your includes short.
+function IncludeJS(filename) { Include("moreEverything/" + filename + ".js"); }
 
 function test() {
-	try{Include("moreEverything/test.js");}
+	try{IncludeJS("test");}
 	catch(e){
-		log(e);
-		if(e.toString().indexOf("not found") > 0)throw("You need to create a test.js file within the moreEverything folder located in the config folder.");
+		if (e.toString().indexOf("not found") > 0) throw("You need to create a test.js file within the moreEverything folder located in the config folder.");
 		throw(e);
 	}
 }

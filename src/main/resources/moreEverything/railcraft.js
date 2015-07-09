@@ -3,6 +3,7 @@
 // Written with Railcraft 9.4.0.0 for 1.7.10
 
 // TODO Rolling Machine
+// Shaped and Shapeless
 
 var rcAddCokeOvenRecipe;
 var rcAddBlastFurnaceRecipe;
@@ -11,6 +12,8 @@ var rcAddRockCrusherRecipe;
 
 (function(){
 	if (modList.Railcraft == null) return;
+
+	var railcraftAPI = Packages.mods.railcraft.api;
 
 	/*
 	 *   input        - ItemStack
@@ -21,13 +24,13 @@ var rcAddRockCrusherRecipe;
 	 *   time         - Number
 	 * */
 	rcAddCokeOvenRecipe = function(input, matchDamage, matchNBT, output, fluidOut, time){
-		input = _nameStack(input);
-		output = _nameStack(output);
-		matchDamage = !!matchDamage;
+		input = _lazyStack(input); // Syntactic sugar because I got lazy at some point, can be found in core.js
+		output = _lazyStack(output);
+		matchDamage = !!matchDamage; // Double negative, undefineds become false letting you skip them.
 		matchNBT = !!matchNBT;
 		if (stringOrNumber(fluidOut)) fluidOut = newFluidStack(fluidOut);
 		if (typeof time != "number") throw("rcAddCokeOvenRecipe: time must be a number.");
-		Packages.mods.railcraft.api.crafting.RailcraftCraftingManager.cokeOven.addRecipe(input, matchDamage, matchNBT, output, fluidOut, time);
+		railcraftAPI.crafting.RailcraftCraftingManager.cokeOven.addRecipe(input, matchDamage, matchNBT, output, fluidOut, time);
 	};
 	/*
 	 *   input
@@ -37,15 +40,15 @@ var rcAddRockCrusherRecipe;
 	 *   output
 	 * */
 	rcAddBlastFurnaceRecipe = function(input, matchDamage, matchNBT, time, output){
-		input = _nameStack(input);
-		output = _nameStack(output);
+		input = _lazyStack(input);
+		output = _lazyStack(output);
 		matchDamage = !!matchDamage;
 		matchNBT = !!matchNBT;
 		if (typeof time != "number") throw("rcAddBlastFurnaceRecipe: time must be a number.");
-		Packages.mods.railcraft.api.crafting.RailcraftCraftingManager.blastFurnace.addRecipe(input, matchDamage, matchNBT, time, output);
+		railcraftAPI.crafting.RailcraftCraftingManager.blastFurnace.addRecipe(input, matchDamage, matchNBT, time, output);
 	};
 	rcAddRockCrusherRecipe = function(input, matchDamage, matchNBT, outputArray, chancesArray){
-		input = _nameStack(input);
+		input = _lazyStack(input);
 		matchDamage = !!matchDamage;
 		matchNBT = !!matchNBT;
 		if (!outputArray instanceof Array){
@@ -57,9 +60,9 @@ var rcAddRockCrusherRecipe;
 			outputArray = outputArray[0];
 		}
 		if (outputArray.length != chancesArray.length) throw("rcAddRockCrusherRecipe: length mismatch between outputArray and chancesArray."); // TODO replace with for loop that fills remainder of chancesArray with 1's
-		var recipe = Packages.mods.railcraft.api.crafting.RailcraftCraftingManager.rockCrusher.createNewRecipe(input, matchDamage, matchNBT);
+		var recipe = railcraftAPI.crafting.RailcraftCraftingManager.rockCrusher.createNewRecipe(input, matchDamage, matchNBT);
 		for (var i = 0; i < outputArray.length; i++){
-			outputArray[i] = _nameStack(outputArray[i]);
+			outputArray[i] = _lazyStack(outputArray[i]);
 			recipe.addOutput(outputArray[i], chancesArray[i]);
 		}
 	};

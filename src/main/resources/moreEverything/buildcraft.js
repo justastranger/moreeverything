@@ -23,12 +23,12 @@ var bcAddCoolant;
 		// String id, FluidStack input, FluidStack output, int energy, int delay
 		if (typeof id != "string") throw("bcAddRefineryRecipe: id must be a string."); // id = id.toString()?
 		if (stringOrNumber(input)){
-			input = newFluidStack(input, 1000);
+			input = new FluidStack(input).getStack();
 		} else if (input instanceof __fluidStack){
 			throw("teAddFillRecipe: fluid must be a string or FluidStack");
 		}
 		if (stringOrNumber(output)){
-			output = newFluidStack(output, 1000);
+			output = new FluidStack(output).getStack();
 		} else if (output instanceof __fluidStack){
 			throw("teAddFillRecipe: fluid must be a string or FluidStack");
 		}
@@ -41,17 +41,17 @@ var bcAddCoolant;
 		// String id, FluidStack input1, FluidStack input2, FluidStack output, int energy, int delay
 		if (typeof id != "string") throw("bcAddRefineryRecipe: id must be a string."); // id = id.toString()
 		if (stringOrNumber(input1)){
-			input1 = newFluidStack(input, 1000);
+			input1 = new FluidStack(input).getStack();
 		} else if (input1 instanceof __fluidStack){
 			throw("teAddFillRecipe: fluid must be a string or FluidStack");
 		}
 		if (stringOrNumber(input2)){
-			input2 = newFluidStack(input, 1000);
+			input2 = new FluidStack(input).getStack();
 		} else if (input2 instanceof __fluidStack){
 			throw("teAddFillRecipe: fluid must be a string or FluidStack");
 		}
 		if (stringOrNumber(output)){
-			output = newFluidStack(output, 1000);
+			output = new FluidStack(output).getStack();
 		} else if (output instanceof __fluidStack){
 			throw("teAddFillRecipe: fluid must be a string or FluidStack");
 		}
@@ -69,13 +69,13 @@ var bcAddCoolant;
 		if (typeof id != "string") throw("bcAddAssemblyTableRecipe: id must be a string.");
 		if (typeof energyCost != "number") throw("bcAddAssemblyTableRecipe: energyCost must be a nunber.");
 		if (typeof output == "string"){
-			output = output.indexOf(':') > 0 ? newItemStack(output) : getOres(output)[0];
+			output = output.indexOf(':') > 0 ? new ItemStack(output).getStack() : getOres(output)[0];
 		}
 		if (inputs instanceof Array){
 			for (var i = 0; i < inputs.length; i++){
 				if (typeof inputs[i] == "string"){
 					if (inputs[i].indexOf(':')){
-						inputs[i] = newItemStack(inputs[i]);
+						inputs[i] = new ItemStack(inputs[i]).getStack();
 					} else {
 						inputs[i] = getOres(inputs[i])[0];
 					}
@@ -83,7 +83,7 @@ var bcAddCoolant;
 			}
 		}
 		if (typeof inputs == "string"){
-			inputs = inputs.indexOf(':') > 0 ? newItemStack(inputs) : getOres(inputs)[0];
+			inputs = inputs.indexOf(':') > 0 ? new ItemStack(inputs).getStack() : getOres(inputs)[0];
 		}
 		bcRecipeRegistry.assemblyTable.addRecipe(id, energyCost, output, inputs);
 	};
@@ -96,7 +96,7 @@ var bcAddCoolant;
 	bcAddFuel = function(fluid, powerPerCycle, totalBurningTime){
 		// No way to remove fuels.
 		if (stringOrNumber(fluid)){
-			fluid = newFluidStack(fluid, 1000);
+			fluid = new FluidStack(fluid).getStack();
 		} else if (fluid instanceof __fluidStack){
 			throw("teAddFillRecipe: fluid must be a string or FluidStack");
 		}
@@ -108,14 +108,14 @@ var bcAddCoolant;
 	bcAddCoolant = function(fluid, degreesCoolingPerMB){
 		// No way to remove coolants either.
 		if (stringOrNumber(fluid)){
-			fluid = newFluidStack(fluid, 1000);
+			fluid = new FluidStack(fluid).getStack();
 		} else if (fluid instanceof __fluidStack){
 			throw("teAddFillRecipe: fluid must be a string or FluidStack");
 		}
 		if (typeof degreesCoolingPerMB != "number") throw("bcAddCoolant: degreesCoolingPerMB must be a number.");
 		bcAPI.fuels.BuildcraftFuelRegistry.coolant.addCoolant(fluid, degreesCoolingPerMB);
 	};
-	// Not going to bother with the Integration Table...
+	// Might not bother with the Integration Table, send a PR if you want I guess.
 
-	log("Leaving massive holes in public servers since 2011");
+	log("Leaving massive holes in public servers since whenever");
 })();

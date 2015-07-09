@@ -32,25 +32,13 @@ var blackListItemFromLoonium;
 
 	// Untested
 	registerElvenTradeRecipe = function(output, inputsArray){
-		if (typeof output == "string"){
-			output = output.indexOf(':') ? new ItemStack(output).constructStack() : getOres(output)[0];
-		} else if (!output instanceof __itemStack && !output instanceof ItemStack){
-			throw("registerElvenTradeRecipe: output must be a string or ItemStack");
-		}
+		output = _lazyStack(output);
 		if (inputsArray instanceof Array){
 			for (var i = 0; i < inputsArray.length; i++){
-				if (typeof inputsArray[i] == "string"){
-					inputsArray[i] = inputsArray[i].indexOf(':') ? new ItemStack(inputsArray[i]).constructStack() : getOres(inputsArray[i])[0];
-				} else if (!inputsArray[i] instanceof __itemStack && !inputsArray[i] instanceof ItemStack){
-					throw("registerElvenTradeRecipe: input must be a string or ItemStack");
-				}
+				inputsArray[i] = _lazyStack(inputsArray[i]);
 			}
 		} else {
-			if (typeof inputsArray == "string"){
-				inputsArray = inputsArray.indexOf(':') ? new ItemStack(inputsArray).constructStack() : getOres(inputsArray)[0];
-			} else if (!inputsArray instanceof __itemStack && !inputsArray instanceof ItemStack){
-				throw("registerElvenTradeRecipe: input must be a string or ItemStack");
-			}
+			inputsArray = _lazyStack(inputsArray);
 		}
 		inputsArray = objectArray(inputsArray);
 		botApi.registerElvenTradeRecipe(output, inputsArray);
@@ -59,34 +47,17 @@ var blackListItemFromLoonium;
 	// Untested
 	//For recipes that don't require anything but a Mana Pool.
 	registerManaInfusionRecipe = function(output, input, mana){
-		if (typeof output == "string"){
-			output = output.indexOf(':') ? new ItemStack(output).constructStack() : getOres(output)[0];
-		} else if (!output instanceof __itemStack && !output instanceof ItemStack){
-			throw("registerManaInfusionRecipe: output must be a string or ItemStack");
-		}
-		if (typeof input == "string"){
-			input = input.indexOf(':') ? new ItemStack(input).constructStack() : getOres(input)[0];
-		} else if (!input instanceof __itemStack && !input instanceof ItemStack){
-			throw("registerManaInfusionRecipe: input must be a string or ItemStack");
-		}
-		if(typeof mana != number) throw("registerManaInfusionRecipe: mana cost must be specified.");
-
+		output = _lazyStack(output);
+		input = _lazyStack(input);
+		if(typeof mana != number) throw("registerManaInfusionRecipe: mana cost must be specified as a number.");
 		botApi.registerManaInfusionRecipe(output, input, mana);
 	};
 
 	// Untested
 	// For recipes that require an Alchemy Catalyst
 	registerManaAlchemyRecipe = function(output, input, mana){
-		if (typeof output == "string"){
-			output = output.indexOf(':') ? new ItemStack(output).constructStack() : getOres(output)[0];
-		} else if (!output instanceof __itemStack && !output instanceof ItemStack){
-			throw("registerManaAlchemyRecipe: output must be a string or ItemStack");
-		}
-		if (typeof input == "string"){
-			input = input.indexOf(':') ? new ItemStack(input).constructStack() : getOres(input)[0];
-		} else if (!input instanceof __itemStack && !input instanceof ItemStack){
-			throw("registerManaAlchemyRecipe: input must be a string or ItemStack");
-		}
+		output = _lazyStack(output);
+		input = _lazyStack(input);
 		if(typeof mana != number) throw("registerManaAlchemyRecipe: mana cost must be specified.");
 
 		botApi.registerManaAlchemyRecipe(output, input, mana);
@@ -95,16 +66,8 @@ var blackListItemFromLoonium;
 	// Untested
 	// For recipes that require a Conjuration Catalyst
 	registerManaConjurationRecipe = function(output, input, mana){
-		if (typeof output == "string"){
-			output = output.indexOf(':') ? new ItemStack(output).constructStack() : getOres(output)[0];
-		} else if (!output instanceof __itemStack && !output instanceof ItemStack){
-			throw("registerManaConjurationRecipe: output must be a string or ItemStack");
-		}
-		if (typeof input == "string"){
-			input = input.indexOf(':') ? new ItemStack(input).constructStack() : getOres(input)[0];
-		} else if (!input instanceof __itemStack && !input instanceof ItemStack){
-			throw("registerManaConjurationRecipe: input must be a string or ItemStack");
-		}
+		output = _lazyStack(output);
+		input = _lazyStack(input);
 		if(typeof mana != number) throw("registerManaConjurationRecipe: mana cost must be specified.");
 
 		botApi.registerManaAlchemyRecipe(output, input, mana);
@@ -114,13 +77,16 @@ var blackListItemFromLoonium;
 	// I suppose the petal apothecary doesn't actually require petals.
 	// You could make a dirt->diamond recipe if you wanted...
 	registerPetalRecipe = function(output, inputs){
-		if (typeof output == "string"){
-			output = output.indexOf(':') ? new ItemStack(output).constructStack() : getOres(output)[0];
-		} else if (output instanceof ItemStack){
-			output = output.constructStack();
-		} else if (!output instanceof __itemStack && !output instanceof ItemStack){
-			throw("registerManaConjurationRecipe: output must be a string or ItemStack");
+		output = _lazyStack(output);
+		if (inputs instanceof Array){
+			for (var i = 0; i < inputs.length; i++){
+				inputs[i] = _lazyStack(inputs[i]);
+			}
+		} else {
+			inputs = _lazyStack(inputs);
 		}
+		inputs = objectArray(inputs);
+		botApi.registerPetalRecipe(output, inputs);
 	}
 
 

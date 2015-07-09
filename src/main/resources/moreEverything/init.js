@@ -1,6 +1,6 @@
 // init.js
 // Scripts to be executed at init instead of postInit
-// by justastranger
+// comments by justastranger
 
 // There isn't much point to putting stuff here, but feel free to find out!
 // Most mods seem to process IMC during init, but since moreEverything is one of the last mods in the load order,
