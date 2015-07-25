@@ -1,9 +1,6 @@
 Easy
 ====
-- Tinkers Construct support.
-
-- Support for TE's new farm-in-a-block
-
+- Finish Tinkers Construct support.
 
 Medium
 ======
@@ -14,7 +11,7 @@ Medium
 Hard/Tricky/Unknown
 ===================
 - Use Forge's adding trades
-	- It's apparently possible, but is a massive undocumented quagmire that is hard to understand.
+	- It's apparently possible, but is a massive undocumented quagmire that I don't understand.
 
 - Dispenser planting seeds
 
@@ -30,7 +27,7 @@ Maintenance/Boring
 Future
 ======
 - more Thaumcraft API support - Working on it I guess...
-- recipes inspection to help adding missing ones
+- recipes inspection to help adding missing ones (Missing whats?)
 - allow changing chests loot
 - plant more stuff in pots
 - villagers drop last trade (if it's enabled) when killed by a player? Can this be done?
@@ -40,8 +37,8 @@ Future
 - chicken mating makes an egg instead of a chicken; Can this be done?
   if possible, such an egg has 1/2 chance to hatch as opposed to 1/8
   if possible, such an egg hatches instead of disappearing in 5 minutes 
-- use lapis in brewing potions? Can this be done?
-- make bookshelves have direction. Can this be done?
+- use lapis in brewing potions - Create intermediate item, make brewing recipe for it, and change others to use it.
+- make bookshelves have direction. Can this be done without adding a new block?
 
 
 Forum suggestions
@@ -50,7 +47,7 @@ Forum suggestions
 - GregTech -- Maybe?
 
 - http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/1287878-dartcraft-beta-0-2-20
-  Not yet 1.7.10, so this might not happen if it never updates.
+  BlueDart disappeared off the face of the Earth, so this will never update.
 
 
 ---
