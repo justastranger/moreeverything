@@ -224,9 +224,23 @@ function _lazyStack(name){
 	} else if (name instanceof ItemStack) {
 		name = name.getStack();
 	} else {
-		throw("Expected string, got "+ typeof name);
+		throw("Expected string, got: "+ typeof name);
 	}
 	return name
+}
+
+// More sugar, this time in fluid form.
+function _lazyFluidStack(nameIDorStack, amount){
+	if (nameIDorStack instanceof  __fluidStack) {
+		return nameIDorStack;
+	} else if (stringOrNumber(nameIDorStack)){
+		nameIDorStack = new FluidStack(nameIDorStack, amount);
+	} else if (nameIDorStack instanceof FluidStack) {
+		return nameIDorStack.getStack();
+	} else {
+		throw("Expected string, number, or FluidStack, got: " + typeof nameIDorStack);
+	}
+	return nameIDorStack
 }
 
 function getOres(name){
@@ -236,6 +250,11 @@ function getOres(name){
 
 function getOreNames(){
 	return __forge.oredict.OreDictionary.getOreNames();
+}
+
+function getBlock(itemName){
+	var split = itemName.split(":"); // Split Item Name into mod id and item name.
+	return __fml.common.registry.GameData.findBlock(split[0], split[1]);
 }
 
 function registerOre(name, stackOrBlockName, itemDamage){

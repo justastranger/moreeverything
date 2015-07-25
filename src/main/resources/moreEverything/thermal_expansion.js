@@ -46,22 +46,10 @@ var teRemoveInsolatorRecipe;
 
 	teAddPulverizerRecipe = function(energy, input, output, bonus, chance, overwrite){ // Overwrite will default to false
 		overwrite = !!overwrite;
-		if (!energy) throw("teAddPulverizerRecipe: energy must be a positive number.");
-		if (typeof input == "string"){
-			input = input.indexOf(':') ? new ItemStack(input).getStack() : getOres(input)[0];
-		} else if (!input instanceof __itemStack){
-			throw("teAddPulverizerRecipe: input must be a string or ItemStack");
-		}
-		if (typeof output == "string"){
-			output = output.indexOf(':') ? new ItemStack(output).getStack() : getOres(output)[0];
-		} else if (!output instanceof __itemStack){
-			throw("teAddPulverizerRecipe: output must be a string or ItemStack");
-		}
-		if (typeof bonus == "string"){
-			bonus = bonus.indexOf(':') ? new ItemStack(bonus).getStack() : getOres(bonus)[0];
-		} else if (!bonus instanceof __itemStack){
-			bonus = null;
-		}
+		energy = energy ? energy : 5000; // 5000 or something is the default?
+		input = _lazyStack(input);
+		output = _lazyStack(output);
+		bonus = _lazyStack(bonus);
 		chance = chance ? chance : 0;
 		var nbt = new NBTTagCompound();
 		nbt.setInteger("energy", energy).setItemStack("input", input).setItemStack("primaryOutput", output)
@@ -72,16 +60,8 @@ var teRemoveInsolatorRecipe;
 	};
 	teAddFurnaceRecipe = function(energy, input, output, overwrite){
 		energy = energy ? energy : 1600; // 1600 seems to be the default?
-		if (typeof input == "string"){
-			input = input.indexOf(':') ? new ItemStack(input).getStack() : getOres(input)[0];
-		} else if (!input instanceof __itemStack){
-			throw("teAddFurnaceRecipe: input must be a string or ItemStack");
-		}
-		if (typeof output == "string"){
-			output = output.indexOf(':') ? new ItemStack(output).getStack() : getOres(output)[0];
-		} else if (!output instanceof __itemStack){
-			throw("teAddFurnaceRecipe: output must be a string or ItemStack");
-		}
+		input = _lazyStack(input);
+		output = _lazyStack(output)
 		overwrite = !!overwrite;
 		var nbt = new NBTTagCompound();
 		nbt.setInteger("energy", energy).setItemStack("input", input).setItemStack("primaryOutput", output)
@@ -90,21 +70,9 @@ var teRemoveInsolatorRecipe;
 	};
 	teAddSawmillRecipe = function(energy, input, output, bonus, chance, overwrite){
 		energy = energy ? energy : 800; // Default for logs seems to be 800?
-		if (typeof input == "string"){
-			input = input.indexOf(':') ? new ItemStack(input).getStack() : getOres(input)[0];
-		} else if (!input instanceof __itemStack){
-			throw("teAddPulverizerRecipe: input must be a string or ItemStack");
-		}
-		if (typeof output == "string"){
-			output = output.indexOf(':') ? new ItemStack(output).getStack() : getOres(output)[0];
-		} else if (!output instanceof __itemStack){
-			throw("teAddPulverizerRecipe: output must be a string or ItemStack");
-		}
-		if (typeof bonus == "string"){
-			bonus = bonus.indexOf(':') ? new ItemStack(bonus).getStack() : getOres(bonus)[0];
-		} else if (!bonus instanceof __itemStack){
-			bonus = null;
-		}
+		input = _lazyStack(input);
+		output = _lazyStack(output);
+		bonus = _lazyStack(bonus);
 		chance = chance ? chance : 0;
 		overwrite = !!overwrite;
 		var nbt = new NBTTagCompound();
@@ -116,16 +84,8 @@ var teRemoveInsolatorRecipe;
 	};
 	teAddCrucibleRecipe = function(energy, input, fluid, overwrite){
 		if (!energy) throw("teAddCrucibleRecipe: energy must be a number.");
-		if (typeof input == "string"){
-			input = (input.indexOf(':') > 0) ? new ItemStack(input).getStack() : getOres(input)[0];
-		} else if (!input instanceof __itemStack){
-			throw("teAddPulverizerRecipe: input must be a string or ItemStack");
-		}
-		if (stringOrNumber(fluid)){
-			fluid = newFluidStack(fluid, 1000);
-		} else if (!fluid instanceof __fluidStack){
-			throw("teAddPulverizerRecipe: fluid must be a string or FluidStack");
-		}
+		input = _lazyStack(input);
+		fluid = _lazyFluidStack(fluid);
 		overwrite = !!overwrite;
 		var nbt = new NBTTagCompound();
 		nbt.setInteger("energy", energy).setItemStack("input", input).setFluidStack("output", fluid)
@@ -134,30 +94,17 @@ var teRemoveInsolatorRecipe;
 	};
 	teAddSmelterRecipe = function(energy, input1, input2, output, bonus, chance, overwrite){
 		if (!energy) throw("teAddSmelterRecipe: energy must be a number.");
-		if (typeof input1 == "string"){
-			input1 = input1.indexOf(':') > 0 ? new ItemStack(input1).getStack() : getOres(input1)[0];
-		} else if (!input1 instanceof __itemStack){
-			throw("teAddPulverizerRecipe: input1 must be a string or ItemStack");
-		}
-		if (typeof input2 == "string"){
-			input2 = input2.indexOf(':') > 0 ? new ItemStack(input2).getStack() : getOres(input2)[0];
-		} else if (!input2 instanceof __itemStack){
-			throw("teAddPulverizerRecipe: input2 must be a string or ItemStack");
-		}
-		if (typeof output == "string"){
-			output = output.indexOf(':') > 0 ? new ItemStack(output).getStack() : getOres(output)[0];
-		} else if (!output instanceof __itemStack){
-			throw("teAddPulverizerRecipe: output must be a string or ItemStack");
-		}
+		bonus = bonus ? bonus : null;
+		overwrite = !!overwrite;
+		input1 = _lazyStack(input1);
+		input2 = _lazyStack(input2);
+		output = _lazyStack(output);
 		if (bonus != undefined){
-			if (typeof bonus == "string"){
-				bonus = bonus.indexOf(':') > 0 ? newItemStack(bonus) : getOres(bonus)[0];
-			}
+			bonus = _lazyStack(bonus);
 		} else {
 			bonus = null;
-			chance = 0
+			chance = null;
 		}
-		overwrite = !!overwrite;
 		var nbt = new NBTTagCompound();
 		nbt.setInteger("energy", energy).setItemStack("primaryInput", input1).setItemStack("secondaryInput", input2)
 			.setItemStack("primaryOutput", output).setBoolean("overwrite", overwrite);
@@ -174,21 +121,9 @@ var teRemoveInsolatorRecipe;
 	};
 	teAddFillRecipe = function(energy, input, output, fluid, overwrite){
 		if (!energy) throw("teAddFillRecipe: energy must be a positive number.");
-		if (typeof input == "string"){
-			input = input.indexOf(':') > 0 ? new ItemStack(input).getStack() : getOres(input)[0];
-		} else if (!input instanceof __itemStack){
-			throw("teAddFillRecipe: input must be a string or ItemStack");
-		}
-		if (typeof output == "string"){
-			output = output.indexOf(':') > 0 ? new ItemStack(output).getStack() : getOres(output)[0];
-		} else if (!output instanceof __itemStack){
-			throw("teAddFillRecipe: output must be a string or ItemStack");
-		}
-		if (stringOrNumber(fluid)){
-			fluid = newFluidStack(fluid, 1000);
-		} else if (fluid instanceof __fluidStack){
-			throw("teAddFillRecipe: fluid must be a string or FluidStack");
-		}
+		input = _lazyStack(input);
+		output = _lazyStack(output);
+		fluid = _lazyFluidStack(fluid);
 		overwrite = !!overwrite;
 		var nbt = new NBTTagCompound();
 		nbt.setInteger("energy", energy).setItemStack("input", input).setFluidStack("fluid", fluid)
@@ -197,22 +132,14 @@ var teRemoveInsolatorRecipe;
 	};
 	teAddExtractRecipe = function(energy, input, output, chance, fluid, fill, overwrite){
 		if (!energy) throw("teAddFillRecipe: energy must be a positive number.");
-		if (typeof input == "string"){
-			input = input.indexOf(':') > 0 ? new ItemStack(input).getStack() : getOres(input)[0];
-		} else if (!input instanceof __itemStack){
-			throw("teAddFillRecipe: input must be a string or ItemStack");
-		}
+		input = _lazyStack(input);
 		if (typeof output == "string"){
 			output = output.indexOf(':') > 0 ? new ItemStack(output).getStack() : getOres(output)[0];
 		} else if (!output instanceof __itemStack){
-			chance = 0;
+			chance =null;
 			output = null;
 		}
-		if (stringOrNumber(fluid)){
-			fluid = newFluidStack(fluid, 1000);
-		} else if (fluid instanceof __fluidStack){
-			throw("teAddFillRecipe: fluid must be a string or FluidStack");
-		}
+		fluid = _lazyFluidStack(fluid);
 		fill = !!fill;
 		overwrite = !!overwrite;
 
@@ -226,35 +153,22 @@ var teRemoveInsolatorRecipe;
 		// "Phytogenic Insolator"
 		// Insolator requires water to function, perhaps make a feature request for custom liquids?
 		if (!energy) throw("teAddInsolatorRecipe: energy must be a positive number.");
-		if (typeof input1 == "string"){
-			input1 = input1.indexOf(':') > 0 ? new ItemStack(input1).getStack() : getOres(input1)[0];
-		} else if (!input1 instanceof __itemStack){
-			throw("teAddInsolatorRecipe: input1 must be a string or ItemStack");
-		}
-		if (typeof input2 == "string"){
-			input2 = input2.indexOf(':') > 0 ? new ItemStack(input2).getStack() : getOres(input2)[0];
-		} else if (!input2 instanceof __itemStack){
-			throw("teAddInsolatorRecipe: input2 must be a string or ItemStack");
-		}
-		if (typeof output1 == "string"){
-			output1 = output1.indexOf(':') ? new ItemStack(output1).getStack() : getOres(output1)[0];
-		} else if (!output1 instanceof __itemStack){
-			throw("teAddInsolatorRecipe: output1 must be a string or ItemStack");
-		}
+		input1 = _lazyStack(input1);
+		input2 = _lazyStack(input2);
+		output1 = _lazyStack(output1);
 		chance = chance ? chance : 0;
-		if (typeof output2 == "string"){
-			output2 = output2.indexOf(':') ? new ItemStack(output2).getStack() : getOres(output2)[0];
-		} else if (!output2 instanceof __itemStack){
-			log("teAddInsolatorRecipe: output2 is null");
+		if (typeof output2 != undefined){ // Check to see if they only wanted one output
+			output2 = _lazyStack(output2);
+		} else {
 			output2 = null;
-			chance = 0;
+			chance = null;
 		}
-		overwrite = !!overwrite;
+		overwrite = !!overwrite; // !!undefined == false, that way they don't HAVE to specify it if they don't want to overwrite anything.
 		var temp = new NBTTagCompound();
-			temp.setBoolean("overwrite", overwrite).setInteger("energy", energy)
-				.setItemStack("primaryInput", input1).setItemStack("secondaryInput", input2)
-				.setItemStack("primaryOutput", output1);
-		if(output2 != null){
+		temp.setBoolean("overwrite", overwrite).setInteger("energy", energy)
+			.setItemStack("primaryInput", input1).setItemStack("secondaryInput", input2)
+			.setItemStack("primaryOutput", output1);
+		if (output2 != null){
 			temp.setItemStack("secondaryOutput", output2);
 			if(chance > 0) temp.setInteger("secondaryChance", chance);
 		}
