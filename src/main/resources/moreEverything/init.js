@@ -7,4 +7,4 @@ var initScripts = [
 ];
 
 // Uncomment if you add anything to initScripts
-// for (var i in initScripts) IncludeInit(initScripts[i]);
+// for (var i in initScripts) Include(initScripts[i]);

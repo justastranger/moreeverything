@@ -52,12 +52,11 @@ function test() {
 	}
 }
 
-
 // Remove "Internal" word if you want the scripts to be extracted for you to modify
 // If you do extract default scripts, you'll have to update (delete) them manually
 // Actually, better look inside the mod .zip file for a reference and add your own code in this file below
 // for (i in defaultScripts) IncludeInternal(defaultScripts[i]);
-Include("moreEverything/core.js");
+
 Include("moreEverything/preInit.js");
 IncludeInit("moreEverything/init.js");
 IncludePost("moreEverything/postInit.js");

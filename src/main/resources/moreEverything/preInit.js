@@ -2,9 +2,8 @@
 // Scripts to be executed at preInit instead of init or postInit
 // by justastranger
 
-
-
 var preScripts = [
+	"moreEverything/core.js",
 	"moreEverything/defs.js",
 	"moreEverything/ic2.js",
 	"moreEverything/buildcraft.js",
