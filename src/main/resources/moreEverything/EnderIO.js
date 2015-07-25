@@ -156,6 +156,6 @@ var eioAddVatRecipe;
 		}
 	};
 
-	log("Thinking otuside the block.")
+	log("Thinking outside the block.")
 
 })();

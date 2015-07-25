@@ -2,6 +2,8 @@
 // by justastranger
 // Written with Buildcraft 6.1.7
 
+// TODO rewrite for BC7
+
 // Buildcraft is nice because it lets you remove recipes.
 
 var bcAPI = Packages.buildcraft.api;
@@ -22,16 +24,8 @@ var bcAddCoolant;
 	bcAddRefinery1to1Recipe = function(id, input, output, energy, delay){
 		// String id, FluidStack input, FluidStack output, int energy, int delay
 		if (typeof id != "string") throw("bcAddRefineryRecipe: id must be a string."); // id = id.toString()?
-		if (stringOrNumber(input)){
-			input = new FluidStack(input).getStack();
-		} else if (input instanceof __fluidStack){
-			throw("teAddFillRecipe: fluid must be a string or FluidStack");
-		}
-		if (stringOrNumber(output)){
-			output = new FluidStack(output).getStack();
-		} else if (output instanceof __fluidStack){
-			throw("teAddFillRecipe: fluid must be a string or FluidStack");
-		}
+		input = _lazyFluidStack(input);
+		output = _lazyFluidStack(output);
 		if (!energy) throw("bcAddRefineryRecipe: energy must be a number");
 		if (!delay) throw("bcAddRefineryRecipe: delay must be a number");
 		bcRecipeRegistry.refinery.addRecipe(id, input, output, energy, delay);
@@ -40,21 +34,9 @@ var bcAddCoolant;
 	bcAddRefinery2to1Recipe = function(id, input1, input2, output, energy, delay){
 		// String id, FluidStack input1, FluidStack input2, FluidStack output, int energy, int delay
 		if (typeof id != "string") throw("bcAddRefineryRecipe: id must be a string."); // id = id.toString()
-		if (stringOrNumber(input1)){
-			input1 = new FluidStack(input).getStack();
-		} else if (input1 instanceof __fluidStack){
-			throw("teAddFillRecipe: fluid must be a string or FluidStack");
-		}
-		if (stringOrNumber(input2)){
-			input2 = new FluidStack(input).getStack();
-		} else if (input2 instanceof __fluidStack){
-			throw("teAddFillRecipe: fluid must be a string or FluidStack");
-		}
-		if (stringOrNumber(output)){
-			output = new FluidStack(output).getStack();
-		} else if (output instanceof __fluidStack){
-			throw("teAddFillRecipe: fluid must be a string or FluidStack");
-		}
+		input1 = _lazyFluidStack(input1);
+		input2 = _lazyFluidStack(input2);
+		output = _lazyFluidStack(output);
 		if (!energy) throw("bcAddRefineryRecipe: energy must be a number");
 		if (!delay) throw("bcAddRefineryRecipe: delay must be a number");
 		bcRecipeRegistry.refinery.addRecipe(id, input1, input2, output, energy, delay);
@@ -68,22 +50,13 @@ var bcAddCoolant;
 	bcAddAssemblyTableRecipe = function(id, energyCost, output, inputs){
 		if (typeof id != "string") throw("bcAddAssemblyTableRecipe: id must be a string.");
 		if (typeof energyCost != "number") throw("bcAddAssemblyTableRecipe: energyCost must be a nunber.");
-		if (typeof output == "string"){
-			output = output.indexOf(':') > 0 ? new ItemStack(output).getStack() : getOres(output)[0];
-		}
+		output = _lazyStack(output);
 		if (inputs instanceof Array){
 			for (var i = 0; i < inputs.length; i++){
-				if (typeof inputs[i] == "string"){
-					if (inputs[i].indexOf(':')){
-						inputs[i] = new ItemStack(inputs[i]).getStack();
-					} else {
-						inputs[i] = getOres(inputs[i])[0];
-					}
-				}
+				inputs[i] = _lazyStack(inputs[i]);
 			}
-		}
-		if (typeof inputs == "string"){
-			inputs = inputs.indexOf(':') > 0 ? new ItemStack(inputs).getStack() : getOres(inputs)[0];
+		} else {
+			inputs = _lazyStack(inputs)
 		}
 		bcRecipeRegistry.assemblyTable.addRecipe(id, energyCost, output, inputs);
 	};
@@ -95,11 +68,7 @@ var bcAddCoolant;
 
 	bcAddFuel = function(fluid, powerPerCycle, totalBurningTime){
 		// No way to remove fuels.
-		if (stringOrNumber(fluid)){
-			fluid = new FluidStack(fluid).getStack();
-		} else if (fluid instanceof __fluidStack){
-			throw("teAddFillRecipe: fluid must be a string or FluidStack");
-		}
+		fluid = _lazyFluidStack(fluid);
 		if (typeof powerPerCycle != "number") throw("bcAddFuel: powerPerCycle must be a number.");
 		if (typeof totalBurningTime != "number") throw("bcAddFuel: totalBurningTime must be a number.");
 		bcAPI.fuels.BuildcraftFuelRegistry.fuel.addFuel(fluid, powerPerCycle, totalBurningTime);
@@ -107,11 +76,7 @@ var bcAddCoolant;
 
 	bcAddCoolant = function(fluid, degreesCoolingPerMB){
 		// No way to remove coolants either.
-		if (stringOrNumber(fluid)){
-			fluid = new FluidStack(fluid).getStack();
-		} else if (fluid instanceof __fluidStack){
-			throw("teAddFillRecipe: fluid must be a string or FluidStack");
-		}
+		fluid = _lazyFluidStack(fluid);
 		if (typeof degreesCoolingPerMB != "number") throw("bcAddCoolant: degreesCoolingPerMB must be a number.");
 		bcAPI.fuels.BuildcraftFuelRegistry.coolant.addCoolant(fluid, degreesCoolingPerMB);
 	};

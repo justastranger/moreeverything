@@ -28,7 +28,7 @@ var rcAddRockCrusherRecipe;
 		output = _lazyStack(output);
 		matchDamage = !!matchDamage; // Double negative, undefineds become false letting you skip them.
 		matchNBT = !!matchNBT;
-		if (stringOrNumber(fluidOut)) fluidOut = newFluidStack(fluidOut);
+		fluidOut = _lazyFluidStack(fluidOut);
 		if (typeof time != "number") throw("rcAddCokeOvenRecipe: time must be a number.");
 		railcraftAPI.crafting.RailcraftCraftingManager.cokeOven.addRecipe(input, matchDamage, matchNBT, output, fluidOut, time);
 	};

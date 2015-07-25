@@ -32,6 +32,7 @@ var addAludelRecipe;
 	};
 
 	// addPreCalculationEnergyValue(Object object, float energyValue)
+	// PreInit?
 	// Object      -> WrappedStack
 	// energyValue -> float
 	addPreCalculationEnergyValue = function(object, energyValue){
@@ -40,7 +41,7 @@ var addAludelRecipe;
 		} else if (object instanceof  __itemStack){
 			object = WrappedStack(object);
 		} else {
-			throw("addPreCalculationEnergyValue: Expected something castable to WrappedStack, got " + object.constructor.name)
+			throw("addPreCalculationEnergyValue: Expected something constructable into WrappedStack, got " + object.constructor.name)
 		}
 		if(typeof energyValue != "number"){
 			throw("addPreCalculationEnergyValue: energyValue must be a number.")
