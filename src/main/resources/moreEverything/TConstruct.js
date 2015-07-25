@@ -22,23 +22,11 @@ var tconAddMeltingRecipe;
 	 *   delay - Number
 	 * */
 	tconAddCastingRecipe = function(output, fluidstack, cast, consume, delay){
-		if (typeof output == "string"){
-			if (output.indexOf(':') > 0){
-				output = newItemStack(output);
-			} else {
-				output = getOres(output)[0];
-			}
-		}
-		if (typeof cast == "string"){
-			if (cast.indexOf(':') > 0){
-				cast = newItemStack(cast);
-			} else {
-				cast = getOres(cast)[0];
-			}
-		}
-		if (stringOrNumber(fluidstack)) fluidstack = newFluidStack(fluidstack);
+		output = _lazyStack(output);
+		cast = _lazyStack(cast);
+		fluidstack = _lazyFluidStack(fluidstack);
 		consume = !!consume;
-		if (typeof delay != "number") throw("tconAddCastingRecipe: ");
+		if (typeof delay != "number") throw("tconAddCastingRecipe: Delay must be a positive number");
 
 		TConLibrary.TConstructRegistry.getTableCasting().addCastingRecipe(output, fluidstack, cast, consume, delay);
 	};
@@ -51,23 +39,11 @@ var tconAddMeltingRecipe;
 	 *   delay - number
 	 * */
 	tconAddBasinCastingRecipe = function(output, fluidstack, cast, consume, delay){
-		if (typeof output == "string"){
-			if (output.indexOf(':') > 0){
-				output = newItemStack(output);
-			} else {
-				output = getOres(output)[0];
-			}
-		}
-		if (typeof cast == "string"){
-			if (cast.indexOf(':') > 0){
-				cast = newItemStack(cast);
-			} else {
-				cast = getOres(cast)[0];
-			}
-		}
-		if (stringOrNumber(fluidstack)) fluidstack = newFluidStack(fluidstack);
+		output = _lazyStack(output);
+		cast = _lazyStack(cast);
+		fluidstack = _lazyFluidStack(fluidstack);
 		consume = !!consume;
-		if (typeof delay != "number") throw("tconAddCastingRecipe: ");
+		if (typeof delay != "number") throw("tconAddCastingRecipe: Delay must be a positive number");
 
 		TConLibrary.TConstructRegistry.getBasinCasting().addCastingRecipe(output, fluidstack, cast, consume, delay);
 	};
@@ -77,10 +53,10 @@ var tconAddMeltingRecipe;
 	 *   arrInputs - Array of FluidStacks
 	 * */
 	tconAddAlloyMixingRecipe = function(result, arrInputs){
-		if (stringOrNumber(result)) result = newFluidStack(result);
+		result = _lazyFluidStack(result);
 		if (!arrInputs instanceof Array) throw("tconAddAlloyMixingRecipe: arrInputs must be an Array of FluidStacks or IDs.");
 		for (var i = 0; i < arrInputs.length; i++){
-			if (stringOrNumber(arrInputs[i])) arrInputs[i] = newFluidStack(arrInputs[i])
+			arrInputs[i] = _lazyFluidStack(arrInputs[i]);
 		}
 		TConCrafting.Smeltery.addAlloyMixing(result, arrInputs)
 	};
@@ -91,21 +67,9 @@ var tconAddMeltingRecipe;
 	 *   output - ItemStack or item name
 	 * */
 	tconAddDryingRecipe = function(input, time, output){
-		if (typeof input == "string"){
-			if (input.indexOf(':') > 0){
-				input = newItemStack(input);
-			} else {
-				input = getOres(input)[0];
-			}
-		}
-		if (typeof output == "string"){
-			if (output.indexOf(':') > 0){
-				output = newItemStack(output);
-			} else {
-				output = getOres(output)[0];
-			}
-		}
-		if (typeof time != "number") throw("tconAddDryingRecipe: time must be a number.");
+		input = _lazyStack(input);
+		output = _lazyStack(output);
+		if (typeof time != "number") throw("tconAddDryingRecipe: time must be a positive number.");
 		TConCrafting.DryingRackRecipes.addDryingRecipe(input, time, output);
 	};
 
@@ -115,28 +79,25 @@ var tconAddMeltingRecipe;
 	 *   duration - Number
 	 * */
 	tconAddSmelteryFuel = function(fluid, power, duration){
-		if (typeof power != "number") throw("tconAddSmelteryFuel: power must be a number.");
-		if (typeof duration != "number") throw("tconAddSmelteryFuel: duration must be a number.");
-		if (stringOrNumber(fluid)) fluid = getFluid(fluid);
+		if (typeof power != "number") throw("tconAddSmelteryFuel: power must be a positive number.");
+		if (typeof duration != "number") throw("tconAddSmelteryFuel: duration must be a positive number.");
+		fluid = _lazyFluidStack(fluid);
 		TConCrafting.Smeltery.addSmelteryFuel(fluid, power, duration);
 	};
 
-	// I will probably just use stone for the placeholder
+	// Block should be a string in format mod:name
 	tconAddMeltingRecipe = function(input, block, meta, temp, fluid){
-		if (typeof input == "string"){
-			if (input.indexOf(':') > 0){
-				input = newItemStack(input);
-			} else {
-				input = getOres(input)[0];
-			}
-		}
-		if (typeof block == "undefined"){
-			block = !!__block.func_149634_a(input.func_77973_b()) ? __block.func_149634_a(input.func_77973_b()) : __block.func_149634_a(newItemStack(item.stone).func_77973_b());
-			meta = !!__block.func_149634_a(input.func_77973_b()) ? input.func_77960_j() : 0;
+		input = _lazyStack(input);
+		fluid = _lazyFluidStack(fluid);
+		if (typeof block != "undefined"){
+			if(typeof block == "string") block = getBlock(block);
+			else throw("Expected block name, got: "+ typeof block);
+		} else {
+			block = getBlock("minecraft:stone");
+			meta = 0;
 		}
 		meta = meta ? meta : 0;
 		if (typeof temp != "number") throw("tconAddMeltingRecipe: temp must be a number.");
-		if (stringOrNumber(fluid)) fluid = newFluidStack(fluid);
 		TConCrafting.Smeltery.addMelting(input, block, meta, temp, fluid);
 	};
 
