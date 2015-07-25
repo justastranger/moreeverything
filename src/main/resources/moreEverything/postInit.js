@@ -14,4 +14,4 @@ if(!!modList.Railcraft){
 	}
 }
 
-for (var i in postScripts) Include("moreEverything/postInit.js");
+for (var i in postScripts) Include(postScripts[i]);
