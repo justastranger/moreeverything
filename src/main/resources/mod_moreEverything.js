@@ -30,15 +30,12 @@ var optionalFeature = {
 // currentLogLevel = logLevel.debug;
 
 function Include(filename) {
-	log("Included " + filename);
 	return __api.__include(filename);
 }
 function IncludeInit(filename) {
-	log("Added " + filename + " to Init execution.");
 	return __mE.includeInit.add(filename);
 }
 function IncludePost(filename) {
-	log("Added " + filename + " to postInit execution.");
 	return __mE.includePost.add(filename);
 }
 function IncludeInternal(filename) {
@@ -60,6 +57,7 @@ function test() {
 // If you do extract default scripts, you'll have to update (delete) them manually
 // Actually, better look inside the mod .zip file for a reference and add your own code in this file below
 // for (i in defaultScripts) IncludeInternal(defaultScripts[i]);
+Include("moreEverything/core.js");
 Include("moreEverything/preInit.js");
 IncludeInit("moreEverything/init.js");
 IncludePost("moreEverything/postInit.js");

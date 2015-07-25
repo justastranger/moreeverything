@@ -5,7 +5,6 @@
 
 
 var preScripts = [
-	"moreEverything/core.js",
 	"moreEverything/defs.js",
 	"moreEverything/ic2.js",
 	"moreEverything/buildcraft.js",
@@ -15,7 +14,6 @@ var preScripts = [
 	"moreEverything/forestry.js",
 	"moreEverything/equivalent_exchange.js",
 	"moreEverything/thaumcraft.js",
-	"moreEverything/preInit.js"
 ];
 
 for (var i in preScripts) Include(preScripts[i]);
