@@ -56,38 +56,13 @@ function test() {
 }
 
 
-
-var preScripts = [
-	"moreEverything/core.js",
-	"moreEverything/defs.js",
-	"moreEverything/ic2.js",
-	"moreEverything/buildcraft.js",
-	"moreEverything/blood_magic.js",
-	"moreEverything/thermal_expansion.js",
-	"moreEverything/EnderIO.js",
-	"moreEverything/forestry.js",
-	"moreEverything/equivalent_exchange.js",
-	"moreEverything/thaumcraft.js",
-	"moreEverything/preInit.js"
-];
-
-var initScripts = [
-	"moreEverything/init.js"
-];
-
-var postScripts = [
-	"moreEverything/tweaks_vanilla.js",
-	"moreEverything/tweaks_mods.js",
-	"moreEverything/optional.js"
-];
-
 // Remove "Internal" word if you want the scripts to be extracted for you to modify
 // If you do extract default scripts, you'll have to update (delete) them manually
 // Actually, better look inside the mod .zip file for a reference and add your own code in this file below
 // for (i in defaultScripts) IncludeInternal(defaultScripts[i]);
-for (var i in preScripts) Include(preScripts[i]);
-for (var i in initScripts) IncludeInit(initScripts[i]);
-for (var i in postScripts) IncludePost(postScripts[i]);
+Include("moreEverything/preInit.js");
+IncludeInit("moreEverything/init.js");
+IncludePost("moreEverything/postInit.js");
 
 /* ////////////////////////
 
