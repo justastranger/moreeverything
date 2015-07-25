@@ -49,7 +49,7 @@ var teRemoveInsolatorRecipe;
 		energy = energy ? energy : 5000; // 5000 or something is the default?
 		input = _lazyStack(input);
 		output = _lazyStack(output);
-		bonus = _lazyStack(bonus);
+		if(typeof bonus != "undefined")	bonus = _lazyStack(bonus);
 		chance = chance ? chance : 0;
 		var nbt = new NBTTagCompound();
 		nbt.setInteger("energy", energy).setItemStack("input", input).setItemStack("primaryOutput", output)
