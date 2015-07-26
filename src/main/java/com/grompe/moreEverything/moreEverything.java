@@ -38,8 +38,8 @@ public class moreEverything
     protected static File configDir;
     protected static boolean standalone = false;
     protected static boolean loaded = false;
-    protected NashornScriptEngine engine;
-    protected ScriptHandler sH = new ScriptHandler();
+    protected static NashornScriptEngine engine;
+    protected static ScriptHandler sH;// = new ScriptHandler();
     protected static moreEverything me;
     protected static int warnings = 0;
     protected static int errors = 0;
@@ -255,7 +255,6 @@ public class moreEverything
         File file = new File(configDir, "mod_moreEverything.js");
         if(!file.exists()) extractDefaultConfig();
 
-        //engine = new RhinoScriptEngine();
         engine = new NashornScriptEngine();
         sH = new ScriptHandler();
 

@@ -42,14 +42,14 @@ public class mEDependentCommand extends CommandBase
 		sb.append(args[0]);
 		for (int i = 1; i < args.length; i++) sb.append(" ").append(args[i]);
 		String command = sb.toString();
-		moreEverything.me.engine.put(ScriptEngine.FILENAME, "chat");
+		moreEverything.engine.put(ScriptEngine.FILENAME, "chat");
 		try
 		{
-			Object obj = moreEverything.me.engine.eval("eval('"+command.replaceAll("'", "\\\\'")+"')");
+			Object obj = moreEverything.engine.eval("eval('"+command.replaceAll("'", "\\\\'")+"')");
 			String result;
 			if (obj != null) 
 			{
-				result = (String)moreEverything.me.engine.eval("'' + eval('"+command.replaceAll("'", "\\\\'")+"')").toString().replace("\r\n","\n").replace("\t", "    ");
+				result = (String)moreEverything.engine.eval("'' + eval('"+command.replaceAll("'", "\\\\'")+"')").toString().replace("\r\n","\n").replace("\t", "    ");
 			} else {
 				result = "null";
 			}
