@@ -289,7 +289,7 @@ function addShapelessRecipe(stack, arr){
 	}
 	stack = _lazyStack(stack);
 	for (var i = 0; i < arr.length; i++){
-		arr[i] = _lazyStack(arr[i]);
+		if (~arr[i].indexOf(":")) arr[i] = _lazyStack(arr[i]);
 	}
 	var recipe = new __forge.oredict.ShapelessOreRecipe(stack, objectArray(arr));
 	__fml.common.registry.GameRegistry.addRecipe(recipe);
@@ -303,10 +303,9 @@ function addShapedRecipe(stack, arr){
 		for (var i = 1; i < arguments.length; i++) tmp.push(arguments[i]);
 		arr = tmp;
 	}
-	if (typeof stack == "undefined") throw("addShapedRecipe: stack is undefined."); // How the hell would this even happen?
-	if (typeof stack == "string") stack = newItemStack(stack);
+	stack = _lazyStack(stack);
 	for (var i = 0; i < arr.length; i++){
-		if ((typeof arr[i] == "string") && (arr[i].indexOf(':') > 0)) arr[i] = newItemStack(arr[i], 1, WILDCARD);
+		if (~arr[i].indexOf(':')) arr[i] = _lazyStack(arr[i]);
 	}
 	var recipe = new __forge.oredict.ShapedOreRecipe(stack, objectArray(arr));
 	__fml.common.registry.GameRegistry.addRecipe(recipe);
@@ -340,10 +339,10 @@ function newItemStack(item, amount, metadata){
 }
 
 function ItemStack(name, amount, meta){
-	this.name = name;
-	this.itemDamage = meta ? meta : 0;
-	this.stackSize = amount ? amount : 1;
-	if(getItem(this.name) != null){
+	if(getItem(name) != null){
+		this.name = name;
+		this.itemDamage = meta ? meta : 0;
+		this.stackSize = amount ? amount : 1;
 		this.item = getItem(this.name);
 		this.stack = new __itemStack(this.item, this.stackSize, this.itemDamage);
 	} else {
