@@ -131,7 +131,7 @@ var teRemoveInsolatorRecipe;
 		sendIMCMessage(TE, "TransposerFillRecipe", nbt.constructCompound());
 	};
 	teAddExtractRecipe = function(energy, input, output, chance, fluid, fill, overwrite){
-		if (!energy) throw("teAddFillRecipe: energy must be a positive number.");
+		if (!energy) throw("teAddExtractRecipe: energy must be a positive number.");
 		input = _lazyStack(input);
 		if (typeof output == "string"){
 			output = output.indexOf(':') > 0 ? new ItemStack(output).getStack() : getOres(output)[0];

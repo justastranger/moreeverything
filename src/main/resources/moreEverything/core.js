@@ -344,7 +344,7 @@ function ItemStack(name, amount, meta){
 		this.itemDamage = meta ? meta : 0;
 		this.stackSize = amount ? amount : 1;
 		this.item = getItem(this.name);
-		this.stack = new __itemStack(this.item, this.stackSize, this.itemDamage);
+		this.update();
 	} else {
 		throw("ItemStack: Invalid Item Name.")
 	}
@@ -420,7 +420,7 @@ function stringOrNumber(thing){
 function FluidStack(fluid, amount){
 	this.fluidID = typeof fluid == "string" ? getFluidID(fluid) : fluid;
 	this.amount = amount ? amount : 1000; // 1000 = 1 bucket
-	this.stack = new __forge.fluids.FluidStack(this.fluidID, this.amount);
+	this.update();
 
 	this.setFluid = function(nameIDorFluid){
 		switch (typeof(nameIDorFluid)) {

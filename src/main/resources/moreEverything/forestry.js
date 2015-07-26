@@ -168,7 +168,7 @@ var forestryAddFabricatorMeltingRecipe;
 	 *   pattern - Same as forestryAddFabricatorRecipe
 	 * */
 	forestryAddFabricatorCastRecipe = function(cast, molten, result, pattern){
-		if (!pattern instanceof Array) throw("forestryAddFabricatorRecipe: pattern must be an Array.");
+		if (!pattern instanceof Array) throw("forestryAddFabricatorCastRecipe: pattern must be an Array.");
 		cast = _lazyStack(cast);
 		molten = _lazyFluidStack(molten);
 		result = _lazyStack(result);
