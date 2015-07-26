@@ -199,7 +199,7 @@ function setItemMaxStackSize(item, size){
 	else if (item instanceof __itemStack) item = getItemFromStack(item);
 	else if (!item instanceof __item) throw("setItemMaxStackSize: item must be the name of the item, or the actual item.");
 	if (size > 64) throw("setItemIDMaxStackSize: size can not be larger than 64.");
-	if (size < 1) throw("setItemIDMaxStackSize: size can not be less than 1")
+	if (size < 1) throw("setItemIDMaxStackSize: size can not be less than 1");
 	item.func_77639_j(size)
 }
 function getItemMaxStackSize(item){

@@ -10,7 +10,7 @@ import javax.script.ScriptException;
 import java.io.*;
 
 public class NashornScriptEngine {
-    public ScriptEngine nashornEngine;
+    private final ScriptEngine nashornEngine;
 
     public NashornScriptEngine() {
         nashornEngine = new ScriptEngineManager(null).getEngineByName("nashorn");
@@ -42,7 +42,7 @@ public class NashornScriptEngine {
         this.eval(reader);
     }
 
-    public Object eval(Reader var1) throws ScriptException {
+    Object eval(Reader var1) throws ScriptException {
         if(var1 == null)
         {
             throw new NullPointerException("null script");
@@ -56,7 +56,7 @@ public class NashornScriptEngine {
         {
             throw new NullPointerException("null script");
         } else {
-            return nashornEngine.eval((Reader)(new StringReader(var1)));
+            return nashornEngine.eval(new StringReader(var1));
         }
     }
 

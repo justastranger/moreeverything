@@ -12,7 +12,7 @@ var preScripts = [
 	"moreEverything/EnderIO.js",
 	"moreEverything/forestry.js",
 	"moreEverything/equivalent_exchange.js",
-	"moreEverything/thaumcraft.js",
+	"moreEverything/thaumcraft.js"
 ];
 
 for (var i in preScripts) Include(preScripts[i]);

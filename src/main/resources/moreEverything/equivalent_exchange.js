@@ -10,6 +10,7 @@
 var EE3Api = Packages.com.pahimar.ee3.api;
 
 var addAludelRecipe;
+var addPreCalculationEnergyValue;
 
 (function(){
 	if (!modList.EE3) return;

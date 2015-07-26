@@ -70,7 +70,7 @@
 		// Bug: burns forever for some reason
 		//addFuel(300, m.woodPattern);
 		addFuel(160, "TConstruct:materials", 0); // Paper stack
-		addShapelessRecipe(new ItemStack("TConstruct:materials", 4, 2), new ItemStack("TConstruct:Smeltery", 1, 2)) // seared brick uncrafting
+		addShapelessRecipe(new ItemStack("TConstruct:materials", 4, 2), new ItemStack("TConstruct:Smeltery", 1, 2)); // seared brick uncrafting
 
 		if (!modList.ThermalSmeltery && !!modList.ThermalExpansion && optionalFeature.tinkers_te_crucible_melting){
 			// Thermal Smeltery does this better anyways.....

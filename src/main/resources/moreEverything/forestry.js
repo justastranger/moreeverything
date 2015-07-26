@@ -186,7 +186,7 @@ var forestryAddFabricatorMeltingRecipe;
 		input = _lazyStack(input);
 		fluidOut = _lazyFluidStack(fluidOut);
 		forestryRecipeManagers.fabricatorManager.addSmelting(input, fluidOut, meltingPoint);
-	}
+	};
 
 	log("Buzz buzz");
 

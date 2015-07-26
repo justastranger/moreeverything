@@ -9,10 +9,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class mEFuelHandler implements IFuelHandler {
+class mEFuelHandler implements IFuelHandler {
 
-    protected static Map<String,Integer> fuelMap = new HashMap<String,Integer>();
-    public static final int WILDCARD = OreDictionary.WILDCARD_VALUE;
+    private static final Map<String,Integer> fuelMap = new HashMap<String,Integer>();
+    private static final int WILDCARD = OreDictionary.WILDCARD_VALUE;
 
     @Override
     public int getBurnTime(ItemStack stack){

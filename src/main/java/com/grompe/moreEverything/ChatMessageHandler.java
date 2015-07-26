@@ -14,7 +14,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 
-public class ChatMessageHandler {
+class ChatMessageHandler {
     public static void iCommandSenderReply(ICommandSender player, String message) {
         sendChatToPlayer((EntityPlayer)player, message);
     }
@@ -25,12 +25,12 @@ public class ChatMessageHandler {
 			iCommandSenderReply(player, i);
 		}
 	}
-	
-    public static IChatComponent createChatComponent(String message) {
+
+    private static IChatComponent createChatComponent(String message) {
         return new ChatComponentText(message);
     }
 
-    public static void sendChatToPlayer(EntityPlayer player, String message) {
+    private static void sendChatToPlayer(EntityPlayer player, String message) {
         player.addChatComponentMessage(createChatComponent(message));
     }
 

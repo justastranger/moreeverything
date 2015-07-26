@@ -61,7 +61,7 @@ var teRemoveInsolatorRecipe;
 	teAddFurnaceRecipe = function(energy, input, output, overwrite){
 		energy = energy ? energy : 1600; // 1600 seems to be the default?
 		input = _lazyStack(input);
-		output = _lazyStack(output)
+		output = _lazyStack(output);
 		overwrite = !!overwrite;
 		var nbt = new NBTTagCompound();
 		nbt.setInteger("energy", energy).setItemStack("input", input).setItemStack("primaryOutput", output)

@@ -26,23 +26,30 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-@Mod(modid="moreEverything", name="moreEverything", version=moreEverything.VERSION_TEXT, dependencies = "after:*")
+@Mod(
+        modid = moreEverything.name,
+        name = moreEverything.name,
+        version = moreEverything.VERSION_TEXT,
+        dependencies = moreEverything.dep
+)
 public class moreEverything
 {
     public static final String VERSION_TEXT = "@VERSION@";
+    public static final String name = "moreEverything";
+    public static final String dep = "after:*";
     public final int WILDCARD = 32767;
-	public static Logger logger;
-	public static Map<Item, String> itemMap = new HashMap<Item, String>();
-    public static List<String> includePost = new ArrayList<String>();
-    public static List<String> includeInit = new ArrayList<String>();
-    protected static File configDir;
-    protected static boolean standalone = false;
-    protected static boolean loaded = false;
-    protected static NashornScriptEngine engine;
-    protected static ScriptHandler sH;// = new ScriptHandler();
-    protected static moreEverything me;
-    protected static int warnings = 0;
-    protected static int errors = 0;
+	private static Logger logger;
+	private static final Map<Item, String> itemMap = new HashMap<Item, String>();
+    private static final List<String> includePost = new ArrayList<String>();
+    private static final List<String> includeInit = new ArrayList<String>();
+    private static File configDir;
+    private static boolean standalone = false;
+    private static boolean loaded = false;
+    static NashornScriptEngine engine;
+    private static ScriptHandler sH;// = new ScriptHandler();
+    static moreEverything me;
+    private static int warnings = 0;
+    private static int errors = 0;
 
 	
 	public static void itemAdd(Item key, String value)
@@ -97,7 +104,7 @@ public class moreEverything
 					{
 						workDir = workDir.substring(1, workDir.length()-1);
 					}
-					log((String)workDir);
+					log(workDir);
 					return new File(workDir, "config");
 				} else {
 					log("Couldn't get workDir, using current directory.");
@@ -173,7 +180,7 @@ public class moreEverything
     
     }
 
-    public void logScriptException(ScriptException ex)
+    void logScriptException(ScriptException ex)
     {
         log("!SE! " + getScriptStacktrace(ex));
     }
@@ -187,7 +194,7 @@ public class moreEverything
         return ca.toString().replaceAll("\tat "+boring+"[^\n]+\n", "").replaceFirst(boring, "");
     }
 
-    public void execConfigFile(File file) throws ScriptException
+    void execConfigFile(File file) throws ScriptException
     {
         try
         {
@@ -205,7 +212,7 @@ public class moreEverything
         }
     }
 
-    public boolean hasResource(String name)
+    boolean hasResource(String name)
     {
 		try
 		{
@@ -221,7 +228,7 @@ public class moreEverything
     }
     
 	
-    public void extractFromJar(String name, File outdir)
+    void extractFromJar(String name, File outdir)
     {
 		try
 		{
@@ -249,7 +256,7 @@ public class moreEverything
 
 
     // Need to load after all other mods...
-    public void modsLoaded()
+    void modsLoaded()
     {
         configDir = getConfigDir();
         File file = new File(configDir, "mod_moreEverything.js");

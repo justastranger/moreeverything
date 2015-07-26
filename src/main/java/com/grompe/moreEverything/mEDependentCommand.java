@@ -10,13 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class mEDependentCommand extends CommandBase
+class mEDependentCommand extends CommandBase
 {
 	
-	private List aliases;
+	private final List aliases = new ArrayList();
 	public mEDependentCommand()
 	{
-		this.aliases = new ArrayList();
 		this.aliases.add("eval");
 	}
 	
