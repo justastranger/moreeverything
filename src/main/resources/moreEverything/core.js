@@ -289,7 +289,8 @@ function addShapelessRecipe(stack, arr){
 	}
 	stack = _lazyStack(stack);
 	for (var i = 0; i < arr.length; i++){
-		if (~arr[i].indexOf(":")) arr[i] = _lazyStack(arr[i]);
+		if(typeof arr[i] == "string" && arr[i].indexOf(":") == -1) continue; // Check for an OreDict name, then skip it
+		arr[i] = _lazyStack(arr[i]);
 	}
 	var recipe = new __forge.oredict.ShapelessOreRecipe(stack, objectArray(arr));
 	__fml.common.registry.GameRegistry.addRecipe(recipe);
@@ -305,7 +306,10 @@ function addShapedRecipe(stack, arr){
 	}
 	stack = _lazyStack(stack);
 	for (var i = 0; i < arr.length; i++){
-		if (~arr[i].indexOf(':')) arr[i] = _lazyStack(arr[i]);
+		try{
+			if(typeof arr[i] == "string" && arr[i].indexOf(":") == -1) continue;
+		} catch(e){}
+		arr[i] = _lazyStack(arr[i]);
 	}
 	var recipe = new __forge.oredict.ShapedOreRecipe(stack, objectArray(arr));
 	__fml.common.registry.GameRegistry.addRecipe(recipe);
@@ -339,15 +343,6 @@ function newItemStack(item, amount, metadata){
 }
 
 function ItemStack(name, amount, meta){
-	if(getItem(name) != null){
-		this.name = name;
-		this.itemDamage = meta ? meta : 0;
-		this.stackSize = amount ? amount : 1;
-		this.item = getItem(this.name);
-		this.update();
-	} else {
-		throw("ItemStack: Invalid Item Name.")
-	}
 	this.setStackSize = function(amount){
 		this.stackSize = amount;
 		this.update();
@@ -392,6 +387,16 @@ function ItemStack(name, amount, meta){
 		this.stack = new __itemStack(this.item, this.stackSize, this.itemDamage);
 	};
 
+	if(getItem(name) != null){
+		this.name = name;
+		this.itemDamage = meta ? meta : 0;
+		this.stackSize = amount ? amount : 1;
+		this.item = getItem(this.name);
+		this.update();
+	} else {
+		throw("ItemStack: Invalid Item Name.")
+	}
+	
 	return this;
 }
 
@@ -418,10 +423,6 @@ function stringOrNumber(thing){
 }
 
 function FluidStack(fluid, amount){
-	this.fluidID = typeof fluid == "string" ? getFluidID(fluid) : fluid;
-	this.amount = amount ? amount : 1000; // 1000 = 1 bucket
-	this.update();
-
 	this.setFluid = function(nameIDorFluid){
 		switch (typeof(nameIDorFluid)) {
 			case "number": // a fluid ID
@@ -468,6 +469,10 @@ function FluidStack(fluid, amount){
 		this.stack = new __forge.fluids.FluidStack(this.fluidID, this.amount);
 	};
 
+	this.fluidID = typeof fluid == "string" ? getFluidID(fluid) : fluid;
+	this.amount = amount ? amount : 1000; // 1000 = 1 bucket
+	this.update();
+	
 	return this;
 }
 
