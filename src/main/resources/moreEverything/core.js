@@ -26,7 +26,7 @@ var __fml = Packages.cpw.mods.fml;
 var __forge = Packages.net.minecraftforge;
 var __mE = Packages.com.grompe.moreEverything.moreEverything;
 var modID = "moreEverything";
-var __fuelHandler = Packages.com.grompe.moreEverything.mEFuelHandler;
+var __fuelHandler = Java.type("com.grompe.moreEverything.mEFuelHandler");
 
 // var hasForge = !isEmpty(__fml.common.registry.GameRegistry); // We are kind of assuming that we are using Forge...
 var isDedicatedServer = (isEmpty(Packages.net.minecraft.client.Minecraft) && isEmpty(Packages.net.minecraft.client.main.Main));
@@ -323,14 +323,14 @@ function addFuel(burnTime, id, damage){
 	if (typeof damage == "undefined") damage = WILDCARD; // Java program always uses 32767 as wildcard
 	__fuelHandler.__addFuel(id, damage, burnTime);
 	var logitem = (damage != 32767) ? (id+":"+damage) : id;
-	log("Added fuel: ID "+logitem+" to burn for "+burnTime+" ticks.", logLevel.debug);
+	//log("Added fuel: ID "+logitem+" to burn for "+burnTime+" ticks.", logLevel.debug);
 	return true;
 }
 
 function getFuel(name, damage){
 	damage = typeof damage != "undefined" ? damage : WILDCARD;
 	if (typeof name == "string") return __fuelHandler.__getBurnTime(name, damage);
-	if (isJavaClass(name, __itemStack)) return __fuelHandler.getBurnTime(name);
+	if (name instanceof __itemStack) return __fuelHandler.getBurnTime(name);
 }
 
 // Functions for working with __itemStacks
