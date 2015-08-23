@@ -39,9 +39,9 @@ public class moreEverything
     public static final String dep = "after:*";
     public final int WILDCARD = 32767;
 	private static Logger logger;
-	private static final Map<Item, String> itemMap = new HashMap<Item, String>();
-    private static final List<String> includePost = new ArrayList<String>();
-    private static final List<String> includeInit = new ArrayList<String>();
+	public static final Map<Item, String> itemMap = new HashMap<Item, String>();
+    public static final List<String> includePost = new ArrayList<String>();
+    public static final List<String> includeInit = new ArrayList<String>();
     private static File configDir;
     private static boolean standalone = false;
     private static boolean loaded = false;
