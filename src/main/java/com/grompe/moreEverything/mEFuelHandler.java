@@ -25,12 +25,6 @@ class mEFuelHandler implements IFuelHandler {
     {
         if (damage == -1) damage = WILDCARD;
         String index = id + String.valueOf(damage);
-        // Remove a fuel if it already exists, allows changing the burn time.
-        if(fuelMap.containsKey(index))
-        {
-            fuelMap.remove(index);
-        }
-
         fuelMap.put(index, burnTime);
     }
 
