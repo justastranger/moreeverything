@@ -59,9 +59,7 @@
 	if (!!modList.Botania){
 		if (!!modList.ThermalExpansion){
 			teAddSmelterRecipe(5000, "ingotMithril", "ingotIron", "ingotManasteel", null, null, false)
-
 		}
-
 	}
 
 	if (!!modList.TConstruct){
@@ -119,7 +117,13 @@
 
 	}
 
-
+	if(!!modList.Railcraft){
+		registerOre("gemFirestoneRaw", "Railcraft:firestone.raw");
+		if(!!modList.ThermalExpansion){
+			teAddPulverizerRecipe(5000, "oreFirestone", "gemFirestoneRaw"); // There's a rock crusher recipe but no pulverizer recipe
+		}																	// Probably intentional to encourage USING Railcraft, but insanely annoying.
+	}
+	
 	log("Forcing my play-style on you.");
 
 })();
