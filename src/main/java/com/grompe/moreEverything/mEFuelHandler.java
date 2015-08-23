@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-class mEFuelHandler implements IFuelHandler {
+public class mEFuelHandler implements IFuelHandler {
 
     private static final Map<String,Integer> fuelMap = new HashMap<String,Integer>();
     private static final int WILDCARD = OreDictionary.WILDCARD_VALUE;
